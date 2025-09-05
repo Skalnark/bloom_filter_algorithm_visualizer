@@ -1,7 +1,10 @@
 class Journey {
-  constructor() {}
+    constructor(bf, prompt) {
+        this.bf = bf;
+        this.prompt = prompt;
+    }
 
-  /*    add(item) {
+    /*    add(item) {
         this.elements.push(item);
         const hashes = [
             BloomFilter.hash1(item, this.size),
@@ -15,8 +18,8 @@ class Journey {
         
         window.dispatchEvent(new Event('refreshUI'));
     } */
-  addItemToBloomFilter(bf, item) {
-    this.bf = bf;
-    this.item = item;
-  }
+    addItemToBloomFilter(bf, item) {
+        this.bf = bf;
+        this.item = item;
+    }
 }
