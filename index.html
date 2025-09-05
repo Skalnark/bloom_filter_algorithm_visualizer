@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bloom filter code executor</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <h1 class="main-title">Bloom filter code executor</h1>
+    <div id="app" class="app-container">
+      <div id="bf-param-holder" class="param-holder">
+        <div id="bf-item-input-holder" class="item-info-holder">
+          <div class="item-input-holder input-separator">
+            <label for="bf-bit-size-input" class="item-input-holder label"
+              >Number of bits in the filter:</label
+            >
+            <input
+              type="number"
+              id="bf-bit-size-input"
+              class="item-input-holder input-field"
+              min="1"
+              value="10"
+            />
+          </div>
+          <div class="item-input-holder input-separator">
+            <label
+              for="bf-dummy-count-input"
+              class="item-input-holder label"
+              style="margin-left: 1.5em"
+              >Dummy words:</label
+            >
+            <input
+              type="number"
+              id="bf-dummy-count-input"
+              class="item-input-holder input-field"
+              min="0"
+              value="5"
+            />
+          </div>
+
+          <button
+            id="bf-bit-size-submit"
+            class="item-input-holder submit-button"
+          >
+            Set
+          </button>
+        </div>
+
+        <div id="bf-item-info-holder" class="item-info-holder">
+          <div class="bf-info-label info-size">
+            <strong>Filter size:</strong> <span id="bf-info-size">-</span>
+          </div>
+          <div class="bf-info-label info-hash-count">
+            <strong>Hash functions:</strong>
+            <span id="bf-info-hash-count">-</span>
+          </div>
+          <div class="bf-info-label info-elements">
+            <strong>Elements:</strong> <span id="bf-info-elements">-</span>
+          </div>
+          <div class="bf-info-label info-fpr">
+            <strong>False positive rate:</strong>
+            <span id="bf-info-fpr">-</span>
+          </div>
+        </div>
+      </div>
+      <div id="bf-container" class="bf-container">
+        <svg id="bf-svg" class="svg bf-svg"></svg>
+      </div>
+    </div>
+    <script src="index.js" type="module"></script>
+  </body>
+</html>
