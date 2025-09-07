@@ -1,10 +1,10 @@
 {
-    "name": "bfce",
+    "name": "bloom_filter_algorithm_visualizer",
     "version": "1.0.0",
     "description": "",
     "scripts": {
         "start": "parcel index.html -p 3000",
-        "build": "rm -rf dist && parcel build index.html --dist-dir dist --public-url /bfce/",
+        "build": "rm -rf dist && parcel build index.html --dist-dir dist --public-url /bloom_filter_algorithm_visualizer/",
         "predeploy": "npm run build",
         "deploy": "gh-pages -d dist"
     },
@@ -12,7 +12,7 @@
     "author": "",
     "license": "ISC",
     "type": "commonjs",
-    "homepage": "https://skalnark.github.io/bfce",
+    "homepage": "https://skalnark.github.io/bloom_filter_algorithm_visualizer",
     "devDependencies": {
         "buffer": "^6.0.3",
         "gh-pages": "^6.3.0",
