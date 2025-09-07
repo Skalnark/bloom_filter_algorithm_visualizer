@@ -17,27 +17,10 @@ export class Util {
         for (let i = 0; i < str.length; i++) {
             hash = str.charCodeAt(i) + ((hash << 5) - hash);
         }
-        //uses the hash to generate a color with one dominant RGB channel
-        let baseColor = hash >> 24 & 0x03; // 0, 1, or 2
-        let r = 0, g = 0, b = 0;
-        
-        switch(baseColor) {
-            case 0:
-                r = 255;
-                g = (hash >> 8) & 0xFF;
-                b = (hash >> 16) & 0xFF;
-                break;
-            case 1:
-                g = 255;
-                r = (hash >> 8) & 0xFF;
-                b = (hash >> 16) & 0xFF;
-                break;
-            case 2:
-                b = 255;
-                r = (hash >> 8) & 0xFF;
-                g = (hash >> 16) & 0xFF;
-                break;
-        }
+
+        let b = 255;
+        let r = (hash >> 8) & 0xFF;
+        let g = (hash >> 16) & 0xFF;
 
         return `rgb(${r}, ${g}, ${b})`;
     }
@@ -55,7 +38,7 @@ export class Util {
     static scrollToNextElement(updatedElementId, fastForward = false) {
         if (fastForward) return;
 
-        if(this.isElementOutOfView(updatedElementId)) {
+        if (this.isElementOutOfView(updatedElementId)) {
             window.dispatchEvent(new Event('element-out-of-view'));
             this.scrollToElementById(updatedElementId);
         }
@@ -69,7 +52,7 @@ export class Util {
 
     static isElementOutOfView(id) {
         const rect = document.getElementById(id)?.getBoundingClientRect();
-        if(!rect) return false;
+        if (!rect) return false;
         return (
             rect.bottom < 0 ||
             rect.top > window.innerHeight ||

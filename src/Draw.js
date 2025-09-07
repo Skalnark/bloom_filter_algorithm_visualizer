@@ -79,10 +79,14 @@ class Draw {
             let text = this.#drawBitValue(x + (size / 2), y + (size / 6) * 4, bit, size / 2, '#000000');
             text.setAttribute('id', `bit-text-${i}`);
 
+            let index = this.#drawBitValue(x - (size / 2), y + size, i, size / 3, '#ffffffff');
+            index.setAttribute('id', `bit-index-${i}`);
+            this.svg.appendChild(index);
+
             this.svg.appendChild(square);
             this.svg.appendChild(text);
 
-            this.bitBoxes.push({ square, text });
+            this.bitBoxes.push({ square, text, index });
             y += size + gap;
         }
     }
@@ -224,7 +228,7 @@ class Draw {
         if (this.itemBoxes.length === 0) return;
 
         let givenX = this.svg.clientWidth / 2;
-        let gap = 4 * this.svg.clientHeight/100;
+        let gap = 4 * this.svg.clientHeight / 100;
         let lastYPosition = 50;
         this.itemBoxes.forEach(({ rect, textElem }) => {
             let newY = lastYPosition + parseInt(rect.getAttribute('height')) + gap;

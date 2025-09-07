@@ -17,6 +17,10 @@ class HtmlBuilder {
     getBitSizeInputValue() {
         const input = document.getElementById('bf-bit-size-input');
         if (input) {
+            if(input.value > 500) {
+                this.promptController.print("Error: Bit size cannot exceed 500.", false);
+                input.value = 500;
+            }
             return input.value;
         }
         return null;
@@ -42,7 +46,6 @@ class HtmlBuilder {
         if (button) {
             button.addEventListener('click', () => {
                 const bitSize = this.getBitSizeInputValue();
-
                 this.bf.initialize(bitSize);
                 
                 const dummyCount = this.getDummyInputValue();
