@@ -1,3 +1,42 @@
+.checkbox-holder {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    width: 100%;
+    height: 100%;
+    min-height: 30px;
+    align-self: flex-start;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.checkbox-label {
+    font-size: 1.08rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    text-align: left;
+    display: flex;
+    width: auto;
+}
+
+.checkbox {
+    cursor: pointer;
+    min-width: 30px;
+    min-height: 30px;
+}
+
+.info-label {
+    font-size: 1.08rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding-right: 0.2em;
+    text-align: left;
+    align-self: flex-start;
+    display: block;
+}
+
 .submit-button:disabled {
     background: #444a4d !important;
     color: #888e94 !important;
@@ -31,14 +70,14 @@
 
 #prompt-textarea,
 .prompt {
-    display: block;
+    display: flex;
     background: #181c1f;
     color: #b6fcd5;
-    border-radius: 6px;
     font-size: 1.08rem;
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
     word-break: break-word;
     white-space: pre-line;
+    padding-top: 0.5em;
     transition:
         background 0.2s,
         color 0.2s;
@@ -73,96 +112,35 @@
     user-select: text;
 }
 
-.bf-item-input-holder {
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(42, 122, 226, 0.04);
-    padding: 1.2rem 1.5rem 1.1rem 1.5rem;
-    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-    border: 1.5px solid #e3e8ee;
-    background: #f4f6fa;
-    width: 100%;
-    min-width: 250px;
-    max-width: 500px;
-}
-
-.bf-item-info-holder {
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(42, 122, 226, 0.04);
-    padding: 1.2rem 1.5rem 1.1rem 1.5rem;
-    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-    border: 1.5px solid #e3e8ee;
-    background: #f4f6fa;
-    width: 100%;
-    min-width: 250px;
-    max-width: 500px;
-}
-
 .item-input-holder {
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(42, 122, 226, 0.04);
-    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+    margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
     box-sizing: border-box;
-    min-width: 250px;
-    max-width: 500px;
+    max-width: 600px;
 }
 
 .item-info-holder {
+    align-items: center;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(42, 122, 226, 0.04);
     margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-    padding-top: 1.2rem;
     display: flex;
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
     min-width: 250px;
     max-width: 500px;
-}
-
-.bf-info-label {
-    display: table-row;
-    font-size: 1.08rem;
-    color: #1a2330;
-    vertical-align: middle;
-}
-
-.bf-info-label strong {
-    display: table-cell;
-    font-weight: 600;
-    padding-right: 1.2em;
-    min-width: 120px;
-    text-align: left;
-}
-
-.bf-info-label span {
-    display: table-cell;
-    font-weight: 400;
-    color: #2a7ae2;
-    text-align: left;
-    min-width: 60px;
-}
-
-.label {
-    font-size: 1.08rem;
-    color: #1a2330;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    padding-right: 0.5em;
 }
 
 .input-field {
     font-size: 1.09rem;
-    color: #1a2330;
-    background: #fff;
+    color: #00e676;
+    background: #181c1f;
     border: 1.5px solid #dbe3ea;
     border-radius: 6px;
     padding: 0.38em 0.9em;
@@ -178,27 +156,24 @@
 }
 
 .submit-button {
-    font-family: inherit;
-    font-size: 1.09rem;
-    color: #fff;
-    background: #2a7ae2;
-    border: none;
+
+    display: block;
+    margin: 1.2em auto;
+    font-size: 1.1rem;
+    padding: 0.6em 2.2em;
+    background: #181c1f;
+    color: #b6fcd5;
+    border: 1.5px solid #00c853;
     border-radius: 6px;
-    padding: 0.38em 1.2em;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
     cursor: pointer;
-    transition:
-        background 0.18s,
-        box-shadow 0.18s,
-        transform 0.12s;
-    box-shadow: 0 2px 8px rgba(42, 122, 226, 0.07);
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    align-self: center;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
 .submit-button:hover,
 .submit-button:focus {
-    background: #1a5bb8;
+    background: #036b39;
     outline: none;
     transform: translateY(-1px) scale(1.03);
     box-shadow: 0 4px 16px rgba(42, 122, 226, 0.13);
@@ -225,7 +200,8 @@
     display: flex;
     gap: 1.1rem;
     border: 1.5px solid #e3e8ee;
-    background: #f4f6fa;
+    background: #181c1f;
+    color: #b6fcd5;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
@@ -236,8 +212,8 @@
 }
 
 body {
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-    background: #f4f6fa;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+    background: #000000;
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -258,4 +234,17 @@ title {
     color: #1a2330;
     font-weight: 700;
     letter-spacing: 0.03em;
+}
+
+body,
+.label,
+.input-field span {
+    color: #b6fcd5 !important;
+}
+
+/* Ensure info-labels are left-aligned in their container */
+.info-label {
+    text-align: left;
+    align-self: flex-start;
+    display: block;
 }

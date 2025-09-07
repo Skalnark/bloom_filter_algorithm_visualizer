@@ -1,4 +1,4 @@
-import { max, text } from 'd3';
+import { color, max, text } from 'd3';
 import { Vector } from './Vector.js';
 import { sv } from '@faker-js/faker';
 import { Util } from './Util.js';
@@ -16,6 +16,7 @@ class Draw {
         this.checkLines = [];
         this.itemBoxes = [];
         this.bitBoxes = [];
+        this.checkBox = null;
     }
 
     // Uses d3 to draw a square at (x, y) with given size, fill color and stroke color
@@ -94,6 +95,72 @@ class Draw {
         this.itemBoxes = [];
     }
 
+    drawCheckBox(hash1, hash2, hash3, h1b, h2b, h3b, item) {
+
+        if (this.checkBox) {
+            this.checkBox.textElem.textContent = item;
+        }
+        else {
+            let x = this.svg.clientWidth / 2;
+            let y = 0;//this.svg.style.height/2 - 100;
+            let width = 200;
+            let height = 40;
+            let fontSize = 20;
+
+            this.checkBox = { rect: null, textElem: null, color: null };
+
+            const rect = document.createElementNS(
+                'http://www.w3.org/2000/svg',
+                'rect',
+            );
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('width', width);
+            rect.setAttribute('height', height);
+            rect.setAttribute('fill', '#ffffffff');
+            rect.setAttribute('stroke', '#000000');
+            rect.setAttribute('class', 'bf-text-box');
+            rect.setAttribute('id', 'item-box-' + item);
+
+            const textElem = document.createElementNS(
+                'http://www.w3.org/2000/svg',
+                'text',
+            );
+            textElem.setAttribute('x', x + width / 2);
+            textElem.setAttribute('y', (y + height / 2));
+            textElem.setAttribute('font-family', 'sans-serif');
+            textElem.setAttribute('font-size', fontSize);
+            textElem.setAttribute('fill', '#000000');
+            textElem.setAttribute('text-anchor', 'middle');
+            textElem.setAttribute('alignment-baseline', 'middle');
+            textElem.setAttribute('class', 'bf-text-box-text');
+            textElem.setAttribute('id', 'item-box-text-' + item);
+            textElem.textContent = item;
+
+            this.svg.appendChild(rect);
+            this.svg.appendChild(textElem);
+
+            this.checkBox.rect = rect;
+            this.checkBox.textElem = textElem;
+            this.checkBox.color = '#ffffffff';
+        }
+
+
+        this.drawCheckLines(hash1, hash2, hash3, h1b, h2b, h3b, item);
+    }
+
+    drawCheckLines(hash1, hash2, hash3, h1b, h2b, h3b, item) {
+        let color;
+
+        [{ hash: hash1, value: h1b }, { hash: hash2, value: h2b }, { hash: hash3, value: h3b }].forEach(h => {
+            color = h.value ? '#4bb543ff' : '#b80808ff';
+            let line = this.#drawLine({ div1: `item-box-${item}`, div2: `bit-${h.hash}`, color: color });
+            line.setAttribute('id', `check-line-${item}-bit-${h.hash}`);
+            this.itemLines.push(line);
+            this.svg.appendChild(line);
+        });
+    }
+
     drawTextBox(item, hashPosition) {
         let x = 0;
         let y = 0;//this.svg.style.height/2 - 100;
@@ -152,7 +219,7 @@ class Draw {
         if (this.itemBoxes.length === 0) return;
 
         let givenX = this.svg.clientWidth / 2;
-        let gap = 10; 
+        let gap = 10;
         let lastYPosition = 50;
         this.itemBoxes.forEach(({ rect, textElem }) => {
             let newY = lastYPosition + parseInt(rect.getAttribute('height')) + gap;
@@ -199,10 +266,10 @@ class Draw {
         const parent = this.svg.getBoundingClientRect();
 
         let startX, startY, endX, endY;
-            startX = origin.left - parent.left;
-            startY = origin.top - parent.top + origin.height / 2;
-            endX = destiny.left - parent.left + destiny.width;
-            endY = destiny.top - parent.top + destiny.height / 2;
+        startX = origin.left - parent.left;
+        startY = origin.top - parent.top + origin.height / 2;
+        endX = destiny.left - parent.left + destiny.width;
+        endY = destiny.top - parent.top + destiny.height / 2;
 
 
         const line = document.createElementNS(

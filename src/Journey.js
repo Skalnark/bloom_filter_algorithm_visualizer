@@ -71,7 +71,7 @@ class Journey {
         await this.waitForUser();
         prompt.print("We need to set the bit at position " + hash1 + " to true in the bit array.");
         await this.waitForUser();
-        // Todo render the bit and the arrow for hash 1
+
         this.bf.bitArray[hash1] = true;
         draw.renderBitList(this.bf.bitArray);
         draw.drawTextBox(item, hash1);
@@ -80,7 +80,7 @@ class Journey {
         let hash2 = await this.bf.hash2(item);
         prompt.print("Now, we set the bit at position " + hash2 + " to true in the bit array as well.");
         await this.waitForUser();
-        // Todo render the bit and the arrow for hash 2
+
         this.bf.bitArray[hash2] = true;
         draw.renderBitList(this.bf.bitArray);
         draw.drawTextBox(item, hash2);
@@ -90,7 +90,7 @@ class Journey {
 
         prompt.print("And we set the bit at position " + hash3 + " to true in the bit array.");
         await this.waitForUser();
-        // Todo render the bit and the arrow for hash 3
+        
         this.bf.bitArray[hash3] = true;
         draw.renderBitList(this.bf.bitArray);
         draw.drawTextBox(item, hash3);
@@ -143,7 +143,8 @@ class Journey {
         await this.waitForUser();
         prompt.print(`Let's check the bit at each position`);
         await this.waitForUser();
-        // Todo render the arrows for all three hashes
+
+        draw.drawCheckBox(hash1, hash2, hash3, h1b, h2b, h3b, item);
 
         prompt.print(`So, for the bit at position:`);
         await this.waitForUser();
