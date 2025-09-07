@@ -15,7 +15,7 @@ let journeyManager;
 function awake()
 {
     prompt = new PromptController();
-    bloomFilter = new BloomFilter(10);
+    bloomFilter = new BloomFilter();
     htmlBuilder = new HtmlBuilder(bloomFilter, prompt);
     journeyManager = new Journey(bloomFilter, prompt);
     

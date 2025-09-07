@@ -2,7 +2,7 @@ import draw from "./Draw.js";
 import { prompt } from "./PromptController.js";
 
 class BloomFilter {
-    constructor(size=10) {
+    constructor(size=30) {
         if(BloomFilter._instance) {
             return BloomFilter._instance;
         }

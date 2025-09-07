@@ -42,7 +42,6 @@
     color: #888e94 !important;
     border-color: #333 !important;
     cursor: not-allowed !important;
-    box-shadow: none !important;
     opacity: 0.7;
 }
 
@@ -57,8 +56,7 @@
     border-radius: 6px;
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
     cursor: pointer;
-    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    transition: background 0.18s, color 0.18s;
 }
 
 #next-step-button:hover,
@@ -68,8 +66,28 @@
     outline: none;
 }
 
-#prompt-textarea,
-.prompt {
+#prompt-holder {
+ background: none;
+ border: none;
+}
+
+.prompt-textarea {
+    border: none;
+    height: 100%;
+    min-height: 190px;
+    padding-left: 3%;
+    padding-right: 7%;
+    padding-top: 1%;
+    padding-bottom: 5%;
+    margin: 1px;
+    width: 100%;
+    min-width: 80%;
+    max-width: 90%;
+    resize: none;
+    outline: none;
+    text-align: left;
+    pointer-events: none;
+    user-select: text;
     display: flex;
     background: #181c1f;
     color: #b6fcd5;
@@ -77,44 +95,31 @@
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
     word-break: break-word;
     white-space: pre-line;
-    padding-top: 0.5em;
     transition:
         background 0.2s,
         color 0.2s;
 }
 
-.prompt {
-    border-left: 4px solid #00c853;
-    width: 100%;
-    max-width: 900px;
-    min-width: 800px;
-    min-height: 200px;
-    margin: 1.2em auto;
-    text-align: center;
-}
-
-.prompt strong {
-    color: #00e676;
-}
-
-#prompt-textarea {
-    border: 1.5px solid #22292f;
-    width: auto;
-    height: 100%;
-    min-height: 190px;
-    padding-left: 5%;
-    min-width: 790;
-    max-width: 890px;
-    resize: none;
-    outline: none;
+.prompt-header {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     text-align: left;
-    pointer-events: none;
-    user-select: text;
+    background: #00c853;
+    color: #181c1f;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+    padding: 0.3em 0.6em;
+}
+
+.prompt-window {
+    width: 100%;
+    min-width: 805px;
+    background-color: #00c853;
+    color: #00c853;
+    margin: 5px;
 }
 
 .item-input-holder {
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(42, 122, 226, 0.04);
     margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -122,13 +127,12 @@
     width: 100%;
     box-sizing: border-box;
     max-width: 600px;
+    ;
 }
 
 .item-info-holder {
     align-items: center;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(42, 122, 226, 0.04);
-    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -139,20 +143,17 @@
 
 .input-field {
     font-size: 1.09rem;
-    color: #00e676;
+    color: #b6fcd5;
     background: #181c1f;
-    border: 1.5px solid #dbe3ea;
+    border: 1.5px solid #00c853;
     border-radius: 6px;
     padding: 0.38em 0.9em;
     outline: none;
-    transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
+    transition: border-color 0.2s;
 }
 
 .input-field:focus {
-    border-color: #2a7ae2;
-    box-shadow: 0 0 0 2px rgba(42, 122, 226, 0.1);
+    border-color: #00c853;
 }
 
 .submit-button {
@@ -167,16 +168,14 @@
     border-radius: 6px;
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
     cursor: pointer;
-    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    transition: background 0.18s, color 0.18s;
 }
 
 .submit-button:hover,
 .submit-button:focus {
-    background: #036b39;
+    background: #22292f;
+    color: #00e676;
     outline: none;
-    transform: translateY(-1px) scale(1.03);
-    box-shadow: 0 4px 16px rgba(42, 122, 226, 0.13);
 }
 
 .info-size,
@@ -195,20 +194,24 @@
 }
 
 .param-holder {
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(42, 122, 226, 0.04);
     display: flex;
-    gap: 1.1rem;
-    border: 1.5px solid #e3e8ee;
-    background: #181c1f;
     color: #b6fcd5;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     width: 100%;
-    box-sizing: border-box;
     justify-content: left;
     align-items: center;
+    background: #181c1f;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.container {
+    border-radius: 1px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
 }
 
 body {
@@ -240,6 +243,29 @@ body,
 .label,
 .input-field span {
     color: #b6fcd5 !important;
+}
+
+/* Make the scroll-button follow the viewport */
+#scroll-button, .scroll-button {
+    position: fixed;
+    bottom: 2.5em;
+    right: 2.5em;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    border-radius: 50%;
+    padding: 1em 1.2em;
+    background: #181c1f;
+    color: #00e676;
+    border: 2px solid #00c853;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+    display: none;
+}
+#scroll-button:hover, .scroll-button:hover {
+    background: #22292f;
+    color: #00e676;
+    box-shadow: 0 4px 16px rgba(42, 122, 226, 0.13);
 }
 
 /* Ensure info-labels are left-aligned in their container */

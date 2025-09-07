@@ -46,6 +46,7 @@ class HtmlBuilder {
                 this.bf.initialize(bitSize);
                 this.setInfoLabels();
                 draw.renderBitList(this.bf.bitArray);
+                Util.scrollToElementById('bf-item-info-holder');
             });
 
         }
@@ -89,18 +90,21 @@ class HtmlBuilder {
                 this.journey.checkItemStepByStep(item);
             }
         });
+
+        const scrollButton = document.getElementById('scroll-button');
+        scrollButton.addEventListener('click', () => {
+            Util.scrollToPromptTextarea();
+        });
     }
 
     initJourneyListeners() {
         window.addEventListener('journey-started', () => {
             this.disableInputs();
-            console.log("Journey started, inputs disabled.");
         });
 
         window.addEventListener('journey-finished', () => {
             this.enableInputs();
             this.setInfoLabels();
-            console.log("Journey finished, inputs enabled.");
         });
 
         window.addEventListener('journey-waiting-click', () => {
@@ -109,6 +113,11 @@ class HtmlBuilder {
 
         window.addEventListener('journey-disable-click', () => {
             this.disableNextStepButton();
+        });
+
+        window.addEventListener('element-out-of-view', () => {
+            const scrollButton = document.getElementById('scroll-button');
+            scrollButton.style.display = 'block';
         });
     }
 
@@ -119,6 +128,9 @@ class HtmlBuilder {
         const dummyCountSubmit = document.getElementById('bf-dummy-count-submit');
         const addItemInput = document.getElementById('add-item-input');
         const addItemSubmit = document.getElementById('add-item-submit');
+        const checkItemInput = document.getElementById('check-item-input');
+        const checkItemSubmit = document.getElementById('check-item-submit');
+        const inputFastForwardCheckbox = document.getElementById('fast-forward-checkbox');
         
         if (bitSizeInput) bitSizeInput.disabled = true;
         if (bitSizeSubmit) bitSizeSubmit.disabled = true;
@@ -126,6 +138,9 @@ class HtmlBuilder {
         if (dummyCountSubmit) dummyCountSubmit.disabled = true;
         if (addItemInput) addItemInput.disabled = true;
         if (addItemSubmit) addItemSubmit.disabled = true;
+        if (checkItemInput) checkItemInput.disabled = true;
+        if (checkItemSubmit) checkItemSubmit.disabled = true;
+        if (inputFastForwardCheckbox) inputFastForwardCheckbox.disabled = true;
     }
 
     enableInputs() {
@@ -135,6 +150,9 @@ class HtmlBuilder {
         const dummyCountSubmit = document.getElementById('bf-dummy-count-submit');
         const addItemInput = document.getElementById('add-item-input');
         const addItemSubmit = document.getElementById('add-item-submit');
+        const checkItemInput = document.getElementById('check-item-input');
+        const checkItemSubmit = document.getElementById('check-item-submit');
+        const inputFastForwardCheckbox = document.getElementById('fast-forward-checkbox');
         
         if (bitSizeInput) bitSizeInput.disabled = false;
         if (bitSizeSubmit) bitSizeSubmit.disabled = false;
@@ -142,6 +160,9 @@ class HtmlBuilder {
         if (dummyCountSubmit) dummyCountSubmit.disabled = false;
         if (addItemInput) addItemInput.disabled = false;
         if (addItemSubmit) addItemSubmit.disabled = false;
+        if (checkItemInput) checkItemInput.disabled = false;
+        if (checkItemSubmit) checkItemSubmit.disabled = false;
+        if (inputFastForwardCheckbox) inputFastForwardCheckbox.disabled = false;
     }
 
     disableNextStepButton() {

@@ -95,7 +95,7 @@ class Draw {
         this.itemBoxes = [];
     }
 
-    drawCheckBox(hash1, hash2, hash3, h1b, h2b, h3b, item) {
+    drawCheckBox(item) {
 
         if (this.checkBox) {
             this.checkBox.textElem.textContent = item;
@@ -120,7 +120,7 @@ class Draw {
             rect.setAttribute('fill', '#ffffffff');
             rect.setAttribute('stroke', '#000000');
             rect.setAttribute('class', 'bf-text-box');
-            rect.setAttribute('id', 'item-box-' + item);
+            rect.setAttribute('id', 'check-box');
 
             const textElem = document.createElementNS(
                 'http://www.w3.org/2000/svg',
@@ -134,7 +134,7 @@ class Draw {
             textElem.setAttribute('text-anchor', 'middle');
             textElem.setAttribute('alignment-baseline', 'middle');
             textElem.setAttribute('class', 'bf-text-box-text');
-            textElem.setAttribute('id', 'item-box-text-' + item);
+            textElem.setAttribute('id', 'item-check-text-' + item);
             textElem.textContent = item;
 
             this.svg.appendChild(rect);
@@ -144,21 +144,21 @@ class Draw {
             this.checkBox.textElem = textElem;
             this.checkBox.color = '#ffffffff';
         }
-
-
-        this.drawCheckLines(hash1, hash2, hash3, h1b, h2b, h3b, item);
     }
 
-    drawCheckLines(hash1, hash2, hash3, h1b, h2b, h3b, item) {
-        let color;
+    drawCheckLine(hash, value, item) {
+        let color = value ? '#4bb543ff' : '#b80808ff';
+        let line = this.#drawLine({ div1: `check-box`, div2: `bit-${hash}`, color: color });
+        line.setAttribute('id', `check-line-${item}-bit-${hash}`);
+        this.checkLines.push(line);
+        this.svg.appendChild(line);
+    }
 
-        [{ hash: hash1, value: h1b }, { hash: hash2, value: h2b }, { hash: hash3, value: h3b }].forEach(h => {
-            color = h.value ? '#4bb543ff' : '#b80808ff';
-            let line = this.#drawLine({ div1: `item-box-${item}`, div2: `bit-${h.hash}`, color: color });
-            line.setAttribute('id', `check-line-${item}-bit-${h.hash}`);
-            this.itemLines.push(line);
-            this.svg.appendChild(line);
+    clearCheckLines() {
+        this.checkLines.forEach(line => {
+            this.svg.removeChild(line);
         });
+        this.checkLines = [];
     }
 
     drawTextBox(item, hashPosition) {
@@ -232,7 +232,6 @@ class Draw {
             textElem.setAttribute('x', givenX + textOffsetX);
             textElem.setAttribute('y', newY + textOffsetY);
             lastYPosition = newY;
-            console.log(`count: ${'aaaaaaaaaaaaaaaaa'.length}`);
         });
 
         this.drawItemLines();
@@ -244,7 +243,7 @@ class Draw {
         this.itemBoxes.forEach(({ rect, textElem, bits }) => {
             bits.forEach(bit => {
                 let newLineId = `line-${rect.getAttribute('id')}-${bit.getAttribute('id')}`;
-                let color = Util.stringToColor(textElem.textContent);
+                let color = Util.strToColor(textElem.textContent);
                 let line = this.#drawLine({ div1: rect.getAttribute('id'), div2: bit.getAttribute('id'), color: color });
                 line.setAttribute('id', newLineId);
                 this.itemLines.push(line);
@@ -258,6 +257,14 @@ class Draw {
             this.svg.removeChild(line);
         });
         this.itemLines = [];
+    }
+
+    getBitBoxId(index) {
+        let bitBox = this.bitBoxes[index];
+        if (bitBox) {
+            return bitBox.square.getAttribute('id');
+        }
+        return null;
     }
 
     #drawLine(v) {

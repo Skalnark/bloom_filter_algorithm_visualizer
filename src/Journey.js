@@ -1,5 +1,6 @@
 import { prompt } from "./PromptController";
 import { draw } from "./Draw.js";
+import { Util } from "./Util.js";
 
 class Journey {
     constructor(bf, prompt) {
@@ -13,6 +14,7 @@ class Journey {
         this.prompt = prompt;
         this.nextStepButton = document.getElementById('next-step-button');
         this.finishButton = document.getElementById('finish-journey-button');
+        this.fastForwardCheckbox = document.getElementById('fast-forward-checkbox');
         this.nextStep = false;
         this.verboseExecution = true;
         this.fastForward = false;
@@ -43,19 +45,31 @@ class Journey {
 
         this.finishButton.addEventListener('click', () => {
             this.fastForward = true;
-            this.prompt.quietMode = true;
             this.nextStep = true;
         });
 
         window.addEventListener('journey-finished', () => {
-            this.fastForward = false;
-            this.prompt.quietMode = false;
+            this.fastForward = this.fastForwardCheckbox.checked;
             this.prompt.print("Finished execution.");
+        });
+
+        this.fastForward = this.fastForwardCheckbox.checked;
+
+        this.fastForwardCheckbox.addEventListener('change', () => {
+            this.fastForward = this.fastForwardCheckbox.checked;
+            if(this.fastForward) {
+                this.prompt.print("Step by step execution will be fast forwarded.");
+            } else {
+                this.prompt.print("Step by step execution is back to normal.");
+            }
         });
     }
 
     async addItemStepByStep(item) {
         window.dispatchEvent(new Event('journey-started'));
+
+        if(!this.fastForward)
+            Util.scrollToElementById('prompt-textarea');
 
         if (this.bf.elements.includes(item)) {
             prompt.print(`The item "${item}" is already in the Bloom Filter. Adding it again won't change the filter.`);
@@ -66,15 +80,17 @@ class Journey {
         prompt.print(`To add the item "${item}", we will first calculate its hashes`);
         prompt.printVerbose(`Click 'Next Step' to proceed through each character of the item.`, false);
         let hash1 = await this.bf.hash1(item);
-
+        
         prompt.print(`hash1 for item "${item}" is ${hash1}`);
         await this.waitForUser();
         prompt.print("We need to set the bit at position " + hash1 + " to true in the bit array.");
         await this.waitForUser();
-
+        
         this.bf.bitArray[hash1] = true;
         draw.renderBitList(this.bf.bitArray);
         draw.drawTextBox(item, hash1);
+
+        Util.scrollToNextElement(draw.getBitBoxId(hash1), this.fastForward);
 
         prompt.print("Now, let's calculate hash2");
         let hash2 = await this.bf.hash2(item);
@@ -84,6 +100,7 @@ class Journey {
         this.bf.bitArray[hash2] = true;
         draw.renderBitList(this.bf.bitArray);
         draw.drawTextBox(item, hash2);
+        Util.scrollToNextElement(draw.getBitBoxId(hash2), this.fastForward);
 
         prompt.print("Finally, let's calculate hash3");
         let hash3 = await this.bf.hash3(item);
@@ -94,6 +111,7 @@ class Journey {
         this.bf.bitArray[hash3] = true;
         draw.renderBitList(this.bf.bitArray);
         draw.drawTextBox(item, hash3);
+        Util.scrollToNextElement(draw.getBitBoxId(hash3), this.fastForward);
 
         prompt.print(`All done! The item "${item}" has been added to the Bloom Filter.`);
         this.bf.elements.push(item);
@@ -115,13 +133,22 @@ class Journey {
         prompt.printVerbose(`The new false positive rate is: ${fpr * 100}%`);
         prompt.printVerbose(`You can now add another item or check for membership of an item.`);
 
+        if(!this.fastForward)
+            Util.scrollToElementById('bf-item-info-holder');
+
         window.dispatchEvent(new Event('journey-finished'));
     }
 
     async checkItemStepByStep(item) {
         window.dispatchEvent(new Event('journey-started'));
+
+        if(!this.fastForward)
+            Util.scrollToElementById('prompt-textarea');
+
+        draw.clearCheckLines();
         
         prompt.print(`To check if the item "${item}" is in the Bloom Filter, we will calculate its hashes`);
+        draw.drawCheckBox(item);
         let hash1 = await this.bf.hash1(item);
         let hash2 = await this.bf.hash2(item);
         let hash3 = await this.bf.hash3(item);
@@ -140,18 +167,16 @@ class Journey {
         let h2b = this.bf.bitArray[hash2];
         let h3b = this.bf.bitArray[hash3];
         
-        await this.waitForUser();
         prompt.print(`Let's check the bit at each position`);
-        await this.waitForUser();
 
-        draw.drawCheckBox(hash1, hash2, hash3, h1b, h2b, h3b, item);
-
-        prompt.print(`So, for the bit at position:`);
         await this.waitForUser();
+        draw.drawCheckLine(hash1, h1b, item);
         prompt.print(`- Position ${hash1}: it is ${h1b ? 'true' : 'false'}`);
         await this.waitForUser();
+        draw.drawCheckLine(hash2, h2b, item);
         prompt.print(`- Position ${hash2}: it is ${h2b ? 'true' : 'false'}`);
         await this.waitForUser();
+        draw.drawCheckLine(hash3, h3b, item);
         prompt.print(`- Position ${hash3}: it is ${h3b ? 'true' : 'false'}`);
         await this.waitForUser();
         
@@ -161,7 +186,7 @@ class Journey {
             await this.waitForUser();
 
             if(this.bf.elements.includes(item)) {
-                prompt.print(`In fact, the item "${item}" is definitely in the Bloom Filter (no false positive here!).`);
+                prompt.print(`And in fact, the item "${item}" is present in the Bloom Filter (no false positive here!).`);
             } else {
                 prompt.print(`However, the item "${item}" was never added to the Bloom Filter. This is a false positive!`);
             }
