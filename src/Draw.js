@@ -18,7 +18,7 @@ class Draw {
         this.bitBoxes = [];
         this.checkBox = null;
     }
-    
+
     #drawSquare(x, y, size, fill = '#181c1f', stroke = '#168344ff') {
         const rect = document.createElementNS(
             'http://www.w3.org/2000/svg',
@@ -78,7 +78,7 @@ class Draw {
             let text = this.#drawBitValue(x + (size / 2), y + (size / 6) * 4, bit, size / 2, fillText);
             text.setAttribute('id', `bit-text-${i}`);
 
-            let index = this.#drawBitValue(x - (size / 2), y + size, i, size / 3, '#b6fcd5');
+            let index = this.#drawBitValue(x - (size / 2), y + size * 0.7, i, size / 3, '#b6fcd5');
             index.setAttribute('id', `bit-index-${i}`);
             this.svg.appendChild(index);
 
