@@ -22,7 +22,7 @@ class Draw {
     // Uses d3 to draw a square at (x, y) with given size, fill color and stroke color
     // moves the square to some (x, y) coordinates (if provided)
     // and then returns the x and y coordinates of the square
-    #drawSquare(x, y, size, fill = '#ffffff', stroke = '#000000') {
+    #drawSquare(x, y, size, fill = '#181c1f', stroke = '#168344ff') {
         const rect = document.createElementNS(
             'http://www.w3.org/2000/svg',
             'rect',
@@ -33,11 +33,12 @@ class Draw {
         rect.setAttribute('height', size);
         rect.setAttribute('fill', fill);
         rect.setAttribute('stroke', stroke);
+        rect.setAttribute('background-color', '#181c1f');
         rect.setAttribute('class', 'bf-bit');
         return rect;
     }
 
-    #drawBitValue(x, y, value, size, fontColor = '#000000') {
+    #drawBitValue(x, y, value, size, fontColor = '#b6fcd5') {
         const text = document.createElementNS(
             'http://www.w3.org/2000/svg',
             'text',
@@ -72,14 +73,15 @@ class Draw {
         for (let i = 0; i < bits.length; i++) {
             let bit = bits[i] ? '1' : '0';
 
-            let fill = bit === '1' ? '#4bb543ff' : '#ffffffff';
-            let square = this.#drawSquare(x, y, size, fill, '#000000');
+            let fill = bit === '1' ? '#b6fcd5' : '#181c1f';
+            let fillText = bit === '1' ? '#181c1f' : '#b6fcd5';
+            let square = this.#drawSquare(x, y, size, fill);
 
             square.setAttribute('id', `bit-${i}`);
-            let text = this.#drawBitValue(x + (size / 2), y + (size / 6) * 4, bit, size / 2, '#000000');
+            let text = this.#drawBitValue(x + (size / 2), y + (size / 6) * 4, bit, size / 2, fillText);
             text.setAttribute('id', `bit-text-${i}`);
 
-            let index = this.#drawBitValue(x - (size / 2), y + size, i, size / 3, '#ffffffff');
+            let index = this.#drawBitValue(x - (size / 2), y + size, i, size / 3, '#b6fcd5');
             index.setAttribute('id', `bit-index-${i}`);
             this.svg.appendChild(index);
 
@@ -151,7 +153,7 @@ class Draw {
     }
 
     drawCheckLine(hash, value, item) {
-        let color = value ? '#4bb543ff' : '#b80808ff';
+        let color = value ? '#11ff00ff' : '#ff0000ff';
         let line = this.#drawLine({ div1: `check-box`, div2: `bit-${hash}`, color: color }, true);
         line.setAttribute('id', `check-line-${item}-bit-${hash}`);
         this.checkLines.push(line);
@@ -227,7 +229,7 @@ class Draw {
     repositionItemBoxes() {
         if (this.itemBoxes.length === 0) return;
 
-        let givenX = this.svg.clientWidth / 2;
+        let givenX = this.svg.clientWidth - 250;
         let gap = 4 * this.svg.clientHeight / 100;
         let lastYPosition = 50;
         this.itemBoxes.forEach(({ rect, textElem }) => {
