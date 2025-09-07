@@ -22,6 +22,15 @@ class BloomFilter {
         draw.clearAllLines();
     }
 
+    clear() {
+        this.bitArray.fill(false);
+        this.elements = [];
+        draw.renderBitList(this.bitArray);
+        draw.clearItemBoxes();
+        draw.clearAllLines();
+        draw.clearCheckLines();
+    }
+
     async stepByStepHash1(item, index, currentHash) {
         if(index == 0)
             prompt.printVerbose(`hash1 formula = ∑ i = 0 to item.size - 1 => (hash * 31 + charCode(item[i])) % bitArraySize`);

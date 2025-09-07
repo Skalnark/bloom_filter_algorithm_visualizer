@@ -38,6 +38,32 @@ class Journey {
         this.nextStepButton.style.backgroundColor = '#181f1aff';
     }
 
+    addDummyWords(words) {
+        if(words.length == 0) return;
+        this.bf.clear();
+
+        prompt.printVerbose(`Adding ${words.length} dummy words to the Bloom Filter to simulate a more realistic scenario.`);
+        for (let word of words) {
+            // calculate hashes
+            let hash1 = this.bf.hash1(word);
+            let hash2 = this.bf.hash2(word);
+            let hash3 = this.bf.hash3(word);
+            
+            // set bits in the bit array
+            this.bf.bitArray[hash1] = true;
+            this.bf.bitArray[hash2] = true;
+            this.bf.bitArray[hash3] = true;
+
+            // add to elements list
+            this.bf.elements.push(word);
+
+            draw.renderBitList(this.bf.bitArray);
+            draw.drawTextBox(word, hash1);
+            draw.drawTextBox(word, hash2);
+            draw.drawTextBox(word, hash3);
+        }
+    }
+
     initListeners() {
         this.nextStepButton.addEventListener('click', () => {
             this.nextStep = true;

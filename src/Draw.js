@@ -148,13 +148,18 @@ class Draw {
 
     drawCheckLine(hash, value, item) {
         let color = value ? '#4bb543ff' : '#b80808ff';
-        let line = this.#drawLine({ div1: `check-box`, div2: `bit-${hash}`, color: color });
+        let line = this.#drawLine({ div1: `check-box`, div2: `bit-${hash}`, color: color }, true);
         line.setAttribute('id', `check-line-${item}-bit-${hash}`);
         this.checkLines.push(line);
         this.svg.appendChild(line);
     }
 
     clearCheckLines() {
+        this.checkBox = null;
+        if (document.getElementById('check-box')) {
+            this.svg.removeChild(document.getElementById('check-box'));
+        }
+
         this.checkLines.forEach(line => {
             this.svg.removeChild(line);
         });
@@ -219,7 +224,7 @@ class Draw {
         if (this.itemBoxes.length === 0) return;
 
         let givenX = this.svg.clientWidth / 2;
-        let gap = 10;
+        let gap = 4 * this.svg.clientHeight/100;
         let lastYPosition = 50;
         this.itemBoxes.forEach(({ rect, textElem }) => {
             let newY = lastYPosition + parseInt(rect.getAttribute('height')) + gap;
@@ -267,7 +272,7 @@ class Draw {
         return null;
     }
 
-    #drawLine(v) {
+    #drawLine(v, checkLine = false) {
         const origin = document.getElementById(v.div1).getBoundingClientRect();
         const destiny = document.getElementById(v.div2).getBoundingClientRect();
         const parent = this.svg.getBoundingClientRect();
@@ -289,7 +294,7 @@ class Draw {
         line.setAttribute('x2', endX);
         line.setAttribute('y2', endY);
         line.setAttribute('stroke', color);
-        line.setAttribute('stroke-width', '4');
+        line.setAttribute('stroke-width', checkLine ? '4' : '2');
         this.svg.appendChild(line);
         return line;
     }

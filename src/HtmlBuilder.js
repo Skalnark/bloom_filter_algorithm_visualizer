@@ -44,6 +44,11 @@ class HtmlBuilder {
                 const bitSize = this.getBitSizeInputValue();
 
                 this.bf.initialize(bitSize);
+                
+                const dummyCount = this.getDummyInputValue();
+                const dummyWords = Util.getLoremWords(dummyCount);
+                this.journey.addDummyWords(dummyWords);
+
                 this.setInfoLabels();
                 draw.renderBitList(this.bf.bitArray);
                 Util.scrollToElementById('bf-item-info-holder');
