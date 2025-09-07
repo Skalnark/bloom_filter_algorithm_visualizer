@@ -6,7 +6,7 @@ class PromptController {
         }
         PromptController._instance = this;
         this.lines = [];
-        this.lineLimit = 40; // default value
+        this.lineLimit = 40;
         this.verbose = true;
         this.quietMode = false;
     }

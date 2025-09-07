@@ -21,7 +21,6 @@ class Journey {
         this.initListeners();
     }
 
-    // While this.nextStep is false, wait for the user to click the button
     async waitForUser() {
         if( this.fastForward ) {
             return new Promise(resolve => resolve());
@@ -44,17 +43,14 @@ class Journey {
 
         prompt.printVerbose(`Adding ${words.length} dummy words to the Bloom Filter to simulate a more realistic scenario.`);
         for (let word of words) {
-            // calculate hashes
             let hash1 = this.bf.hash1(word);
             let hash2 = this.bf.hash2(word);
             let hash3 = this.bf.hash3(word);
             
-            // set bits in the bit array
             this.bf.bitArray[hash1] = true;
             this.bf.bitArray[hash2] = true;
             this.bf.bitArray[hash3] = true;
 
-            // add to elements list
             this.bf.elements.push(word);
 
             draw.renderBitList(this.bf.bitArray);

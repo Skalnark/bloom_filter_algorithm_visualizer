@@ -18,10 +18,7 @@ class Draw {
         this.bitBoxes = [];
         this.checkBox = null;
     }
-
-    // Uses d3 to draw a square at (x, y) with given size, fill color and stroke color
-    // moves the square to some (x, y) coordinates (if provided)
-    // and then returns the x and y coordinates of the square
+    
     #drawSquare(x, y, size, fill = '#181c1f', stroke = '#168344ff') {
         const rect = document.createElementNS(
             'http://www.w3.org/2000/svg',
