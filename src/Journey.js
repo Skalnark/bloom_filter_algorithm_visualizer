@@ -1,4 +1,5 @@
 import { prompt } from "./PromptController";
+import { draw } from "./Draw.js";
 
 class Journey {
     constructor(bf, prompt) {
@@ -72,6 +73,8 @@ class Journey {
         await this.waitForUser();
         // Todo render the bit and the arrow for hash 1
         this.bf.bitArray[hash1] = true;
+        draw.renderBitList(this.bf.bitArray);
+        draw.drawTextBox(item, hash1);
 
         prompt.print("Now, let's calculate hash2");
         let hash2 = await this.bf.hash2(item);
@@ -79,6 +82,8 @@ class Journey {
         await this.waitForUser();
         // Todo render the bit and the arrow for hash 2
         this.bf.bitArray[hash2] = true;
+        draw.renderBitList(this.bf.bitArray);
+        draw.drawTextBox(item, hash2);
 
         prompt.print("Finally, let's calculate hash3");
         let hash3 = await this.bf.hash3(item);
@@ -87,6 +92,8 @@ class Journey {
         await this.waitForUser();
         // Todo render the bit and the arrow for hash 3
         this.bf.bitArray[hash3] = true;
+        draw.renderBitList(this.bf.bitArray);
+        draw.drawTextBox(item, hash3);
 
         prompt.print(`All done! The item "${item}" has been added to the Bloom Filter.`);
         this.bf.elements.push(item);

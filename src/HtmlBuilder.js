@@ -2,6 +2,7 @@ import { Util } from './Util.js';
 import { BloomFilter } from './BloomFilter.js';
 import { prompt } from './PromptController.js';
 import { Journey } from './Journey.js';
+import draw from './Draw.js';
 
 class HtmlBuilder {
     constructor(bf, promptController) {
@@ -43,8 +44,8 @@ class HtmlBuilder {
                 const bitSize = this.getBitSizeInputValue();
 
                 this.bf.initialize(bitSize);
-                console.log(`Created new Bloom Filter with size ${bitSize}`);
                 this.setInfoLabels();
+                draw.renderBitList(this.bf.bitArray);
             });
 
         }

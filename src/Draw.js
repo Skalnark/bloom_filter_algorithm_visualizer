@@ -1,4 +1,7 @@
+import { max, text } from 'd3';
 import { Vector } from './Vector.js';
+import { sv } from '@faker-js/faker';
+import { Util } from './Util.js';
 
 class Draw {
     static svg;
@@ -11,37 +14,196 @@ class Draw {
         this.svg = document.getElementById('bloom-filter-svg');
         this.itemLines = [];
         this.checkLines = [];
+        this.itemBoxes = [];
+        this.bitBoxes = [];
+    }
+
+    // Uses d3 to draw a square at (x, y) with given size, fill color and stroke color
+    // moves the square to some (x, y) coordinates (if provided)
+    // and then returns the x and y coordinates of the square
+    #drawSquare(x, y, size, fill = '#ffffff', stroke = '#000000') {
+        const rect = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'rect',
+        );
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', y);
+        rect.setAttribute('width', size);
+        rect.setAttribute('height', size);
+        rect.setAttribute('fill', fill);
+        rect.setAttribute('stroke', stroke);
+        rect.setAttribute('class', 'bf-bit');
+        return rect;
+    }
+
+    #drawBitValue(x, y, value, size, fontColor = '#000000') {
+        const text = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'text',
+        );
+        text.setAttribute('x', x);
+        text.setAttribute('y', y);
+        text.setAttribute('font-family', 'sans-serif');
+        text.setAttribute('font-size', size);
+        text.setAttribute('fill', fontColor);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('alignment-baseline', 'middle');
+        text.setAttribute('class', 'bf-bit-text');
+        text.textContent = value;
+        return text;
+    }
+
+    renderBitList(bits) {
+        this.bitBoxes.forEach(({ square, text }) => {
+            this.svg.removeChild(square);
+            this.svg.removeChild(text);
+        });
+        this.bitBoxes = [];
+
+        let x = 0;
+        let y = 0;
+        let gap = 4;
+        let size = 32;
+
+        x = this.svg.clientWidth / 6 - size;
+        this.svg.style.height = (size + gap) * bits.length + 'px';
+
+        for (let i = 0; i < bits.length; i++) {
+            let bit = bits[i] ? '1' : '0';
+
+            let fill = bit === '1' ? '#4bb543ff' : '#ffffffff';
+            let square = this.#drawSquare(x, y, size, fill, '#000000');
+
+            square.setAttribute('id', `bit-${i}`);
+            let text = this.#drawBitValue(x + (size / 2), y + (size / 6) * 4, bit, size / 2, '#000000');
+            text.setAttribute('id', `bit-text-${i}`);
+
+            this.svg.appendChild(square);
+            this.svg.appendChild(text);
+
+            this.bitBoxes.push({ square, text });
+            y += size + gap;
+        }
+    }
+
+    clearItemBoxes() {
+        this.itemBoxes.forEach(({ rect, textElem }) => {
+            this.svg.removeChild(rect);
+            this.svg.removeChild(textElem);
+        });
+        this.itemBoxes = [];
+    }
+
+    drawTextBox(item, hashPosition) {
+        let x = 0;
+        let y = 0;//this.svg.style.height/2 - 100;
+        let width = 200;
+        let height = 40;
+        let fontSize = 20;
+        let bit = this.bitBoxes[hashPosition].square;
+
+        if (!this.itemBoxes.find(b => b.textElem.textContent === item)) {
+
+            const rect = document.createElementNS(
+                'http://www.w3.org/2000/svg',
+                'rect',
+            );
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('width', width);
+            rect.setAttribute('height', height);
+            rect.setAttribute('fill', '#ffffffff');
+            rect.setAttribute('stroke', '#000000');
+            rect.setAttribute('class', 'bf-text-box');
+            rect.setAttribute('id', 'item-box-' + item);
+
+            const textElem = document.createElementNS(
+                'http://www.w3.org/2000/svg',
+                'text',
+            );
+            textElem.setAttribute('x', x + width / 2);
+            textElem.setAttribute('y', (y + height / 2));
+            textElem.setAttribute('font-family', 'sans-serif');
+            textElem.setAttribute('font-size', fontSize);
+            textElem.setAttribute('fill', '#000000');
+            textElem.setAttribute('text-anchor', 'middle');
+            textElem.setAttribute('alignment-baseline', 'middle');
+            textElem.setAttribute('class', 'bf-text-box-text');
+            textElem.setAttribute('id', 'item-box-text-' + item);
+            textElem.textContent = item;
+
+            this.svg.appendChild(rect);
+            this.svg.appendChild(textElem);
+
+            let itemBox = { rect, textElem, bits: [] };
+            itemBox.bits.push(bit);
+
+            this.itemBoxes.push(itemBox);
+        }
+        else {
+            let itemBox = this.itemBoxes.find(b => b.textElem.textContent === item);
+            itemBox.bits.push(bit);
+        }
+
+        this.repositionItemBoxes();
+    }
+
+    repositionItemBoxes() {
+        if (this.itemBoxes.length === 0) return;
+
+        let givenX = this.svg.clientWidth / 2;
+        let gap = 10; 
+        let lastYPosition = 50;
+        this.itemBoxes.forEach(({ rect, textElem }) => {
+            let newY = lastYPosition + parseInt(rect.getAttribute('height')) + gap;
+            let fontSize = textElem.getAttribute('font-size');
+            let textOffsetY = parseInt(fontSize) / 2 + parseInt(rect.getAttribute('height')) / 2;
+            let textOffsetX = parseInt(rect.getAttribute('width')) / 2;
+
+            rect.setAttribute('x', givenX);
+            rect.setAttribute('y', newY);
+            textElem.setAttribute('x', givenX + textOffsetX);
+            textElem.setAttribute('y', newY + textOffsetY);
+            lastYPosition = newY;
+            console.log(`count: ${'aaaaaaaaaaaaaaaaa'.length}`);
+        });
+
+        this.drawItemLines();
+    }
+
+    drawItemLines() {
+        this.clearAllLines();
+
+        this.itemBoxes.forEach(({ rect, textElem, bits }) => {
+            bits.forEach(bit => {
+                let newLineId = `line-${rect.getAttribute('id')}-${bit.getAttribute('id')}`;
+                let color = Util.stringToColor(textElem.textContent);
+                let line = this.#drawLine({ div1: rect.getAttribute('id'), div2: bit.getAttribute('id'), color: color });
+                line.setAttribute('id', newLineId);
+                this.itemLines.push(line);
+            });
+        });
+
+    }
+
+    clearAllLines() {
+        this.itemLines.forEach(line => {
+            this.svg.removeChild(line);
+        });
+        this.itemLines = [];
     }
 
     #drawLine(v) {
-        const dDiv = document.getElementById(v.div2);
-
-        if (dDiv.innerHTML === '0') {
-            dDiv.style.backgroundColor = '#f76c6cff';
-        }
-
-        if (dDiv.innerHTML === '1') {
-            dDiv.style.backgroundColor = '#4bb543ff';
-        }
-
         const origin = document.getElementById(v.div1).getBoundingClientRect();
-        const destiny = dDiv.getBoundingClientRect();
-        const parent = this.canvasContainer.getBoundingClientRect();
+        const destiny = document.getElementById(v.div2).getBoundingClientRect();
+        const parent = this.svg.getBoundingClientRect();
 
         let startX, startY, endX, endY;
-        if (v.side === 'right') {
             startX = origin.left - parent.left;
             startY = origin.top - parent.top + origin.height / 2;
             endX = destiny.left - parent.left + destiny.width;
             endY = destiny.top - parent.top + destiny.height / 2;
-        }
 
-        if (v.side === 'left') {
-            startX = origin.left + origin.width - parent.left;
-            startY = origin.top + origin.height / 2 - parent.top;
-            endX = destiny.left - parent.left;
-            endY = destiny.top + destiny.height / 2 - parent.top;
-        }
 
         const line = document.createElementNS(
             'http://www.w3.org/2000/svg',

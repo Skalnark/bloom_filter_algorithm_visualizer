@@ -51,14 +51,14 @@
             <div id="bf-item-input-holder" class="item-info-holder">
                 <div class="item-input-holder input-separator">
                     <input type="text" id="add-item-input" class="item-input-holder input-field" min="1" value=""
-                        placeholder="Enter item to add" />
+                        placeholder="Enter item to add" maxlength="16" />
                     <button id="add-item-submit" class="item-input-holder submit-button">
                         Add
                     </button>
                 </div>
                 <div class="item-input-holder input-separator">
                     <input type="text" id="check-item-input" class="item-input-holder input-field" min="0" value=""
-                        placeholder="Enter item to check" />
+                        placeholder="Enter item to check" maxlength="16" />
                     <button id="check-item-submit" class="item-input-holder submit-button">
                         Check
                     </button>
@@ -78,7 +78,7 @@
             </button>
         </div>
         <div id="bf-container" class="bf-container">
-            <svg id="bf-svg" class="svg bf-svg"></svg>
+            <svg id="bloom-filter-svg" class="svg bf-svg"></svg>
         </div>
     </div>
     <script src="index.js" type="module"></script>

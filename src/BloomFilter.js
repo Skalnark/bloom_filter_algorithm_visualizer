@@ -1,3 +1,4 @@
+import draw from "./Draw.js";
 import { prompt } from "./PromptController.js";
 
 class BloomFilter {
@@ -5,16 +6,20 @@ class BloomFilter {
         if(BloomFilter._instance) {
             return BloomFilter._instance;
         }
-        this.size = size;
-        this.hashCount = 3;
-        this.elements = [];
-        this.bitArray = new Array(size).fill(false);
+        
+        this.initialize(size);
+        BloomFilter._instance = this;
     }
 
     initialize(size) {
+        this.hashCount = 3;
         this.size = size;
-        this.bitArray = new Array(size).fill(false);
+        this.bitArray = Array.from({ length: size }, () => []);
+        this.bitArray.fill(false);
         this.elements = [];
+        draw.renderBitList(this.bitArray);
+        draw.clearItemBoxes();
+        draw.clearAllLines();
     }
 
     async stepByStepHash1(item, index, currentHash) {
@@ -37,7 +42,6 @@ class BloomFilter {
         let hash = 5381;
         for (let i = 0; i < item.length; i++) {
             hash = (hash << 5) + hash + item.charCodeAt(i);
-            console.log(`After processing character ${i} ('${item[i]}'), hash is now: ${hash}`);
         }
         return Math.abs(hash) % this.size;
     }

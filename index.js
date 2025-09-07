@@ -2,6 +2,7 @@ import HtmlBuilder from './src/HtmlBuilder.js';
 import BloomFilter from './src/BloomFilter.js';
 import PromptController from './src/PromptController.js';
 import Journey from './src/Journey.js';
+import draw from './src/Draw.js';
 
 window.DEBUG = false;
 
@@ -17,6 +18,8 @@ function awake()
     bloomFilter = new BloomFilter(10);
     htmlBuilder = new HtmlBuilder(bloomFilter, prompt);
     journeyManager = new Journey(bloomFilter, prompt);
+    
+    draw.renderBitList(bloomFilter.bitArray);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
