@@ -102,7 +102,7 @@ class Draw {
         }
         else {
             let x = this.svg.clientWidth / 2;
-            let y = 0;//this.svg.style.height/2 - 100;
+            let y = 0;
             let width = 200;
             let height = 40;
             let fontSize = 20;
@@ -168,7 +168,7 @@ class Draw {
 
     drawTextBox(item, hashPosition) {
         let x = 0;
-        let y = 0;//this.svg.style.height/2 - 100;
+        let y = 0;
         let width = 200;
         let height = 40;
         let fontSize = 20;

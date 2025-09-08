@@ -73,6 +73,7 @@ class Journey {
         window.addEventListener('journey-finished', () => {
             this.fastForward = this.fastForwardCheckbox.checked;
             this.prompt.print("Finished execution.");
+            this.prompt.newLine();
         });
 
         this.fastForward = this.fastForwardCheckbox.checked;

@@ -7,11 +7,12 @@
     color: #b6fcd5;
     font-size: 20px;
     padding-top : 0.3em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
 .prompt-line-prefix {
     color: #06be00;
-    margin-right: 0.4em;
     font-weight: 600;
 }
 
@@ -30,7 +31,7 @@
 }
 
 .checkbox-label {
-    font-size: 2.08rem;
+    font-size: 1.18rem;
     font-weight: 500;
     letter-spacing: 0.01em;
     text-align: left;
@@ -89,74 +90,24 @@ input[type="checkbox"]:checked {
     outline: none;
 }
 
-#prompt-holder {
-    background: none;
-    border: none;
-}
-
 .prompt-simulator {
     overflow-y: auto;
     overflow-x: hidden;
     height: 400px;
-    width: 100%;
-}
-
-.prompt-textarea {
-    border: none;
-    height: 100%;
-    min-height: 190px;
-    padding-left: 3%;
-    padding-right: 7%;
-    padding-top: 8%;
-    padding-bottom: 5%;
-    margin: 1px;
-    width: 100%;
-    min-width: 80%;
-    max-width: 90%;
-    resize: none;
-    outline: none;
-    text-align: left;
-    pointer-events: none;
-    user-select: text;
-    display: flex;
-    background: #08090a;
-    color: #b6fcd5;
-    font-size: 1.08rem;
-    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
-    word-break: break-word;
-    white-space: pre-line;
-    transition:
-        background 0.2s,
-        color 0.2s;
-}
-
-.prompt-header {
-    font-size: 1.2rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    text-align: left;
-    background: #00c853;
-    color: #181c1f;
-    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
-    padding: 0.3em 0.6em;
+    background: #000000;
 }
 
 .prompt-window {
     width: 100%;
     min-width: 805px;
-    background-color: #181c1f;
     color: #00c853;
     margin: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 2px;
-    border: 2px solid #00c853;
-    box-sizing: border-box;
     padding-top: 0.5rem;
     padding-bottom: 1rem;
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
 }
 
 .item-input-holder {
@@ -165,9 +116,9 @@ input[type="checkbox"]:checked {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 400px;
+    min-height: 50px;
     box-sizing: border-box;
-    max-width: 600px;
-    ;
 }
 
 .item-info-holder {
@@ -176,8 +127,7 @@ input[type="checkbox"]:checked {
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
-    min-width: 250px;
-    max-width: 500px;
+    max-width: 400px;
 }
 
 .input-field {
@@ -192,7 +142,7 @@ input[type="checkbox"]:checked {
 }
 
 .input-field:focus {
-    border-color: #00c853;
+    background-color: #181c1f;
 }
 
 .submit-button {
@@ -217,29 +167,19 @@ input[type="checkbox"]:checked {
     outline: none;
 }
 
-.info-size,
-.info-hash-count,
-.info-elements,
-.info-fpr {
-    min-width: 160px;
-}
-
 #bf-container {
-    width: 100%;
-    max-width: 1200px;
     padding-top: 2rem;
     padding-bottom: 2rem;
-    box-sizing: border-box;
     background: #181c1f;
     border-radius: 1px;
-    border: 2px solid #00c853;
+    border-top: 2px solid #00c853;
+    border-bottom: 2px solid #00c853;
 }
 
 .svg {
     display: block;
-    margin: 0 auto;
+    width: 100%;
     min-width: 800px;
-    max-width: 100%;
     height: flex;
 }
 
@@ -255,14 +195,10 @@ input[type="checkbox"]:checked {
     background: #181c1f;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-}
-
-.container {
     border-radius: 1px;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    width: 100%;
-}
+    }
 
 body {
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
@@ -287,12 +223,6 @@ title {
     color: #1a2330;
     font-weight: 700;
     letter-spacing: 0.03em;
-}
-
-body,
-.label,
-.input-field span {
-    color: #b6fcd5 !important;
 }
 
 .main-title {
@@ -339,43 +269,28 @@ body,
     display: block;
 }
 
-@media (max-width: 900px) {
-    .prompt-window {
-        min-width: 0;
-        max-width: 98vw;
-    }
-
-    #bf-container {
-        min-width: 0;
-        max-width: 98vw;
-    }
-
-    .svg {
-        min-width: 0;
-        width: 100%;
-        max-width: 100vw;
-    }
-}
-
-@media (max-width: 600px) {
+@media (max-width: 1000px) {
     .main-title {
         font-size: 2rem;
         margin-top: 0;
     }
 
-    .prompt-header {
-        font-size: 1.3rem;
-        padding: 0.3em 0.5em;
+    .prompt-simulator {
+        min-width: 100%;
+    }
+
+    #prompt-holder {
+        min-width: 100%;
     }
 
     .prompt-window {
-        padding: 0.2rem;
-        min-width: 0;
-        max-width: 100%;
+        min-width: 100%;
     }
 
     .prompt-line {
         font-size: 16px;
+        padding-left: 0.3em;
+        padding-right: 0.3em;
     }
 
     .input-field,
@@ -383,34 +298,27 @@ body,
     .next-step-button {
         font-size: 1.3rem;
         padding: 0.7em 1.5em;
-        width: 100%;
+        min-width: 100%;
     }
 
     .item-info-holder,
     .item-input-holder {
-        max-width: 98vw;
-        min-width: 0;
-        width: 100%;
+        min-width: 100%;
     }
 
     #bf-container {
-        min-width: 0;
-        max-width: 100vw;
-        padding-left: 0.2rem;
-        padding-right: 0.2rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        min-width: 100%;
     }
 
     .bf-text-box {
         font-size: 10px;
     }
 
-
     .svg {
-        min-width: 0;
-        width: 100%;
-        max-width: 100vw;
+        min-width: 100%;
     }
-
     .checkbox-label {
         font-size: 1.3rem;
     }
@@ -423,6 +331,21 @@ body,
 
     .info-label {
         font-size: 1.3rem;
+    }
+
+    .scroll-button
+    {
+        bottom: 1.5em;
+        right: 1.5em;
+    }
+    
+    .param-holder {
+        padding-top: 0.3rem;
+        padding-bottom: 0.3rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        width: 100%;
+        min-width: 100%;
     }
 
     body {

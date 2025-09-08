@@ -19,6 +19,10 @@ class PromptController {
         this.print(text, isComand);
     }
 
+    newLine() {
+        this.addSpanToPromptSimulator('', '');
+    }
+
     print(text, isComand = false) {
 
         if (this.quietMode) return;
@@ -31,15 +35,17 @@ class PromptController {
     setTextarea(textarea) {
         this.textarea = textarea;
 
-        this.print("cat instructions.txt", true);
-        this.print("-------------------------");
-        this.print("Welcome to the Bloom Filter Visualization Tool!");
-        this.print("This tool will help you understand how a Bloom Filter works step by step.");
-        this.print("Use the input fields above to set the Bloom Filter parameters and add dummy data.");
-        this.print("Then, use the 'Add Item' and 'Check Item' buttons to interact with the Bloom Filter.");
-        this.print("Disable step by step execution if you want to speed things up.");
-        this.print("Let's get started!");
-        this.print("-------------------------");
+        const message = 
+`# Welcome to the Bloom Filter Visualization Tool!
+This tool will help you understand how a Bloom Filter works step by step.
+Use the input fields above to set the Bloom Filter parameters and add dummy data.
+Then, use the 'Add Item' and 'Check Item' buttons to interact with the Bloom Filter.
+Disable step by step execution if you want to speed things up.
+
+Let's get started!`;
+        this.print("cat README.md", true);
+        this.print(message, false);
+        this.newLine();
     }
 
     addSpanToPromptSimulator(text, prefix = ">") {
@@ -51,20 +57,22 @@ class PromptController {
         const maxCharsPerLine = Math.floor(width / characterSize);
 
         let lines = [];
-        if (text.length > maxCharsPerLine) {
-            while(text.length > maxCharsPerLine) {
-                let sliceIndex = text.lastIndexOf(' ', maxCharsPerLine);
-                if (sliceIndex === -1) sliceIndex = maxCharsPerLine;
-                lines.push(text.slice(0, sliceIndex));
-                text = text.slice(sliceIndex).trim();
+        let textLines = text.split('\n');
+        textLines.forEach(l => {
+            if (l.length > maxCharsPerLine) {
+                while(l.length > maxCharsPerLine) {
+                    let sliceIndex = l.lastIndexOf(' ', maxCharsPerLine);
+                    if (sliceIndex === -1) sliceIndex = maxCharsPerLine;
+                    lines.push(l.slice(0, sliceIndex));
+                    l = l.slice(sliceIndex).trim();
+                }
+                if (l.length > 0) {
+                    lines.push(l);
+                }
             }
-            if (text.length > 0) {
-                lines.push(text);
-            }
-        }
-        else {
-            lines = [text];
-        }
+        });
+
+        lines = lines.length > 0 ? lines : [text];
 
         let first = true;
         for (let line of lines) {
