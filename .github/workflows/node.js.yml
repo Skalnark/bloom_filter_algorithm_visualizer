@@ -16,6 +16,13 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm run build
+    - run: mkir -p out
+    - run: ls -la
+    
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v4.0.0
+      with:
+        path: ./out
     
   deploy:
     runs-on: ubuntu-latest
