@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 class PromptController {
     constructor() {
         if (PromptController._instance) {
@@ -10,7 +11,6 @@ class PromptController {
         this.quietMode = false;
         this.spans = [];
         this.promptSimulatorDiv = document.getElementById('prompt-simulator');
-
     }
 
     newLine() {
@@ -31,6 +31,7 @@ class PromptController {
     }
 
     setTextarea() {
+        return;
         this.print("cat README.md", true);
         this.print("# Welcome to the Bloom Filter Visualization Tool!");
         this.print("You can earn Bloom Filters step by step");
@@ -56,7 +57,6 @@ class PromptController {
         this.promptSimulatorDiv.scrollTop = this.promptSimulatorDiv.scrollHeight;
     }
 
-
     createSpan(text, prefix = '') {
         const prefixSpan = document.createElement('span');
         prefixSpan.textContent = prefix;
@@ -76,6 +76,24 @@ class PromptController {
         this.spans = [];
     }
 
+    async setJourney(journeyName)
+    {
+        while(!i18next) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        this.journeyMessages = i18next.t(`journeys.${journeyName}`, { returnObjects: true });
+        return this.journeyMessages;
+    }
+
+    printJourneyMessage(message, context = {}) {
+        for (const ctxKey in context) {
+            const placeholder = `{{${ctxKey}}}`;
+            message = message.replace(new RegExp(placeholder, 'g'), context[ctxKey]);
+        }
+
+        this.print(message);
+    }
 }
 
 const prompt = new PromptController();

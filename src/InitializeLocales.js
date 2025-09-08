@@ -1,14 +1,14 @@
 import i18next from 'i18next';
 
 export async function initializeLocales() {
-    await i18next.init({
+
+    let i18n = await i18next.init({
         lng: 'en',
         resources: {
             en: { translation: await import('./locales/en.json') }
         }
     });
 
-    // Substitute hardcoded strings in the HTML
     document.title = i18next.t('title');
     const mainTitle = document.querySelector('.main-title');
     let span = document.createElement('span');
@@ -64,4 +64,6 @@ export async function initializeLocales() {
 
     const promptTextarea = document.getElementById('prompt-textarea');
     if (promptTextarea) promptTextarea.placeholder = i18next.t('prompt_placeholder');
+
+    return i18n;
 }

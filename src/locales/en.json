@@ -15,14 +15,16 @@
     "prompt_placeholder": "Enter your prompt here...",
     "next_step_button": "Next Step",
     "finish_execution_button": "Finish Execution",
-    "print": {
-        "cat_readme_md": "cat README.md",
-        "title_welcome": "# Welcome to the Bloom Filter Visualization Tool!",
-        "subtitle_earn_bloom_filters": "You can earn Bloom Filters step by step",
-        "instruction_resize_add_dummy": "Resize and add dummy items to the filter if you want",
-        "instruction_add_check": "Use the 'Add' and 'Check' to learn how it works",
-        "instruction_disable_step_by_step": "Disable step by step execution if you want",
-        "cta_get_started": "Let's get started!",
+    "journeys": {
+        "greetings": {
+            "cat_readme_md": "cat README.md",
+            "title_welcome": "# Welcome to the Bloom Filter Visualization Tool!",
+            "learn_bloom_filters": "You can learn Bloom Filters step by step",
+            "instruction_resize_add_dummy": "Resize and add dummy items to the filter if you want",
+            "instruction_add_check": "Use the 'Add' and 'Check' to learn how it works",
+            "instruction_disable_step_by_step": "Disable step by step execution if you want",
+            "cta_get_started": "Let's get started!"
+        },
         "step_by_step_normal": "Step by step execution is back to normal.",
         "step_by_step_fast_forward": "Step by step execution will be fast forwarded.",
         "adding_dummy_words": "Adding {{dummyCount}} dummy words to the Bloom Filter to simulate a more realistic scenario",

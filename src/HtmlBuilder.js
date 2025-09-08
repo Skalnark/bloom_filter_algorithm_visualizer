@@ -1,5 +1,5 @@
 import { Util } from './Util.js';
-import { Journey } from './Journey.js';
+import { JourneyManager } from './JourneyManager.js';
 import draw from './Draw.js';
 
 class HtmlBuilder {
@@ -8,7 +8,7 @@ class HtmlBuilder {
         this.promptTextarea = document.getElementById('prompt-window');
         this.promptController = promptController;
         this.promptController.setTextarea(this.promptTextarea);
-        this.journey = new Journey(this.bf, this.promptController);
+        this.journey = new JourneyManager(this.bf, this.promptController);
         this.initListeners();
     }
 
