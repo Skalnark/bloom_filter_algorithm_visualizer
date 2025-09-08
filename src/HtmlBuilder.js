@@ -1,13 +1,11 @@
 import { Util } from './Util.js';
-import { BloomFilter } from './BloomFilter.js';
-import { prompt } from './PromptController.js';
 import { Journey } from './Journey.js';
 import draw from './Draw.js';
 
 class HtmlBuilder {
     constructor(bf, promptController) {
         this.bf = bf;
-        this.promptTextarea = document.getElementById('prompt-textarea');
+        this.promptTextarea = document.getElementById('prompt-window');
         this.promptController = promptController;
         this.promptController.setTextarea(this.promptTextarea);
         this.journey = new Journey(this.bf, this.promptController);

@@ -226,7 +226,7 @@ class Draw {
     repositionItemBoxes() {
         if (this.itemBoxes.length === 0) return;
 
-        let givenX = this.svg.clientWidth - 250;
+        let givenX = this.svg.clientWidth/2;
         let gap = 4 * this.svg.clientHeight / 100;
         let lastYPosition = 50;
         this.itemBoxes.forEach(({ rect, textElem }) => {

@@ -1,3 +1,20 @@
+.prompt-line {
+    display: block;
+    width: 100%;
+    word-break: break-word;
+    white-space: pre;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+    color: #b6fcd5;
+    font-size: 20px;
+    padding-top : 0.3em;
+}
+
+.prompt-line-prefix {
+    color: #06be00;
+    margin-right: 0.4em;
+    font-weight: 600;
+}
+
 .checkbox-holder {
     display: flex;
     flex-direction: row;
@@ -13,7 +30,7 @@
 }
 
 .checkbox-label {
-    font-size: 1.08rem;
+    font-size: 2.08rem;
     font-weight: 500;
     letter-spacing: 0.01em;
     text-align: left;
@@ -23,8 +40,13 @@
 
 .checkbox {
     cursor: pointer;
-    min-width: 30px;
-    min-height: 30px;
+    min-width: 32px;
+    min-height: 32px;
+    border: 2px solid #00c853;
+}
+
+input[type="checkbox"]:checked {
+    accent-color: #181c1f;
 }
 
 .info-label {
@@ -51,7 +73,7 @@
     margin-bottom: 0.6em;
     font-size: 1.1rem;
     padding: 0.6em 2.2em;
-    background: #181c1f;
+    background: #202921;
     color: #b6fcd5;
     border: 1.5px solid #00c853;
     border-radius: 6px;
@@ -68,8 +90,15 @@
 }
 
 #prompt-holder {
- background: none;
- border: none;
+    background: none;
+    border: none;
+}
+
+.prompt-simulator {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 400px;
+    width: 100%;
 }
 
 .prompt-textarea {
@@ -154,7 +183,7 @@
 .input-field {
     font-size: 1.09rem;
     color: #b6fcd5;
-    background: #181c1f;
+    background: #0e1113;
     border: 1.5px solid #00c853;
     border-radius: 6px;
     padding: 0.38em 0.9em;
@@ -172,7 +201,7 @@
     margin: 1.2em auto;
     font-size: 1.1rem;
     padding: 0.6em 2.2em;
-    background: #181c1f;
+    background: #202921;
     color: #b6fcd5;
     border: 1.5px solid #00c853;
     border-radius: 6px;
@@ -282,7 +311,8 @@ body,
 }
 
 /* Make the scroll-button follow the viewport */
-#scroll-button, .scroll-button {
+#scroll-button,
+.scroll-button {
     position: fixed;
     bottom: 2.5em;
     right: 2.5em;
@@ -297,7 +327,9 @@ body,
     transition: background 0.18s, color 0.18s, box-shadow 0.18s;
     display: none;
 }
-#scroll-button:hover, .scroll-button:hover {
+
+#scroll-button:hover,
+.scroll-button:hover {
     background: #22292f;
     color: #00e676;
     box-shadow: 0 4px 16px rgba(42, 122, 226, 0.13);
@@ -308,4 +340,96 @@ body,
     text-align: left;
     align-self: flex-start;
     display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .prompt-window {
+        min-width: 0;
+        max-width: 98vw;
+    }
+
+    #bf-container {
+        min-width: 0;
+        max-width: 98vw;
+    }
+
+    .svg {
+        min-width: 0;
+        width: 100%;
+        max-width: 100vw;
+    }
+}
+
+@media (max-width: 600px) {
+    .main-title {
+        font-size: 2rem;
+        margin-top: 0;
+    }
+
+    .prompt-header {
+        font-size: 1.3rem;
+        padding: 0.3em 0.5em;
+    }
+
+    .prompt-window {
+        padding: 0.2rem;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .prompt-line {
+        font-size: 16px;
+    }
+
+    .input-field,
+    .submit-button,
+    .next-step-button {
+        font-size: 1.3rem;
+        padding: 0.7em 1.5em;
+        width: 100%;
+    }
+
+    .item-info-holder,
+    .item-input-holder {
+        max-width: 98vw;
+        min-width: 0;
+        width: 100%;
+    }
+
+    #bf-container {
+        min-width: 0;
+        max-width: 100vw;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+
+    .bf-text-box {
+        font-size: 10px;
+    }
+
+
+    .svg {
+        min-width: 0;
+        width: 100%;
+        max-width: 100vw;
+    }
+
+    .checkbox-label {
+        font-size: 1.3rem;
+    }
+
+    .checkbox {
+        min-width: 40px;
+        min-height: 40px;
+        padding-right: 0.5em;
+    }
+
+    .info-label {
+        font-size: 1.3rem;
+    }
+
+    body {
+        font-size: 1.3rem;
+    }
 }

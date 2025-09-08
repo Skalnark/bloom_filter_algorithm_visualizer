@@ -91,7 +91,7 @@ class Journey {
         window.dispatchEvent(new Event('journey-started'));
 
         if(!this.fastForward)
-            Util.scrollToElementById('prompt-textarea');
+            Util.scrollToElementById('next-step-button');
 
         if (this.bf.elements.includes(item)) {
             prompt.print(`The item "${item}" is already in the Bloom Filter. Adding it again won't change the filter.`);
@@ -165,7 +165,7 @@ class Journey {
         window.dispatchEvent(new Event('journey-started'));
 
         if(!this.fastForward)
-            Util.scrollToElementById('prompt-textarea');
+            Util.scrollToElementById('next-step-button');
 
         draw.clearCheckLines();
         

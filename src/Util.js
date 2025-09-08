@@ -47,7 +47,7 @@ export class Util {
     static scrollToPromptTextarea() {
         const scrollButton = document.getElementById('scroll-button');
         scrollButton.style.display = 'none';
-        this.scrollToElementById('prompt-textarea');
+        this.scrollToElementById('prompt-simulator');
     }
 
     static isElementOutOfView(id) {
@@ -59,5 +59,12 @@ export class Util {
             rect.right < 0 ||
             rect.left > window.innerWidth
         );
+    }
+
+    static getTextWidth(text, font) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        context.font = font;
+        return context.measureText(text).width;
     }
 }
