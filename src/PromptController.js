@@ -32,67 +32,34 @@ class PromptController {
         this.addSpanToPromptSimulator(text, prefix);
     }
 
-    setTextarea(textarea) {
-        this.textarea = textarea;
-
-        const message = 
-`# Welcome to the Bloom Filter Visualization Tool!
-This tool will help you understand how a Bloom Filter works step by step.
-Use the input fields above to set the Bloom Filter parameters and add dummy data.
-Then, use the 'Add Item' and 'Check Item' buttons to interact with the Bloom Filter.
-Disable step by step execution if you want to speed things up.
-
-Let's get started!`;
+    setTextarea() {
         this.print("cat README.md", true);
-        this.print(message, false);
+        this.print("# Welcome to the Bloom Filter Visualization Tool!");
+        this.print("You can earn Bloom Filters step by step");
+        this.print("Resize and add dummy items to the filter if you want");
+        this.print("Use the 'Add' and 'Check' to learn how it works");
+        this.print("Disable step by step execution if you want");
+        this.print("Let's get started!");
         this.newLine();
     }
 
     addSpanToPromptSimulator(text, prefix = ">") {
         if (!this.promptSimulatorDiv) return;
 
-        const width = document.getElementById('prompt-holder').clientWidth;
-        const fontSize = width <= 900 ? 16 : 20;
-        const characterSize = Util.getTextWidth('A', `${fontSize}px Fira Mono`);
-        const maxCharsPerLine = Math.floor(width / characterSize);
-
-        let lines = [];
-        let textLines = text.split('\n');
-        textLines.forEach(l => {
-            if (l.length > maxCharsPerLine) {
-                while(l.length > maxCharsPerLine) {
-                    let sliceIndex = l.lastIndexOf(' ', maxCharsPerLine);
-                    if (sliceIndex === -1) sliceIndex = maxCharsPerLine;
-                    lines.push(l.slice(0, sliceIndex));
-                    l = l.slice(sliceIndex).trim();
-                }
-                if (l.length > 0) {
-                    lines.push(l);
-                }
-            }
-        });
-
-        lines = lines.length > 0 ? lines : [text];
-
-        let first = true;
-        for (let line of lines) {
-            let span = this.createSpan(line, first ? prefix : '  ');
-            this.promptSimulatorDiv.appendChild(span);
-            first = false;
-        }
-
+        if(text.length > 80) console.warn("Long text in prompt:", text);
+        let span = this.createSpan(text, prefix);
+        this.promptSimulatorDiv.appendChild(span);
         if (this.spans.length >= this.lineLimit) {
             const firstSpan = this.spans.shift();
             if (firstSpan && firstSpan.parentNode) {
                 firstSpan.parentNode.removeChild(firstSpan);
             }
         }
-
         this.promptSimulatorDiv.scrollTop = this.promptSimulatorDiv.scrollHeight;
     }
 
 
-    createSpan(text, prefix = '  ') {
+    createSpan(text, prefix = '') {
         const prefixSpan = document.createElement('span');
         prefixSpan.textContent = prefix;
         prefixSpan.className = 'prompt-line-prefix';

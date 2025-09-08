@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bloom filter code executor</title>
+    <title>Bloom filter algorithm visualizer</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <h1 class="main-title">Bloom filter code executor</h1>
+    <h1 class="main-title"><span id="main-title-icon">></span> Bloom Filter</h1>
+    <h2 class="sub-title">Algorithm visualizer</h2>
     <div id="app" class="app-container">
         <div id="bf-param-holder" class="param-holder">
             <div id="item-input-holder" class="item-info-holder">
@@ -73,6 +74,7 @@
         <div id="prompt-holder" class="param-holder">
             <div class="prompt-window">
                 <div id="prompt-simulator" class="prompt-simulator">
+                    <span class="prompt-line"></span>
                 </div>
                 <button id="next-step-button" class="next-step-button">
                     Next Step

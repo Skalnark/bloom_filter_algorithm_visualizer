@@ -1,6 +1,5 @@
 .prompt-line {
     display: block;
-    width: 100%;
     word-break: break-word;
     white-space: pre;
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
@@ -9,6 +8,8 @@
     padding-top : 0.3em;
     padding-left: 0.5em;
     padding-right: 0.5em;
+    white-space: pre-wrap;
+    max-width: 95%;
 }
 
 .prompt-line-prefix {
@@ -95,11 +96,11 @@ input[type="checkbox"]:checked {
     overflow-x: hidden;
     height: 400px;
     background: #000000;
+    min-width: 95%;
 }
 
 .prompt-window {
     width: 100%;
-    min-width: 805px;
     color: #00c853;
     margin: 5px;
     display: flex;
@@ -179,7 +180,6 @@ input[type="checkbox"]:checked {
 .svg {
     display: block;
     width: 100%;
-    min-width: 800px;
     height: flex;
 }
 
@@ -189,15 +189,16 @@ input[type="checkbox"]:checked {
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    width: 100%;
-    justify-content: left;
     align-items: center;
     background: #181c1f;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    border-radius: 1px;
+    border-radius: 4px;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    min-width: 800px;
+    max-width: 1200px;
+    width: 90%;
     }
 
 body {
@@ -206,7 +207,6 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    color: #23272f;
     font-size: 1.08rem;
     letter-spacing: 0.01em;
     display: flex;
@@ -215,14 +215,8 @@ body {
     justify-content: center;
 }
 
-title {
-    text-align: center;
-    margin-top: 2.5rem;
-    margin-bottom: 2rem;
-    font-size: 2.3rem;
-    color: #1a2330;
-    font-weight: 700;
-    letter-spacing: 0.03em;
+#main-title-icon {
+    color: #06be00;
 }
 
 .main-title {
@@ -232,11 +226,25 @@ title {
     font-weight: 700;
     letter-spacing: 0.03em;
     text-align: center;
-    padding: 0.6em 0;
+    padding-top: 0.3em;
     border-radius: 1px;
-    border-bottom: 2px solid #00c853;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+.sub-title {
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', 'Monaco', 'Courier New', monospace;
+    color: #b6fcd593;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-align: center;
+    padding-top: 0.5em;
+    margin-top: -0.5em;
+    margin-bottom: 1.5em;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top: 2px solid #00c853;
 }
 
 #scroll-button,
@@ -275,50 +283,34 @@ title {
         margin-top: 0;
     }
 
-    .prompt-simulator {
-        min-width: 100%;
-    }
-
-    #prompt-holder {
-        min-width: 100%;
-    }
-
-    .prompt-window {
-        min-width: 100%;
-    }
-
     .prompt-line {
-        font-size: 16px;
-        padding-left: 0.3em;
-        padding-right: 0.3em;
+        font-size: 1rem;
+        padding: 0.1rem 0.2rem;
+    }
+
+    .prompt-simulator {
+        height: 300px;
     }
 
     .input-field,
     .submit-button,
     .next-step-button {
         font-size: 1.3rem;
-        padding: 0.7em 1.5em;
+        margin-top: 2em;
         min-width: 100%;
+        min-height: 50px;
     }
 
     .item-info-holder,
     .item-input-holder {
         min-width: 100%;
-    }
-
-    #bf-container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-        min-width: 100%;
+        min-height: 50px;
     }
 
     .bf-text-box {
         font-size: 10px;
     }
 
-    .svg {
-        min-width: 100%;
-    }
     .checkbox-label {
         font-size: 1.3rem;
     }
@@ -342,10 +334,11 @@ title {
     .param-holder {
         padding-top: 0.3rem;
         padding-bottom: 0.3rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        width: 100%;
-        min-width: 100%;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        width: 95% !important;
+        min-width: 95% !important;
+        max-width: 95% !important;
     }
 
     body {
