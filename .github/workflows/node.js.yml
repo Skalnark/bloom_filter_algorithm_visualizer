@@ -20,5 +20,4 @@ jobs:
         node-version: '24.x'
         cache: 'npm'
     - run: npm install
-    - run: npm run predeploy
-    - run: npm run deploy
+    - run: npm run build
