@@ -310,7 +310,6 @@ body,
     padding-right: 10px;
 }
 
-/* Make the scroll-button follow the viewport */
 #scroll-button,
 .scroll-button {
     position: fixed;
@@ -335,14 +334,12 @@ body,
     box-shadow: 0 4px 16px rgba(42, 122, 226, 0.13);
 }
 
-/* Ensure info-labels are left-aligned in their container */
 .info-label {
     text-align: left;
     align-self: flex-start;
     display: block;
 }
 
-/* Responsive Design */
 @media (max-width: 900px) {
     .prompt-window {
         min-width: 0;

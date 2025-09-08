@@ -1,6 +1,4 @@
 import { faker } from '@faker-js/faker';
-import Journey from './Journey.js';
-import { stack } from 'd3';
 
 export class Util {
 

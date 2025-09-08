@@ -1,6 +1,3 @@
-import { color, max, text } from 'd3';
-import { Vector } from './Vector.js';
-import { sv } from '@faker-js/faker';
 import { Util } from './Util.js';
 
 class Draw {

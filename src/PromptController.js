@@ -85,7 +85,6 @@ class PromptController {
 
 
     createSpan(text, prefix = '  ') {
-        console.log(`prefix: "${prefix}"`);
         const prefixSpan = document.createElement('span');
         prefixSpan.textContent = prefix;
         prefixSpan.className = 'prompt-line-prefix';
@@ -95,7 +94,6 @@ class PromptController {
         span.className = 'prompt-line';
         span.prepend(prefixSpan);
         this.spans.push(prefixSpan);
-        console.log(span);
         return span;
     }
 

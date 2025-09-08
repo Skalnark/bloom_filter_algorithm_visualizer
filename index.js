@@ -9,15 +9,12 @@ window.DEBUG = false;
 let prompt;
 let bloomFilter;
 let htmlBuilder;
-let journeyManager;
 
-// needs to finish loading before the start function
 function awake()
 {
     prompt = new PromptController();
     bloomFilter = new BloomFilter();
     htmlBuilder = new HtmlBuilder(bloomFilter, prompt);
-    journeyManager = new Journey(bloomFilter, prompt);
     
     draw.renderBitList(bloomFilter.bitArray);
 }
