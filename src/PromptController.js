@@ -1,5 +1,3 @@
-import { Util } from "./Util";
-
 class PromptController {
     constructor() {
         if (PromptController._instance) {
@@ -12,11 +10,7 @@ class PromptController {
         this.quietMode = false;
         this.spans = [];
         this.promptSimulatorDiv = document.getElementById('prompt-simulator');
-    }
 
-    printVerbose(text, isComand = false) {
-        if (!this.verbose) return;
-        this.print(text, isComand);
     }
 
     newLine() {

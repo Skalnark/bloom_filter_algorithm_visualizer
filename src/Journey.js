@@ -41,7 +41,7 @@ class Journey {
         if(words.length == 0) return;
         this.bf.clear();
 
-        prompt.printVerbose(`Adding ${words.length} dummy words to the Bloom Filter to simulate a more realistic scenario.`);
+        prompt.print(`Adding ${words.length} dummy words to the Bloom Filter to simulate a more realistic scenario.`);
         for (let word of words) {
             let hash1 = this.bf.hash1(word);
             let hash2 = this.bf.hash2(word);
@@ -101,7 +101,7 @@ class Journey {
         }
 
         prompt.print(`To add the item "${item}", we will first calculate its hashes`);
-        prompt.printVerbose(`Click 'Next Step' to proceed through each character of the item.`, false);
+        prompt.print(`Click 'Next Step' to proceed through each character of the item.`, false);
         let hash1 = await this.bf.hash1(item);
         
         prompt.print(`hash1 for item "${item}" is ${hash1}`);
@@ -139,22 +139,22 @@ class Journey {
         prompt.print(`All done! The item "${item}" has been added to the Bloom Filter.`);
         this.bf.elements.push(item);
 
-        prompt.printVerbose(`We can now calculate the new values for the false positive rate`);
+        prompt.print(`We can now calculate the new values for the false positive rate`);
         await this.waitForUser();
-        prompt.printVerbose(`To do this, we use the formula: FPR = (1 - e^(-kn/m))^k`);
+        prompt.print(`To do this, we use the formula: FPR = (1 - e^(-kn/m))^k`);
         await this.waitForUser();
-        prompt.printVerbose(`Where:`);
-        prompt.printVerbose(`k = number of hash functions (3 in our case)`);
-        prompt.printVerbose(`m = size of the bit array (${this.bf.size} in our case)`);
-        prompt.printVerbose(`n = number of elements added to the filter (${this.bf.elements.length} in our case)`);
+        prompt.print(`Where:`);
+        prompt.print(`k = number of hash functions (3 in our case)`);
+        prompt.print(`m = size of the bit array (${this.bf.size} in our case)`);
+        prompt.print(`n = number of elements added to the filter (${this.bf.elements.length} in our case)`);
         await this.waitForUser();
-        prompt.printVerbose(`Plugging in the values, we get:`);
-        prompt.printVerbose(`FPR = (1 - e^(-3*${this.bf.elements.length}/${this.bf.size}))^3`);
-        prompt.printVerbose(`Calculating this gives us the new false positive rate...`);
+        prompt.print(`Plugging in the values, we get:`);
+        prompt.print(`FPR = (1 - e^(-3*${this.bf.elements.length}/${this.bf.size}))^3`);
+        prompt.print(`Calculating this gives us the new false positive rate...`);
         await this.waitForUser();
         const fpr = this.bf.calculateFPR();
-        prompt.printVerbose(`The new false positive rate is: ${fpr * 100}%`);
-        prompt.printVerbose(`You can now add another item or check for membership of an item.`);
+        prompt.print(`The new false positive rate is: ${fpr * 100}%`);
+        prompt.print(`You can now add another item or check for membership of an item.`);
 
         if(!this.fastForward)
             Util.scrollToElementById('bf-item-info-holder');

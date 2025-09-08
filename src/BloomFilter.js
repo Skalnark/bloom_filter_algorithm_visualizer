@@ -33,7 +33,7 @@ class BloomFilter {
 
     async stepByStepHash1(item, index, currentHash) {
         if(index == 0)
-            prompt.printVerbose(`hash1 formula = ∑ i = 0 to item.size - 1 => (hash * 31 + charCode(item[i])) % bitArraySize`);
+            prompt.print(`hash1 formula = ∑ i = 0 to item.size - 1 => (hash * 31 + charCode(item[i])) % bitArraySize`);
         let hash = currentHash;
         hash = (hash * 31 + item.charCodeAt(index)) % this.size;
         return hash;
