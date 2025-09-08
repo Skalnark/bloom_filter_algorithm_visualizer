@@ -1,8 +1,8 @@
-<!DOCTYPE html><html lang=en><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>Bloom filter code executor</title><link rel=stylesheet href=/bloom_filter_algorithm_visualizer/bloom_filter_algorithm_visualizer.b44df1f3.css><body>
+<!DOCTYPE html><html lang=en><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>Bloom filter code executor</title><link rel=stylesheet href=/bloom_filter_algorithm_visualizer/bloom_filter_algorithm_visualizer.ff9f220e.css><body>
     <h1 class=main-title>Bloom filter code executor</h1>
     <div id=app class=app-container>
         <div id=bf-param-holder class=param-holder>
-            <div id=item-input-holder class="container item-info-holder">
+            <div id=item-input-holder class=item-info-holder>
                 <div class="input-separator item-input-holder">
                     <label for=bf-bit-size-input class=info-label>Number of bits in the filter (max 500):</label>
                     <input type=number id=bf-bit-size-input class="input-field item-input-holder" min=1 value=30 max=500>
@@ -18,7 +18,7 @@
                 </button>
             </div>
 
-            <div id=bf-item-info-holder class="container item-info-holder">
+            <div id=bf-item-info-holder class=item-info-holder>
                 <div class="info-label info-size">
                     <strong>Filter size:</strong>
                     <span id=bf-info-size>-</span>
@@ -36,7 +36,7 @@
                     <span id=bf-info-fpr>-</span>
                 </div>
             </div>
-            <div id=bf-item-input-holder class="container item-info-holder">
+            <div id=bf-item-input-holder class=item-info-holder>
                 <div class="input-separator item-input-holder">
                     <input id=add-item-input class="input-field item-input-holder" min=1 value placeholder="Enter item to add" maxlength=16>
                     <button id=add-item-submit class="item-input-holder submit-button">
@@ -58,10 +58,7 @@
         </div>
         <div id=prompt-holder class=param-holder>
             <div class=prompt-window>
-                
-
                 <div id=prompt-simulator class=prompt-simulator>
-                    <div id=prompt-text class=prompt-text></div>
                 </div>
                 <button id=next-step-button class=next-step-button>
                     Next Step
@@ -71,11 +68,11 @@
                 </button>
             </div>
         </div>
-        <div id=bf-container class=container>
-            <svg id=bloom-filter-svg class="bf-svg svg"/>
+        <div id=bf-container class=param-holder>
+            <svg id=bloom-filter-svg class=svg />
         </div>
         <button id=scroll-button class=scroll-button>▲</button>
     </div>
-    <script src=/bloom_filter_algorithm_visualizer/bloom_filter_algorithm_visualizer.c931d298.js type=module></script>
+    <script src=/bloom_filter_algorithm_visualizer/bloom_filter_algorithm_visualizer.e24572df.js type=module></script>
 
 
