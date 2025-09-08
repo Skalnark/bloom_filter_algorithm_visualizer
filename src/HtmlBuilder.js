@@ -111,6 +111,7 @@ class HtmlBuilder {
         window.addEventListener('journey-finished', () => {
             this.enableInputs();
             this.setInfoLabels();
+            this.promptController.newLine();
         });
 
         window.addEventListener('journey-waiting-click', () => {

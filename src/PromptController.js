@@ -20,7 +20,11 @@ class PromptController {
     }
 
     newLine() {
-        this.addSpanToPromptSimulator('', '');
+        let span = document.createElement('span');
+        span.innerHTML = '<br>';
+        this.spans.push(span);
+        this.promptSimulatorDiv.appendChild(span);
+        this.promptSimulatorDiv.scrollTop = this.promptSimulatorDiv.scrollHeight;
     }
 
     print(text, isComand = false) {
