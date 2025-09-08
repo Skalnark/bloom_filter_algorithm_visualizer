@@ -19,7 +19,7 @@ jobs:
     - name: Upload GitHub Pages artifact
       uses: actions/upload-pages-artifact@v4.0.0
       with:
-          path: build_outputs_folder/
+          path: $GITHUB_WORKSPACE/build
     
   deploy:
     runs-on: ubuntu-latest
