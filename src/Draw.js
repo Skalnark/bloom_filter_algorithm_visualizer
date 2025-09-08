@@ -50,9 +50,10 @@ class Draw {
     }
 
     renderBitList(bits) {
-        this.bitBoxes.forEach(({ square, text }) => {
+        this.bitBoxes.forEach(({ square, text, index }) => {
             this.svg.removeChild(square);
             this.svg.removeChild(text);
+            this.svg.removeChild(index);
         });
         this.bitBoxes = [];
 
