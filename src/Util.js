@@ -27,7 +27,6 @@ export class Util {
 
     static scrollToElementById(id) {
         let offset = 60;
-        console.log("Scrolling to element: " + id);
         const el = document.getElementById(id);
         if (el) {
             const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
