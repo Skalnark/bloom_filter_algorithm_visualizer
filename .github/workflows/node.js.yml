@@ -16,7 +16,7 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm run build
-    - run: mkir -p out
+    - run: mkdir -p out
     - run: ls -la
     
     - name: Upload artifact
