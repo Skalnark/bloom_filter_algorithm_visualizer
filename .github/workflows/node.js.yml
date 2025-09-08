@@ -34,10 +34,10 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: show files
+        run: ls -la
       - uses: actions/download-artifact@v5
         with:
           name: actions/deploy-pages@v4.0.5
-      - name: Display structure of downloaded files
-        run: ls -R
       - name: Deploy GitHub Pages site
         uses: actions/deploy-pages@v4.0.5
