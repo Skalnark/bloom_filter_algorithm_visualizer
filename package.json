@@ -5,8 +5,8 @@
     "scripts": {
         "start": "parcel index.html -p 3000",
         "build": "rm -rf dist && parcel build index.html --dist-dir dist --public-url /bloom_filter_algorithm_visualizer/",
-        "predeploy": "npm run build",
-        "deploy": "gh-pages -d dist"
+        "predeploy": "rm -rf dist .parcel-cache; npm run build",
+        "deploy": "git push origin --delete gh-pages; gh-pages -d dist"
     },
     "keywords": [],
     "author": "",
