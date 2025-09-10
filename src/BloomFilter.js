@@ -1,12 +1,13 @@
 import draw from "./Draw.js";
 import { prompt } from "./PromptController.js";
+import { Util } from "./Util.js";
 
 class BloomFilter {
-    constructor(size=30) {
-        if(BloomFilter._instance) {
+    constructor(size = 30) {
+        if (BloomFilter._instance) {
             return BloomFilter._instance;
         }
-        
+
         this.initialize(size);
         BloomFilter._instance = this;
     }
@@ -32,11 +33,35 @@ class BloomFilter {
     }
 
     async stepByStepHash1(item, index, currentHash) {
-        if(index == 0)
+        if (index == 0)
             prompt.print(`hash1 formula = ∑ i = 0 to item.size - 1 => (hash * 31 + charCode(item[i])) % bitArraySize`);
         let hash = currentHash;
         hash = (hash * 31 + item.charCodeAt(index)) % this.size;
         return hash;
+    }
+
+    async journeyHash1(context) {
+        let hash = this.hash1(context.item);
+        let output = { position: hash, hash1: hash };
+        return { next: null, context: Util.updateContext(context, output) };
+    }
+
+    async journeyHash2(context) {
+        let hash = this.hash2(context.item);
+        let output = { position: hash, hash2: hash };
+        return { next: null, context: Util.updateContext(context, output) };
+    }
+
+    async journeyHash3(context) {
+        let hash = this.hash3(context.item);
+        let output = { position: hash, hash3: hash };
+        return { next: null, context: Util.updateContext(context, output) };
+    }
+
+    async journeyContains(context) {
+        let found = this.elements.includes(context.item);
+        let output = { predicate_result: found };
+        return { next: null, context: Util.updateContext(context, output) };
     }
 
     hash1(item) {

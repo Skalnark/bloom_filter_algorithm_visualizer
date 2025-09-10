@@ -45,7 +45,6 @@ class PromptController {
     addSpanToPromptSimulator(text, prefix = ">") {
         if (!this.promptSimulatorDiv) return;
 
-        if(text.length > 80) console.warn("Long text in prompt:", text);
         let span = this.createSpan(text, prefix);
         this.promptSimulatorDiv.appendChild(span);
         if (this.spans.length >= this.lineLimit) {
@@ -88,7 +87,7 @@ class PromptController {
 
     printJourneyMessage(message, context = {}) {
         for (const ctxKey in context) {
-            const placeholder = `{{${ctxKey}}}`;
+            const placeholder = `${ctxKey}`;
             message = message.replace(new RegExp(placeholder, 'g'), context[ctxKey]);
         }
 

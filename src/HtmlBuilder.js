@@ -77,14 +77,18 @@ class HtmlBuilder {
         if (fprSpan) fprSpan.textContent = fpr + '%';
     }
 
-    initAddAndCheckEventListeners() {
+    async startAddItemJourney(item) {
+        await this.journey.addItemJourney(item);
+    }
+
+    async initAddAndCheckEventListeners() {
         const addItemButton = document.getElementById('add-item-submit');
 
         addItemButton.addEventListener('click', () => {
             const itemInput = document.getElementById('add-item-input');
             const item = itemInput.value;
             if (item) {
-                this.journey.addItemStepByStep(item);
+                this.startAddItemJourney(item);
             }
         });
 
@@ -93,7 +97,7 @@ class HtmlBuilder {
             const itemInput = document.getElementById('check-item-input');
             const item = itemInput.value;
             if (item) {
-                this.journey.checkItemStepByStep(item);
+                this.journey.checkItemJourney(item);
             }
         });
 

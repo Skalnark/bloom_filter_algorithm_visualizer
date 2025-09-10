@@ -4,6 +4,7 @@ import PromptController from './src/PromptController.js';
 import draw from './src/Draw.js';
 import { initializeLocales } from './src/InitializeLocales.js';
 import JourneyManager from './src/JourneyManager.js';
+import Parser from './src/Parser.js';
 
 window.DEBUG = false;
 
@@ -12,6 +13,7 @@ let bloomFilter;
 let htmlBuilder;
 let i18next;
 let journeyManager;
+const parser = new Parser();
 
 async function awake() {
     prompt = new PromptController();
@@ -21,7 +23,7 @@ async function awake() {
     journeyManager = new JourneyManager(prompt, bloomFilter);
 
     draw.renderBitList(bloomFilter.bitArray);
-    await journeyManager.greetingsJourney();
+    journeyManager.greetingsJourney();
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -33,5 +35,6 @@ window.addEventListener('DOMContentLoaded', async () => {
 window.addEventListener('refreshUI', () => {
     htmlBuilder.setInfoLabels();
 });
+
 
 export { prompt, bloomFilter, i18next, journeyManager };

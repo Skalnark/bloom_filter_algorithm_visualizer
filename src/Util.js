@@ -64,4 +64,14 @@ export class Util {
         context.font = font;
         return context.measureText(text).width;
     }
+
+    static updateContext(original, updates) {
+        for(let key in updates) {
+            if (updates[key] === undefined || updates[key] === null) {
+            } else {
+                original[key] = updates[key];
+            }
+        }
+        return original;
+    }
 }
