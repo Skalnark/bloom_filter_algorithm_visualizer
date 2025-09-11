@@ -1,4 +1,4 @@
-import { prompt } from "./PromptController.js";
+import { prompt } from "./Prompt.js";
 import { draw } from "./Draw.js";
 import { Util } from "./Util.js";
 import Journey from "./Journey.js";

@@ -1,6 +1,6 @@
 import { Util } from './Util.js';
-import { managerInstance } from './JourneyManager.js';
-import { prompt } from './PromptController.js';
+import { managerInstance } from './Manager.js';
+import { prompt } from './Prompt.js';
 import draw from './Draw.js';
 
 class HtmlBuilder {

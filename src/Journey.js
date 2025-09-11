@@ -22,8 +22,6 @@ export class Journey {
             if (baseContext.return === true) break;
 
             if (result.next) {
-                console.log("Entering sub-journey");
-                console.log(this.steps[0].line);
                 let subJourney = new Journey();
                 subJourney.buildFromSteps(this.steps[currentStep].possibleNextSteps);
                 baseContext = await subJourney.run(baseContext);

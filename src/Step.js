@@ -1,5 +1,5 @@
-import instance, { managerInstance } from "./JourneyManager.js";
-import { prompt } from "./PromptController.js";
+import { managerInstance } from "./Manager.js";
+import { prompt } from "./Prompt.js";
 import { Util } from "./Util.js";
 
 class Step {
