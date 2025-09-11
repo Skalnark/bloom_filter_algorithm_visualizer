@@ -9,6 +9,7 @@ class Prompt {
         this.quietMode = false;
         this.spans = [];
         this.promptSimulatorDiv = document.getElementById('prompt-simulator');
+        this.initListeners();
     }
 
     newLine() {
@@ -55,13 +56,27 @@ class Prompt {
         return span;
     }
 
+    clear() {
+        this.lines = [];
+        this.spans = [];
+        if (this.promptSimulatorDiv) {
+            this.promptSimulatorDiv.innerHTML = '';
+        }
+    }
+
     printJourneyMessage(message, context = {}) {
         for (const ctxKey in context) {
-            const placeholder =  `@{${ctxKey}}`;
+            const placeholder =  `%${ctxKey}%`;
             message = message.replace(new RegExp(placeholder, 'g'), context[ctxKey]);
         }
 
         this.print(message);
+    }
+
+    initListeners() {
+        window.addEventListener('journey-started', () => {
+            this.clear();
+        });
     }
 }
 

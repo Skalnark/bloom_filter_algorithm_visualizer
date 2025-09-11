@@ -151,32 +151,25 @@ class Manager {
 
     registry = {
         'hash1': async (context) => {
-            return await this.bf.journeyHash1(context);
+            return this.bf.hash1(context.item);
         },
         'hash2': async (context) => {
-            return await this.bf.journeyHash2(context);
+            return this.bf.hash2(context.item);
         },
         'hash3': async (context) => {
-            return await this.bf.journeyHash3(context);
+            return this.bf.hash3(context.item);
         },
         'setBit': async (context) => {
             return await this.setBit(context);
         },
         'bloomFilterContains': async (context) => {
-            return await this.bf.journeyContains(context);
+            return this.bf.elements.includes(context.item);
         },
         'waitForUser': async (context) => {
-            await this.waitForUser();
-            return context
-        },
-        'return': async () => {
-            let newContext = { return: true };
-            return { next: null, context: newContext };
+            return await this.waitForUser();
         },
         'getBit': async (context) => {
-            let bit = this.bf.bitArray[context.position];
-            context['bit'] = bit;
-            return context
+            return this.bf.bitArray[context.position];
         },
         'allTrue': async (context) => {
             let allTrue = true;
@@ -186,8 +179,10 @@ class Manager {
                     break;
                 }
             }
-            context['predicate_result'] = allTrue;
-            return context
+            return allTrue;
+        },
+        'return': async (context) => {
+            return true;
         }
     }
 };

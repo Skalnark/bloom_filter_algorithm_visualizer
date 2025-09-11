@@ -38,21 +38,18 @@ class Parser {
     parseLines(lines, l = 0) {
         let steps = [];
         let tries = 0;
+        let pastLine = '';
         while (lines.length > 0) {
             l++;
 
-            if (lines.length < 5) break;
+            //first we need to extract a single line
+            let index = lines.indexOf('\n');
+            if (index === -1) index = lines.length;
+            let line = lines.substring(0, index).trim();
+            //console.log(`Parsing line ${l}: ${line}`);
+            lines = lines.substring(index).trim();
 
-            // Extract the first word of the line until the first space
-            let firstWord = lines.split(' ')[0].replace(/\n/g, '').trim();
-            let delimiter = ';';
-            if (firstWord === 'check') delimiter = '{';
-
-            let line = lines.substring(0, lines.indexOf(delimiter) + 1).trim();
-            lines = lines.substring(line.length, lines.length).trim();
-            line = line.replace(/[\n;]/g, ' ').trim();
-
-            if (line.startsWith('#') || line.trim().length === 0) {
+            if (line.startsWith('#') || line.length === 0) {
                 continue; // Skip comments and empty lines
             }
 
@@ -88,7 +85,7 @@ class Parser {
     }
 
     parseLine(line, lines, l) {
-        let parts = line.split(' ');
+        let parts = line.replace(/[\n]/g, '').split(' ');
         let command = parts[0].toLowerCase();
         let args = parts.slice(1);
 
@@ -97,13 +94,12 @@ class Parser {
                 return this.parsePrint(args, lines, l);
             case 'execute':
                 return this.parseExecute(args, lines, l);
-            case 'check':
-                return this.parseCheck(args, lines, l);
+            case 'branch':
+                return this.parseBranch(args, lines, l);
             case 'define':
                 return this.parseDefine(args, lines, l);
             default:
-                console.warn(`Unknown command: ${command} at line ${l}`);
-                return null;
+                throw new Error(`Unknown command: ${command} at line ${l}`);
         }
     }
 
@@ -111,7 +107,7 @@ class Parser {
         if (!args || args.length == 0)
             throw new Error("define command requires a variable assignment as argument at line " + l);
 
-        let assignment = args.join(' ').trim();
+        let assignment = args.join(' ').trim().replace(/[;]/g, '');
         let parts = assignment.split('=');
         if (parts.length != 2)
             throw new Error("define command requires a single '=' in the assignment at line " + l);
@@ -123,7 +119,7 @@ class Parser {
             valuePart = arr;
         }
 
-        let context = { 'varName': varName, 'varValue': valuePart };
+        let context = { 'destiny': varName, 'origin': valuePart };
 
         let step = null;
         try {
@@ -131,7 +127,7 @@ class Parser {
         } catch (err) {
             throw new Error(`Failed to create define action at line ${l}: ${err.message}`);
         }
-        step.name = `define_${varName} - ${l}`;
+        step.name = 'define';
         step.context = context;
         return step;
     }
@@ -140,55 +136,52 @@ class Parser {
         if (!args || args.length == 0)
             throw new Error("print command requires a message as argument at line " + l);
 
-        let context = {};
-        //removes the semicolon at the end if present
-        if (args[args.length - 1] === ';')
-            args = args.slice(0, args.length - 1);
+        args = args.join(' ').trim().replace(/[;"]/g, '');
 
-        args = args.join(' ').trim();
-
-        try {
-            let p = args;
-            p = p.substring(p.indexOf('(') + 1, p.lastIndexOf(')')).trim();
-            context = this.parseParams(p);
-        } catch (err) {
-            console.warn(`Failed to parse print parameters at line ${l}: ${err.message}`);
-        }
-
-        // what's between " and "
-        let messageVar = args.substring(args.indexOf('"'), args.lastIndexOf('"') + 1);
-        messageVar = messageVar.substring(1, messageVar.length - 1);
+        let messageVar = args.trim().substring(0, args.length);
         let step = null;
         try {
-            step = Step.createMessageAction(messageVar, context);
+            step = Step.createMessageAction(messageVar);
         } catch (err) {
             throw new Error(`Failed to create print action at line ${l}: ${err.message}`);
         }
-        step.name = `print_message - ${l}`;
+        step.name = 'print';
         return step;
     }
 
-    parseExecute(args, lines, l) {
-        if (!args || args.length == 0)
-            throw new Error("execute command requires a function name as argument at line " + l);
+    parseExecute(line, l) {
+        if (!line || line.length == 0) {
+            console.error("Empty line in parseExecute at line " + l);
+            return;
+        }
 
-        let functionName = args[0];
-        let context = this.parseParams(args.slice(1).join(' '));
+        let functionName = line[0].replace(/[;]/g, '').trim();
+        let context = {};
+        let output = this.parseOutput(line[1]);
+        if (output !== null) context['output'] = output;
+
+        let expectedResult = line.length > 2 ? line[2] : null;
+
+        expectedResult === 'true' ? expectedResult = true : null;
+        expectedResult === 'false' ? expectedResult = false : null;
+
+        if (expectedResult !== null) context['expectedResult'] = expectedResult;
+
 
         let step = null;
         step = Step.createExecutionAction(functionName, context);
-        step.name = `execute_${functionName} - ${l}`;
+        step.name = 'execute';
         return step;
     }
 
-    parseCheck(line, lines, l) {
+    parseBranch(line, lines, l) {
         if (!line || line.length == 0)
             throw new Error("check command requires a function name as argument at line " + l);
 
         line = line.slice(0, line.length - 1); // remove the trailing '{'
 
 
-        let main = this.parseConditional(line, l);
+        let main = this.parseExecute(line, lines, l);
         if (!main) return null;
         l++;
 
@@ -205,49 +198,14 @@ class Parser {
         return { step: main, remainingLines: lines, currentLine: l };
     }
 
-    parseConditional(line, l) {
-        if (!line || line.length == 0) {
-            console.error("Empty line in parseConditional at line " + l);
-            return;
-        }
-        let functionName = line[0];
-        let context = this.parseParams(line.slice(1).join(' '));
-        let expectedResult = line[2];
-
-        if (expectedResult !== 'true' && expectedResult !== 'false')
-            throw new Error("check command requires expectedResult (true or false) at line " + l);
-
-        expectedResult = expectedResult === 'true' ? true : false;
-
-        context['expectedResult'] = expectedResult;
-
-        let step = null;
-        try {
-            step = Step.createExecutionAction(functionName, context);
-        } catch (err) {
-            throw new Error(`Failed to create check action at line ${l}: ${err.message}`);
-        }
-        step.name = `check_${functionName}`;
-
-        return step;
-    }
-
-    parseParams(args) {
-        if (args.length == 0) return {};
-        let context = {};
-        args = args.split(',').map(s => s.trim());
-
-        for (let param of args) {
-            if (param.length > 0)
-                context[param] = null;
-        }
-
-        return context;
+    parseOutput(args) {
+        if (!args || args.length == 0) return null;
+        return args.substring(args.indexOf('(') + 1, args.indexOf(')')).trim();
     }
 
     extractBlock(lines) {
 
-        let depth = 1;
+        let depth = 1; // we start after the first {
         let block = '';
         let i = 0;
         let closingIndex = -1;
@@ -263,9 +221,9 @@ class Parser {
             }
             block += char;
         }
-        if (depth !== 0) throw new Error("Unmatched { in block");
-        let remaining = lines.substring(closingIndex + 2);
-        block = block.substring(0, closingIndex);
+        if (depth !== 0) throw new Error(`unmatched braces in block starting with: ${block.substring(0, 20)}...`);
+        let remaining = lines.substring(closingIndex + 2).trim();
+        block = block.substring(0, closingIndex).trim();
 
         return { block, remaining };
     }

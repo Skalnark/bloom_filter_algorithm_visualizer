@@ -18,33 +18,24 @@ class Step {
     }
 
     async executeStep(baseContext = {}) {
-        let result = { next: false, context: baseContext };
-
-
-        if (this.line === 'define bits=[h1b, h2b, h3b]')
-            console.log("here");
-
+        let actionResult;
         if (this.action) {
-            try {
-                result = await this.action(baseContext);
-                this.updateContext(result.context);
-            } catch (e) {
-                console.log(this);
-                console.log(baseContext);
-                throw e;
+            actionResult = await this.action(baseContext);
+            if (this.context.output !== undefined && this.context.output !== null) {
+                baseContext[this.context.output] = actionResult;
+            }
+            else {
+                Util.updateContext(baseContext, actionResult);
             }
         }
-        if (this.context.predicate_result !== undefined
+        if (this.context.output !== undefined
             && this.context.expectedResult !== undefined
-            && this.context.predicate_result !== null
+            && this.context.output !== null
             && this.context.expectedResult !== null
         ) {
-            result.next = this.context.predicate_result === this.context.expectedResult;
-            this.context.predicate_result = null;
-            this.context.expectedResult = null;
+            return actionResult === this.context.expectedResult;
         }
-        result.context = this.context;
-        return result;
+        return null;
     }
 
     chainSteps(steps) {
@@ -73,13 +64,12 @@ class Step {
         };
     }
 
-    static createMessageAction(message, context = {}) {
+    static createMessageAction(message) {
         let step = new Step();
-        step.context = context;
         step.action = async (context) => {
-            if (!message) { prompt.newLine(); return { next: null, context: context }; }
+            if (!message) prompt.newLine();
             prompt.printJourneyMessage(message, context);
-            return { next: null, context: context };
+            return null;
         };
         return step;
     }
@@ -98,8 +88,8 @@ class Step {
 
             Util.updateContext(context, step.context);
 
-            let name = context['varName'];
-            let value = context['varValue'];
+            let name = context['destiny'];
+            let value = context['origin'];
             let arr = [];
             if (Array.isArray(value) && value.length > 0) {
                 let len = value.length;
@@ -109,11 +99,11 @@ class Step {
                     arr.push(val);
                 }
                 context[name] = arr;
-                return { next: null, context: context };
+            } else {
+                context[name] = context[value];
             }
 
-            context[name] = context[value];
-            return { next: null, context: context };
+            return context;
         };
 
         return step;
