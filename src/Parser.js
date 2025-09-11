@@ -146,15 +146,18 @@ class Parser {
         if (args[args.length - 1] === ';')
             args = args.slice(0, args.length - 1);
 
+        args = args.join(' ').trim();
+
         try {
-            let p = args.join(' ').trim();
+            let p = args;
             p = p.substring(p.indexOf('(') + 1, p.lastIndexOf(')')).trim();
             context = this.parseParams(p);
         } catch (err) {
             console.warn(`Failed to parse print parameters at line ${l}: ${err.message}`);
         }
 
-        let messageVar = args.join(' ').trim().substring(args.indexOf(')') + 1).trim();
+        // what's between " and "
+        let messageVar = args.substring(args.indexOf('"'), args.lastIndexOf('"') + 1);
         messageVar = messageVar.substring(1, messageVar.length - 1);
         let step = null;
         try {
@@ -208,17 +211,24 @@ class Parser {
     }
 
     parseConditional(line, l) {
-
         if (!line || line.length == 0) {
             console.error("Empty line in parseConditional at line " + l);
             return;
         }
         let functionName = line[0];
         let context = this.parseParams(line.slice(1).join(' '));
+        let expectedResult = line[2];
+
+        if(expectedResult !== 'true' && expectedResult !== 'false')
+            throw new Error("check command requires expectedResult (true or false) at line " + l);
+
+        expectedResult = expectedResult === 'true' ? true : false;
+
+        context['expectedResult'] = expectedResult;
 
         let step = null;
         try {
-            step = Step.createVerificationAction({ function_name: functionName, context: context });
+            step = Step.createExecutionAction(functionName, context);
         } catch (err) {
             throw new Error(`Failed to create check action at line ${l}: ${err.message}`);
         }
@@ -229,21 +239,14 @@ class Parser {
 
     parseParams(args) {
         if (args.length == 0) return {};
-        let context = { expectedResult: null };
-        let params = args.trim().substring(args.indexOf('(') + 1, args.indexOf(')')).split(',').map(p => p.trim());
+        let context = {};
+        args = args.split(',').map(s => s.trim());
 
-        for (let param of params) {
+        for (let param of args) {
             if (param.length > 0)
                 context[param] = null;
         }
 
-        let expectedResult = null;
-        if (args.slice(-5)) {
-            if (args.slice(-5) === 'false') expectedResult = false;
-            else if (args.slice(-4) === 'true') expectedResult = true;
-        }
-
-        context.expectedResult = expectedResult;
         return context;
     }
 

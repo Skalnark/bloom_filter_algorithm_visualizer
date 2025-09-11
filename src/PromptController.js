@@ -87,7 +87,7 @@ class PromptController {
 
     printJourneyMessage(message, context = {}) {
         for (const ctxKey in context) {
-            const placeholder = `${ctxKey}`;
+            const placeholder =  `@{${ctxKey}}`;
             message = message.replace(new RegExp(placeholder, 'g'), context[ctxKey]);
         }
 
