@@ -4,25 +4,26 @@ import { Util } from "./Util.js";
 import Journey from "./Journey.js";
 import Parser from "./Parser.js";
 import i18next from "i18next";
+import BloomFilter from "./BloomFilter.js";
 
-class JourneyManager {
-    constructor(bf, prompt) {
+class Manager {
+    constructor() {
 
-        if (JourneyManager._instance) {
-            return JourneyManager._instance;
+        if (Manager._instance) {
+            return Manager._instance;
         }
-        JourneyManager._instance = this;
+        Manager._instance = this;
 
-        this.bf = bf;
+        this.bf = new BloomFilter();
         this.prompt = prompt;
         this.nextStepButton = document.getElementById('next-step-button');
         this.finishButton = document.getElementById('finish-journey-button');
         this.fastForwardCheckbox = document.getElementById('fast-forward-checkbox');
         this.nextStep = false;
-        this.verboseExecution = true;
         this.fastForward = false;
-        this.initListeners();
         this.messages = i18next.t(`messages`, { returnObjects: true });
+        this.initListeners();
+        this.greetingsJourney();
     }
 
     async waitForUser() {
@@ -30,9 +31,6 @@ class JourneyManager {
             return new Promise(resolve => resolve());
         }
 
-        if (!this.verboseExecution) {
-            return new Promise(resolve => resolve());
-        }
         Util.scrollToElementById('prompt-simulator');
         this.nextStep = false;
         this.nextStepButton.style.backgroundColor = '#a71212ff';
@@ -54,11 +52,9 @@ class JourneyManager {
 
     addDummyWords(words) {
         if (words.length == 0) return;
-        this.bf.clear();
 
         this.#copyDummyWord(words);
 
-        prompt.print(`Adding ${words.length} dummy words to the Bloom Filter to simulate a more realistic scenario.`);
         for (let word of words) {
             let hash1 = this.bf.hash1(word);
             let hash2 = this.bf.hash2(word);
@@ -105,19 +101,6 @@ class JourneyManager {
         });
     }
 
-    async calcHash1(item) {
-
-        let hash = 0;
-        let index = 0;
-        while (index < item.length) {
-            hash = await this.bf.stepByStepHash1(item, index, hash);
-
-            index++;
-            await this.waitForUser();
-        }
-        return hash;
-    }
-
     async greetingsJourney() {
 
         const parser = new Parser(this.messages);
@@ -140,17 +123,16 @@ class JourneyManager {
         window.dispatchEvent(new Event('journey-finished'));
     }
 
-    async checkItemJourney(item)
-    {
+    async checkItemJourney(item) {
         window.dispatchEvent(new Event('journey-started'));
         const parser = new Parser(this.messages);
-        
+
         let steps = await parser.parseJourney('check_item');
         let journey = new Journey();
         journey.buildFromSteps(steps);
 
         await journey.run({ item: item });
-        
+
         window.dispatchEvent(new Event('journey-finished'));
     }
 
@@ -164,59 +146,52 @@ class JourneyManager {
     }
 
     functionRegistry(functionName) {
-        return functionRegistry[functionName];
+        return this.registry[functionName];
     }
-}
 
-const functionRegistry = {
-    'hash1': async (context) => {
-        let jm = new JourneyManager();
-        return await jm.bf.journeyHash1(context);
-    },
-    'hash2': async (context) => {
-        let jm = new JourneyManager();
-        return await jm.bf.journeyHash2(context);
-    },
-    'hash3': async (context) => {
-        let jm = new JourneyManager();
-        return await jm.bf.journeyHash3(context);
-    },
-    'setBit': async (context) => {
-        let jm = new JourneyManager();
-        return await jm.setBit(context);
-    },
-    'bloomFilterContains': async (context) => {
-        let jm = new JourneyManager();
-        return await jm.bf.journeyContains(context);
-    },
-    'waitForUser': async (context) => {
-        let jm = new JourneyManager();
-        await jm.waitForUser();
-        return context
-    },
-    'return': async () => {
-        let newContext = { return: true };
-        return { next: null, context: newContext };
-    },
-    'getBit': async (context) => {
-        let jm = new JourneyManager();
-        let bit = jm.bf.bitArray[context.position];
-        context['bit'] = bit;
-        return context
-    },
-    'allTrue': async (context) => {
-        let allTrue = true;
-        for (let v of context.bits) {
-            if (!v) {
-                allTrue = false;
-                break;
+    registry = {
+        'hash1': async (context) => {
+            return await this.bf.journeyHash1(context);
+        },
+        'hash2': async (context) => {
+            return await this.bf.journeyHash2(context);
+        },
+        'hash3': async (context) => {
+            return await this.bf.journeyHash3(context);
+        },
+        'setBit': async (context) => {
+            return await this.setBit(context);
+        },
+        'bloomFilterContains': async (context) => {
+            return await this.bf.journeyContains(context);
+        },
+        'waitForUser': async (context) => {
+            await this.waitForUser();
+            return context
+        },
+        'return': async () => {
+            let newContext = { return: true };
+            return { next: null, context: newContext };
+        },
+        'getBit': async (context) => {
+            let bit = this.bf.bitArray[context.position];
+            context['bit'] = bit;
+            return context
+        },
+        'allTrue': async (context) => {
+            let allTrue = true;
+            for (let v of context.bits) {
+                if (!v) {
+                    allTrue = false;
+                    break;
+                }
             }
+            context['predicate_result'] = allTrue;
+            return context
         }
-        context['predicate_result'] = allTrue;
-        return context
     }
-
 };
 
-export default JourneyManager;
-export { JourneyManager, functionRegistry };
+const managerInstance = new Manager();
+export default Manager;
+export { Manager as JourneyManager, managerInstance };

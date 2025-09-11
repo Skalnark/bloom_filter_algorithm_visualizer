@@ -1,22 +1,20 @@
 import { Util } from './Util.js';
-import { JourneyManager } from './JourneyManager.js';
+import { managerInstance } from './JourneyManager.js';
+import { prompt } from './PromptController.js';
 import draw from './Draw.js';
 
 class HtmlBuilder {
-    constructor(bf, promptController) {
-        this.bf = bf;
-        this.promptTextarea = document.getElementById('prompt-window');
-        this.promptController = promptController;
-        this.promptController.setTextarea(this.promptTextarea);
-        this.journey = new JourneyManager(this.bf, this.promptController);
+    constructor() {
+        this.prompt = prompt;
+        this.jm = managerInstance;
         this.initListeners();
     }
 
     getBitSizeInputValue() {
         const input = document.getElementById('bf-bit-size-input');
         if (input) {
-            if(input.value > 500) {
-                this.promptController.print("Error: Bit size cannot exceed 500.", false);
+            if (input.value > 500) {
+                this.prompt.print("Error: Bit size cannot exceed 500.", false);
                 input.value = 500;
             }
             return input.value;
@@ -44,14 +42,14 @@ class HtmlBuilder {
         if (button) {
             button.addEventListener('click', () => {
                 const bitSize = this.getBitSizeInputValue();
-                this.bf.initialize(bitSize);
-                
+                this.jm.bf.initialize(bitSize);
+
                 const dummyCount = this.getDummyInputValue();
                 const dummyWords = Util.getLoremWords(dummyCount);
-                this.journey.addDummyWords(dummyWords);
+                this.jm.addDummyWords(dummyWords);
 
                 this.setInfoLabels();
-                draw.renderBitList(this.bf.bitArray);
+                draw.renderBitList(this.jm.bf.bitArray);
                 Util.scrollToElementById('bf-item-info-holder');
             });
 
@@ -64,40 +62,29 @@ class HtmlBuilder {
         const elementsSpan = document.getElementById('bf-info-elements');
         const fprSpan = document.getElementById('bf-info-fpr');
 
-        const size = this.bf.size;
-        const hashCount = this.bf.hashCount;
-        const elements = this.bf.elements.length;
-        const fpr = (this.bf.calculateFPR() * 100).toFixed(6);
-
-        if (!(fpr !== undefined || fpr !== null || fpr !== NaN)) fpr = '-';
-
-        if (sizeSpan) sizeSpan.textContent = size;
-        if (hashCountSpan) hashCountSpan.textContent = hashCount;
-        if (elementsSpan) elementsSpan.textContent = elements;
-        if (fprSpan) fprSpan.textContent = fpr + '%';
-    }
-
-    async startAddItemJourney(item) {
-        await this.journey.addItemJourney(item);
+        sizeSpan.textContent = this.jm.bf.size;
+        hashCountSpan.textContent = this.jm.bf.hashCount;
+        elementsSpan.textContent = this.jm.bf.elements.length;
+        fprSpan.textContent = (this.jm.bf.calculateFPR() * 100).toFixed(6) + '%';
     }
 
     async initAddAndCheckEventListeners() {
         const addItemButton = document.getElementById('add-item-submit');
 
-        addItemButton.addEventListener('click', () => {
+        addItemButton.addEventListener('click', async () => {
             const itemInput = document.getElementById('add-item-input');
             const item = itemInput.value;
             if (item) {
-                this.startAddItemJourney(item);
+                await this.jm.addItemJourney(item);
             }
         });
 
         const checkItemButton = document.getElementById('check-item-submit');
-        checkItemButton.addEventListener('click', () => {
+        checkItemButton.addEventListener('click', async () => {
             const itemInput = document.getElementById('check-item-input');
             const item = itemInput.value;
             if (item) {
-                this.journey.checkItemJourney(item);
+                await this.jm.checkItemJourney(item);
             }
         });
 
@@ -115,19 +102,20 @@ class HtmlBuilder {
         window.addEventListener('journey-finished', () => {
             this.enableInputs();
             this.setInfoLabels();
-            this.promptController.newLine();
+            this.prompt.newLine();
         });
 
+        const nextStepButton = document.getElementById('next-step-button');
         window.addEventListener('journey-waiting-click', () => {
-            this.enableNextStepButton();
+            nextStepButton.disabled = false;
         });
 
         window.addEventListener('journey-disable-click', () => {
-            this.disableNextStepButton();
+            nextStepButton.disabled = true;
         });
 
+        const scrollButton = document.getElementById('scroll-button');
         window.addEventListener('element-out-of-view', () => {
-            const scrollButton = document.getElementById('scroll-button');
             scrollButton.style.display = 'block';
         });
     }
@@ -142,7 +130,7 @@ class HtmlBuilder {
         const checkItemInput = document.getElementById('check-item-input');
         const checkItemSubmit = document.getElementById('check-item-submit');
         const inputFastForwardCheckbox = document.getElementById('fast-forward-checkbox');
-        
+
         if (bitSizeInput) bitSizeInput.disabled = true;
         if (bitSizeSubmit) bitSizeSubmit.disabled = true;
         if (dummyCountInput) dummyCountInput.disabled = true;
@@ -164,7 +152,7 @@ class HtmlBuilder {
         const checkItemInput = document.getElementById('check-item-input');
         const checkItemSubmit = document.getElementById('check-item-submit');
         const inputFastForwardCheckbox = document.getElementById('fast-forward-checkbox');
-        
+
         if (bitSizeInput) bitSizeInput.disabled = false;
         if (bitSizeSubmit) bitSizeSubmit.disabled = false;
         if (dummyCountInput) dummyCountInput.disabled = false;
@@ -174,16 +162,6 @@ class HtmlBuilder {
         if (checkItemInput) checkItemInput.disabled = false;
         if (checkItemSubmit) checkItemSubmit.disabled = false;
         if (inputFastForwardCheckbox) inputFastForwardCheckbox.disabled = false;
-    }
-
-    disableNextStepButton() {
-        const nextStepButton = document.getElementById('next-step-button');
-        if (nextStepButton) nextStepButton.disabled = true;
-    }
-
-    enableNextStepButton() {
-        const nextStepButton = document.getElementById('next-step-button');
-        if (nextStepButton) nextStepButton.disabled = false;
     }
 }
 

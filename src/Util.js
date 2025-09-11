@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 
 export class Util {
-
     static getLoremWords(n) {
         let words = [];
         for (let i = 0; i < n; i++) {
@@ -58,15 +57,8 @@ export class Util {
         );
     }
 
-    static getTextWidth(text, font) {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        context.font = font;
-        return context.measureText(text).width;
-    }
-
     static updateContext(original, updates) {
-        for(let key in updates) {
+        for (let key in updates) {
             if (updates[key] === undefined || updates[key] === null) {
             } else {
                 original[key] = updates[key];

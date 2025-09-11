@@ -1,6 +1,4 @@
-import ConditionEvaluator from "./ConditionEvaluator.js";
-import Journey from "./Journey.js";
-import JourneyManager from "./JourneyManager.js";
+import instance, { managerInstance } from "./JourneyManager.js";
 import { prompt } from "./PromptController.js";
 import { Util } from "./Util.js";
 
@@ -86,22 +84,11 @@ class Step {
         return step;
     }
 
-    static createDelayAction(context) {
-        let step = new Step();
-        step.context = context;
-        let jm = new JourneyManager();
-        step.action = async (context) => {
-            await jm.waitForUser();
-            return { next: null, context: context };
-        };
-        return step;
-    }
-
     static createExecutionAction(functionName, context = {}) {
-        let jm = new JourneyManager();
+        let manager = managerInstance;
         let step = new Step();
         step.context = context;
-        step.action = jm.functionRegistry(functionName);
+        step.action = manager.functionRegistry(functionName);
         return step;
     }
 
@@ -129,19 +116,6 @@ class Step {
             return { next: null, context: context };
         };
 
-        return step;
-    }
-
-    static createVerificationAction(stepDefinition = {}, messages = {}) {
-        let jm = new JourneyManager();
-        let step = new Step();
-        step.context = stepDefinition.context || {};
-        step.action = jm.functionRegistry(stepDefinition.function_name);
-        if (!step.action) {
-            // throws exception
-            throw new Error(`Function ${stepDefinition.function_name} not found in JourneyManager registry.`);
-        }
-        //step.possibleNextSteps = Journey.deserializeSteps(stepDefinition.alternatives, messages);
         return step;
     }
 

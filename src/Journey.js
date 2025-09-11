@@ -10,18 +10,6 @@ export class Journey {
         this.messages = i18next.t(`journeys.${this.name}`, { returnObjects: true });
     }
 
-    async startJourney(baseContext = {}) {
-
-        let currentStep = this.firstStep;
-        this.context = { ...this.context, ...baseContext };
-        while (currentStep) {
-            let result = await currentStep.executeStep(this.context);
-            this.context = result.context;
-            currentStep = result.next;
-        }
-        return this.context;
-    }
-
     async run(baseContext = { return: false }) {
         let currentStep = 0;
         while (currentStep < this.steps.length) {
@@ -51,45 +39,10 @@ export class Journey {
         return baseContext;
     }
 
-    buildFromJson(json) {
-        this.name = json.name;
-
-        let messages = i18next.t(`journeys.${this.name}`, { returnObjects: true });
-        this.steps = Journey.deserializeSteps(json.steps, messages);
-
-        this.firstStep.chainSteps(steps);
-    }
-
     async buildFromSteps(steps = []) {
         steps.forEach(s => { s.journey = this; });
         this.steps = steps;
         this.firstStep = steps[0];
-    }
-
-    static deserializeSteps(stepsDefinitions = [], messages = {}) {
-        let steps = [];
-        stepsDefinitions.forEach(s => {
-            let step;
-
-            switch (s.type) {
-                case "message":
-                    step = Step.createMessageAction(messages[s.message_id], s.context);
-                    break;
-                case "execution":
-                    step = Step.createExecutionAction(s.function_name, s.context);
-                    break;
-                case "verification":
-                    step = Step.createVerificationAction(s, messages);
-                    break;
-                // Add other step types here
-                default:
-                    console.warn(`Unknown step type: ${s.type}`);
-            }
-            step.name = s.message_id || s.function_name || "step";
-            if (step) steps.push(step);
-        });
-
-        return steps;
     }
 }
 

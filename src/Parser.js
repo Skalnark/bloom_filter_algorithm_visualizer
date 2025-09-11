@@ -3,7 +3,6 @@
 import Step from "./Step.js";
 import i18next from "i18next";
 import { add_item_code, greetings_code, check_item_code } from "./journeys/journey_code.js";
-import Step from "./Step.js";
 
 class Parser {
 
@@ -177,11 +176,7 @@ class Parser {
         let context = this.parseParams(args.slice(1).join(' '));
 
         let step = null;
-        try {
-            step = Step.createExecutionAction(functionName, context);
-        } catch (err) {
-            throw new Error(`Failed to create execute action at line ${l}: ${err.message}`);
-        }
+        step = Step.createExecutionAction(functionName, context);
         step.name = `execute_${functionName} - ${l}`;
         return step;
     }
@@ -219,7 +214,7 @@ class Parser {
         let context = this.parseParams(line.slice(1).join(' '));
         let expectedResult = line[2];
 
-        if(expectedResult !== 'true' && expectedResult !== 'false')
+        if (expectedResult !== 'true' && expectedResult !== 'false')
             throw new Error("check command requires expectedResult (true or false) at line " + l);
 
         expectedResult = expectedResult === 'true' ? true : false;

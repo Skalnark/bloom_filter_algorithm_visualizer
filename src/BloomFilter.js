@@ -1,5 +1,4 @@
 import draw from "./Draw.js";
-import { prompt } from "./PromptController.js";
 import { Util } from "./Util.js";
 
 class BloomFilter {
@@ -13,8 +12,8 @@ class BloomFilter {
     }
 
     initialize(size) {
-        this.hashCount = 3;
         this.size = size;
+        this.hashCount = 3;
         this.bitArray = Array.from({ length: size }, () => []);
         this.bitArray.fill(false);
         this.elements = [];
@@ -30,14 +29,6 @@ class BloomFilter {
         draw.clearItemBoxes();
         draw.clearAllLines();
         draw.clearCheckLines();
-    }
-
-    async stepByStepHash1(item, index, currentHash) {
-        if (index == 0)
-            prompt.print(`hash1 formula = ∑ i = 0 to item.size - 1 => (hash * 31 + charCode(item[i])) % bitArraySize`);
-        let hash = currentHash;
-        hash = (hash * 31 + item.charCodeAt(index)) % this.size;
-        return hash;
     }
 
     async journeyHash1(context) {
