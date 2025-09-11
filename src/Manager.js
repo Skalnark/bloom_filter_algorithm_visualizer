@@ -136,6 +136,13 @@ class Manager {
         window.dispatchEvent(new Event('journey-finished'));
     }
 
+    async checkBit(context)
+    {
+        draw.renderBitList(this.bf.bitArray);
+        draw.drawCheckBox(context.item, context.position);
+        Util.scrollToNextElement(draw.getBitBoxId(context.position), this.fastForward);
+    }
+
     async setBit(context) {
         this.bf.bitArray[context.position] = true;
         this.bf.elements.push(context.item);

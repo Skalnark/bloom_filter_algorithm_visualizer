@@ -77,15 +77,15 @@ define h3b=bit;
 print "Let's check the bit at each position";
 execute waitForUser;
 
-execute setBit;
+execute checkBit;
 print "- At position %p1%: it is %h1b%";
 execute waitForUser;
 
-execute setBit;
+execute checkBit;
 print "- At position %p2%: it is %h2b%";
 execute waitForUser;
 
-execute setBit;
+execute checkBit;
 print "- At position %p3%: it is %h3b%";
 execute waitForUser;
 
@@ -98,6 +98,7 @@ branch allTrue (all) true {
     branch bloomFilterContains (contains) true {
         print "And in fact, the item '%item%' is present in the Bloom Filter (no false positive here!)."
         execute waitForUser;
+        execute return (return); 
     }
 
 
@@ -106,15 +107,17 @@ branch allTrue (all) true {
         print "%p1%: %h1b%";
         print "%p2%: %h2b%";
         print "%p3%: %h3b%";
-        print "Hmm, seems like a false positive! The item '%item%' is not actually in the Bloom Filter.";
+        print "Hmm, seems like a false positive! The item '%item%' is not actually in the Bloom Filter (false positives are possible!).";
         execute waitForUser;
+        execute return (return);
     }
 }
 
 branch allTrue (all) false {
     print "At least one of the bits at positions %p1%, %p2%, or %p3% is set to false.";
-    print "The item '%item%' is definitely not in the Bloom Filter.";
+    print "The item '%item%' is definitely not in the Bloom Filter (no false negatives here!).";
     execute waitForUser;
+    execute return (return);
 }
 
 `;
