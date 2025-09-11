@@ -28,7 +28,7 @@ class Step {
 
         if (this.action) {
             try {
-                result.context = await this.action(baseContext);
+                result = await this.action(baseContext);
                 this.updateContext(result.context);
             } catch (e) {
                 console.log(this);

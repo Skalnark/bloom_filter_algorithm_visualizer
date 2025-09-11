@@ -29,7 +29,6 @@ export class Journey {
 
             let result = await this.steps[currentStep].executeStep(baseContext);
 
-            // FIXME: the context is merging recursively 
             Util.updateContext(baseContext, result.context);
 
             if (baseContext.return === true) break;
