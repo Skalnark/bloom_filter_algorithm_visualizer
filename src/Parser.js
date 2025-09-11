@@ -1,5 +1,3 @@
-// Reads the files in the journeys directory and builds Journey objects
-
 import Step from "./Step.js";
 import i18next from "i18next";
 import { add_item_code, greetings_code, check_item_code } from "./journeys/journey_code.js";
@@ -42,21 +40,20 @@ class Parser {
         while (lines.length > 0) {
             l++;
 
-            //first we need to extract a single line
             let index = lines.indexOf('\n');
             if (index === -1) index = lines.length;
+
             let line = lines.substring(0, index).trim();
-            //console.log(`Parsing line ${l}: ${line}`);
+
             lines = lines.substring(index).trim();
 
             if (line.startsWith('#') || line.length === 0) {
-                continue; // Skip comments and empty lines
+                continue;
             }
 
             let result = this.parseLine(line, lines, l);
             if (!result) {
-                console.warn(`Could not parse line: ${line} at line ${l}`);
-                continue;
+                throw new Error(`Failed to parse line: ${line} at line ${l}`);
             }
 
             let step = null;
@@ -73,7 +70,7 @@ class Parser {
                 step.line = line;
                 steps.push(step);
             } else {
-                console.error(`Failed to parse line: ${line} at line ${l}`);
+                throw new Error(`Failed to create step from line: ${line} at line ${l}`);
             }
             tries++;
             if (tries > 500) {
@@ -151,7 +148,7 @@ class Parser {
 
     parseExecute(line, l) {
         if (!line || line.length == 0) {
-            console.error("Empty line in parseExecute at line " + l);
+            throw new Error("execute command requires a function name as argument at line " + l);
             return;
         }
 
@@ -178,7 +175,7 @@ class Parser {
         if (!line || line.length == 0)
             throw new Error("check command requires a function name as argument at line " + l);
 
-        line = line.slice(0, line.length - 1); // remove the trailing '{'
+        line = line.slice(0, line.length - 1);
 
 
         let main = this.parseExecute(line, lines, l);

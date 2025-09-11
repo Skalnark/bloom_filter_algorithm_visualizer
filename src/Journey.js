@@ -16,10 +16,6 @@ export class Journey {
             let currentStep = this.steps[index];
             if (baseContext.return === true) break;
 
-            if (currentStep.line == 'define bits=[h1b, h2b, h3b];') {
-                console.log("here");
-            }
-
             let result = await currentStep.executeStep(baseContext);
 
             if (result) {

@@ -54,7 +54,6 @@ class Step {
         }
 
         this.singleStep(last);
-        console.log(`chained: ${last.name} -> ${chainName}`);
     }
 
     singleStep(step) {
