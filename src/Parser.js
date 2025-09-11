@@ -247,27 +247,27 @@ class Parser {
 
     extractBlock(lines) {
 
-        let depth = 0;
+        let depth = 1;
         let block = '';
         let i = 0;
-        let openingIndex = lines.indexOf('{');
         let closingIndex = -1;
         for (i = 0; i < lines.length; i++) {
             let char = lines[i];
             if (char === '{') depth++;
             else if (char === '}') {
-                closingIndex = i;
+                closingIndex = i - 1;
                 depth--;
                 if (depth === 0) {
-                    block += char;
                     break;
                 }
             }
             block += char;
         }
         if (depth !== 0) throw new Error("Unmatched { in block");
+        let remaining = lines.substring(closingIndex + 2);
+        block = block.substring(0, closingIndex);
 
-        return { block: block.substring(openingIndex + 1, closingIndex).trim(), remaining: lines.substring(i + 1).trim() };
+        return { block, remaining };
     }
 }
 
