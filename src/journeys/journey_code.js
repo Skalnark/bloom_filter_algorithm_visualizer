@@ -77,14 +77,17 @@ define h3b=bit;
 print "Let's check the bit at each position";
 execute waitForUser;
 
+define position=p1;
 execute checkBit;
 print "- At position %p1%: it is %h1b%";
 execute waitForUser;
 
+define position=p2;
 execute checkBit;
 print "- At position %p2%: it is %h2b%";
 execute waitForUser;
 
+define position=p3;
 execute checkBit;
 print "- At position %p3%: it is %h3b%";
 execute waitForUser;

@@ -78,6 +78,8 @@ class Step {
         let step = new Step();
         step.context = context;
         step.action = manager.functionRegistry(functionName);
+        if(!step.action)
+            throw new Error(`Function '${functionName}' is not registered.`);
         return step;
     }
 

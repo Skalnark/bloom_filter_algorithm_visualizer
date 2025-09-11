@@ -20,7 +20,7 @@ class Manager {
         this.finishButton = document.getElementById('finish-journey-button');
         this.fastForwardCheckbox = document.getElementById('fast-forward-checkbox');
         this.nextStep = false;
-        this.fastForward = false;
+        this.fastForward = true;
         this.messages = i18next.t(`messages`, { returnObjects: true });
         this.initListeners();
         this.greetingsJourney();
@@ -84,19 +84,19 @@ class Manager {
         });
 
         window.addEventListener('journey-finished', () => {
-            this.fastForward = this.fastForwardCheckbox.checked;
+            this.fastForward = !this.fastForwardCheckbox.checked;
             this.prompt.print("Finished execution.");
             this.prompt.newLine();
         });
 
-        this.fastForward = this.fastForwardCheckbox.checked;
+        this.fastForward = !this.fastForwardCheckbox.checked;
 
         this.fastForwardCheckbox.addEventListener('change', () => {
-            this.fastForward = this.fastForwardCheckbox.checked;
+            this.fastForward = !this.fastForwardCheckbox.checked;
             if (this.fastForward) {
                 this.prompt.print("Step by step execution will be fast forwarded.");
             } else {
-                this.prompt.print("Step by step execution is back to normal.");
+                this.prompt.print("Step by step execution is enabled.");
             }
         });
     }
@@ -123,8 +123,15 @@ class Manager {
         window.dispatchEvent(new Event('journey-finished'));
     }
 
+    redrawGraphics() {
+        draw.renderBitList(this.bf.bitArray);
+        draw.redrawLines();
+    }
+
     async checkItemJourney(item) {
         window.dispatchEvent(new Event('journey-started'));
+
+        draw.clearCheckLines();
         const parser = new Parser(this.messages);
 
         let steps = await parser.parseJourney('check_item');
@@ -136,10 +143,10 @@ class Manager {
         window.dispatchEvent(new Event('journey-finished'));
     }
 
-    async checkBit(context)
-    {
+    async checkBit(context) {
         draw.renderBitList(this.bf.bitArray);
         draw.drawCheckBox(context.item, context.position);
+        draw.drawCheckLine(context.position, context.bit, context.item);
         Util.scrollToNextElement(draw.getBitBoxId(context.position), this.fastForward);
     }
 
@@ -177,6 +184,9 @@ class Manager {
         },
         'getBit': async (context) => {
             return this.bf.bitArray[context.position];
+        },
+        'checkBit': async (context) => {
+            return await this.checkBit(context);
         },
         'allTrue': async (context) => {
             let allTrue = true;

@@ -135,7 +135,7 @@ class Draw {
             textElem.setAttribute('text-anchor', 'middle');
             textElem.setAttribute('alignment-baseline', 'middle');
             textElem.setAttribute('class', 'bf-text-box-text');
-            textElem.setAttribute('id', 'item-check-text-' + item);
+            textElem.setAttribute('id', 'check-text');
             textElem.textContent = item;
 
             this.svg.appendChild(rect);
@@ -151,18 +151,26 @@ class Draw {
         let color = value ? '#11ff00ff' : '#ff0000ff';
         let line = this.#drawLine({ div1: `check-box`, div2: `bit-${hash}`, color: color }, true);
         line.setAttribute('id', `check-line-${item}-bit-${hash}`);
-        this.checkLines.push(line);
+        this.checkLines.push({ line: line.id , hash, value, item } );
         this.svg.appendChild(line);
     }
 
-    clearCheckLines() {
-        this.checkBox = null;
-        if (document.getElementById('check-box')) {
-            this.svg.removeChild(document.getElementById('check-box'));
-        }
+    redrawLines() {
+        this.clearItemLines();
+        this.drawItemLines();
+        let lines = this.checkLines;
+        this.clearCheckLines();
+        
+        lines.forEach(({ hash, value, item }) => {
+           this.drawCheckLine(hash, value, item);
+        });
+    }
 
-        this.checkLines.forEach(line => {
-            this.svg.removeChild(line);
+    clearCheckLines() {
+        this.checkLines.forEach(({ line }) => {
+            if(document.getElementById(line)) {
+                this.svg.removeChild(document.getElementById(line));
+            }
         });
         this.checkLines = [];
     }
@@ -244,7 +252,7 @@ class Draw {
     }
 
     drawItemLines() {
-        this.clearAllLines();
+        this.clearItemLines();
 
         this.itemBoxes.forEach(({ rect, textElem, bits }) => {
             bits.forEach(bit => {
@@ -258,7 +266,7 @@ class Draw {
 
     }
 
-    clearAllLines() {
+    clearItemLines() {
         this.itemLines.forEach(line => {
             this.svg.removeChild(line);
         });

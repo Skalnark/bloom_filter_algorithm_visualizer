@@ -19,7 +19,7 @@ class BloomFilter {
         this.elements = [];
         draw.renderBitList(this.bitArray);
         draw.clearItemBoxes();
-        draw.clearAllLines();
+        draw.clearItemLines();
     }
 
     clear() {
@@ -27,7 +27,7 @@ class BloomFilter {
         this.elements = [];
         draw.renderBitList(this.bitArray);
         draw.clearItemBoxes();
-        draw.clearAllLines();
+        draw.clearItemLines();
         draw.clearCheckLines();
     }
 

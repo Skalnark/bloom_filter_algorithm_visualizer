@@ -11,7 +11,7 @@
     "add_button": "Add",
     "check_item_placeholder": "Enter item to check",
     "check_button": "Check",
-    "disable_step_by_step": "Disable step-by-step execution:",
+    "disable_step_by_step": "enable step-by-step execution:",
     "prompt_placeholder": "Enter your prompt here...",
     "next_step_button": "Next Step",
     "finish_execution_button": "Finish Execution"
