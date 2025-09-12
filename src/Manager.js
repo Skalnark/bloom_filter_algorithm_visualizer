@@ -45,7 +45,6 @@ export default class Manager {
 
         let add = document.getElementById('add-item-input');
         let check = document.getElementById('check-item-input');
-        add.value = words[0]
         check.value = words[0]
     }
 
@@ -123,6 +122,7 @@ export default class Manager {
     }
 
     checkBitFast(position, item) {
+        draw.renderBitList(this.bf.bitArray);
         draw.redrawLines();
         let bit = this.bf.bitArray[position];
         draw.drawCheckBox(item, position);

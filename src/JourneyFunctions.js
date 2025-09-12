@@ -48,7 +48,7 @@ async function addItemRoutine(item = 'paçoca') {
         await print(`Set the bit at position ${i + 1} to 1 in the bit array`);
         manager.setBitFast(context[`h${i + 1}`], item);
         scroll("bit-" + context[`h${i + 1}`]);
-        await delay(2000);
+        await delay(3000);
         await manager.waitForUser();
         print();
     }
@@ -67,7 +67,7 @@ async function addItemRoutine(item = 'paçoca') {
     await print(`n: Number of inserted elements: ${manager.bf.elements.length}`);
     await print(`p: Probability of a false positive.`);
     await print("And to calculate this we use the formula p = (1 - e^(-kn/m))^k");
-    await print(`Using three first parameters, we can calculate that p is approximately: ${(frp * 100).toFixed(6)}%`);
+    await print(`Using three first parameters, we can calculate that p is approximately: ${(frp * 100).toFixed(4)}%`);
     await manager.waitForUser();
 
     await print("You can add more items or check for items using the buttons above.");
@@ -89,16 +89,16 @@ async function checkItemRoutine(item = 'paçoca') {
         await print(`The hash ${i + 1} for item '${item}' is ${context[`h${i + 1}`]}`);
         await print(`Check the bit at position ${context[`h${i + 1}`]} in the bit array`);
         manager.checkBitFast(context[`h${i + 1}`], item);
-        await delay(2000);
         scroll("bit-" + context[`h${i + 1}`]);
+        await delay(3000);
         await manager.waitForUser();
 
         if (manager.bf.bitArray[context[`h${i + 1}`]]) {
-            await print(`The bit at position ${i + 1} is 1`);
+            await print(`The bit at position ${context[`h${i + 1}`]} is 1`);
             await print("This means the item might be in the Bloom Filter...");
             print();
         } else {
-            await print(`The bit at position ${i + 1} is 0`);
+            await print(`The bit at position ${context[`h${i + 1}`]} is 0`);
             await print(`This means that '${item}' is definitely NOT in the Bloom Filter.`);
             await print("You can add it using the Add button above.");
             window.dispatchEvent(new Event('journey-finished'));

@@ -15,9 +15,10 @@ async function awake() {
 window.addEventListener('DOMContentLoaded', async () => {
     await awake();
 
-    manager.bf.initialize(30, 3);
-    manager.addDummyWords(['apple', 'banana', 'orange', 'grape', 'kiwi', 'mango', 'peach', 'pear', 'plum', 'cherry']);
+    manager.bf.initialize(100, 3);
+    manager.addDummyWords(['Varian Wrynn', 'Alleria', 'Medivh', 'Thrall', 'Jaina', 'Uther', 'Sylvanas', 'Guldan', 'Tyrande']);
     manager.redrawGraphics();
+    htmlBuilder.setInfoLabels();
     //await initializeLocales();
 });
 

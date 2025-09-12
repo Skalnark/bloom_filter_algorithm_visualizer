@@ -23,7 +23,7 @@ export class Util {
     }
 
     static scrollToElementById(id) {
-        let offset = 60;
+        let offset = 100;
         const el = document.getElementById(id);
         if (el) {
             const y = el.getBoundingClientRect().top + window.pageYOffset - offset;

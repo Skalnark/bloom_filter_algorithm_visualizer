@@ -142,6 +142,7 @@ class HtmlBuilder {
     initJourneyListeners() {
         window.addEventListener('journey-started', () => {
             this.disableInputs();
+            Util.scrollToElementById('prompt-simulator');
         });
 
         window.addEventListener('journey-finished', () => {

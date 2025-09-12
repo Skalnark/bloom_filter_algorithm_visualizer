@@ -45,7 +45,7 @@ class BloomFilter {
         const m = this.size;
         const k = this.hashCount;
         const n = this.elements.length;
-        return Math.pow(1 - Math.exp((-k * n) / m), k);
+        return (1 - Math.exp((-k * n) / m)) ** k;
     }
 }
 

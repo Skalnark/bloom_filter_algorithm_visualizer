@@ -153,6 +153,13 @@ class Draw {
         line.setAttribute('id', `check-line-${item}-bit-${hash}`);
         this.checkLines.push({ line: line.id, hash, value, item });
         this.svg.appendChild(line);
+
+        let bitBox = this.bitBoxes[hash];
+        if (bitBox) {
+            bitBox.square.setAttribute('stroke', color);
+            bitBox.square.setAttribute('stroke-width', '4');
+            bitBox.text.textContent = value ? '1' : '0';
+        }
     }
 
     redrawLines() {
