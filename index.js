@@ -1,7 +1,5 @@
 import HtmlBuilder from './src/HtmlBuilder.js';
 import Manager from './src/Manager.js';
-import { initializeLocales } from './src/InitializeLocales.js';
-import { greetingsRoutine } from './src/JourneyFunctions.js';
 
 window.DEBUG = false;
 
@@ -17,6 +15,9 @@ async function awake() {
 window.addEventListener('DOMContentLoaded', async () => {
     await awake();
 
+    manager.bf.initialize(30, 3);
+    manager.addDummyWords(['apple', 'banana', 'orange', 'grape', 'kiwi', 'mango', 'peach', 'pear', 'plum', 'cherry']);
+    manager.redrawGraphics();
     //await initializeLocales();
 });
 

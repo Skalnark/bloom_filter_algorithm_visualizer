@@ -169,9 +169,7 @@ class HtmlBuilder {
         const bitSizeInput = document.getElementById('bf-bit-size-input');
         const bitSizeSubmit = document.getElementById('bf-bit-size-submit');
         const hashCountInput = document.getElementById('bf-hash-count-input');
-        const hashCountSubmit = document.getElementById('bf-hash-count-submit');
         const dummyCountInput = document.getElementById('bf-dummy-count-input');
-        const dummyCountSubmit = document.getElementById('bf-dummy-count-submit');
         const addItemInput = document.getElementById('add-item-input');
         const addItemSubmit = document.getElementById('add-item-submit');
         const checkItemInput = document.getElementById('check-item-input');
@@ -181,9 +179,7 @@ class HtmlBuilder {
         if (bitSizeInput) bitSizeInput.disabled = true;
         if (bitSizeSubmit) bitSizeSubmit.disabled = true;
         if (hashCountInput) hashCountInput.disabled = true;
-        if (hashCountSubmit) hashCountSubmit.disabled = true;
         if (dummyCountInput) dummyCountInput.disabled = true;
-        if (dummyCountSubmit) dummyCountSubmit.disabled = true;
         if (addItemInput) addItemInput.disabled = true;
         if (addItemSubmit) addItemSubmit.disabled = true;
         if (checkItemInput) checkItemInput.disabled = true;
@@ -195,9 +191,7 @@ class HtmlBuilder {
         const bitSizeInput = document.getElementById('bf-bit-size-input');
         const bitSizeSubmit = document.getElementById('bf-bit-size-submit');
         const hashCountInput = document.getElementById('bf-hash-count-input');
-        const hashCountSubmit = document.getElementById('bf-hash-count-submit');
         const dummyCountInput = document.getElementById('bf-dummy-count-input');
-        const dummyCountSubmit = document.getElementById('bf-dummy-count-submit');
         const addItemInput = document.getElementById('add-item-input');
         const addItemSubmit = document.getElementById('add-item-submit');
         const checkItemInput = document.getElementById('check-item-input');
@@ -206,10 +200,7 @@ class HtmlBuilder {
 
         if (bitSizeInput) bitSizeInput.disabled = false;
         if (bitSizeSubmit) bitSizeSubmit.disabled = false;
-        if (hashCountInput) hashCountInput.disabled = false;
-        if (hashCountSubmit) hashCountSubmit.disabled = false;
         if (dummyCountInput) dummyCountInput.disabled = false;
-        if (dummyCountSubmit) dummyCountSubmit.disabled = false;
         if (addItemInput) addItemInput.disabled = false;
         if (addItemSubmit) addItemSubmit.disabled = false;
         if (checkItemInput) checkItemInput.disabled = false;

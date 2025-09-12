@@ -151,7 +151,7 @@ class Draw {
         let color = value ? '#11ff00ff' : '#ff0000ff';
         let line = this.#drawLine({ div1: `check-box`, div2: `bit-${hash}`, color: color }, true);
         line.setAttribute('id', `check-line-${item}-bit-${hash}`);
-        this.checkLines.push({ line: line.id , hash, value, item } );
+        this.checkLines.push({ line: line.id, hash, value, item });
         this.svg.appendChild(line);
     }
 
@@ -160,15 +160,15 @@ class Draw {
         this.drawItemLines();
         let lines = this.checkLines;
         this.clearCheckLines();
-        
+
         lines.forEach(({ hash, value, item }) => {
-           this.drawCheckLine(hash, value, item);
+            this.drawCheckLine(hash, value, item);
         });
     }
 
     clearCheckLines() {
         this.checkLines.forEach(({ line }) => {
-            if(document.getElementById(line)) {
+            if (document.getElementById(line)) {
                 this.svg.removeChild(document.getElementById(line));
             }
         });
@@ -185,25 +185,12 @@ class Draw {
 
         if (!this.itemBoxes.find(b => b.textElem.textContent === item)) {
 
-            const rect = document.createElementNS(
-                'http://www.w3.org/2000/svg',
-                'rect',
-            );
-            rect.setAttribute('x', x);
-            rect.setAttribute('y', y);
-            rect.setAttribute('width', width);
-            rect.setAttribute('height', height);
-            rect.setAttribute('fill', '#ffffffff');
-            rect.setAttribute('stroke', '#000000');
-            rect.setAttribute('class', 'bf-text-box');
-            rect.setAttribute('id', 'item-box-' + item);
-
             const textElem = document.createElementNS(
                 'http://www.w3.org/2000/svg',
                 'text',
             );
-            textElem.setAttribute('x', x + width / 2);
-            textElem.setAttribute('y', (y + height / 2));
+            textElem.setAttribute('x', x);
+            textElem.setAttribute('y', y);
             textElem.setAttribute('font-family', 'sans-serif');
             textElem.setAttribute('font-size', fontSize);
             textElem.setAttribute('fill', '#000000');
@@ -212,8 +199,23 @@ class Draw {
             textElem.setAttribute('class', 'bf-text-box-text');
             textElem.setAttribute('id', 'item-box-text-' + item);
             textElem.textContent = item;
+            this.svg.appendChild(textElem);
+
+            const rect = document.createElementNS(
+                'http://www.w3.org/2000/svg',
+                'rect',
+            );
+            rect.setAttribute('x', x - textElem.getBBox().width / 2);
+            rect.setAttribute('y', y - textElem.getBBox().height / 2);
+            rect.setAttribute('width', textElem.getBBox().width + 10);
+            rect.setAttribute('height', textElem.getBBox().height + 10);
+            rect.setAttribute('fill', '#ffffffff');
+            rect.setAttribute('stroke', '#000000');
+            rect.setAttribute('class', 'bf-text-box');
+            rect.setAttribute('id', 'item-box-' + item);
 
             this.svg.appendChild(rect);
+            this.svg.removeChild(textElem);
             this.svg.appendChild(textElem);
 
             let itemBox = { rect, textElem, bits: [] };
@@ -232,13 +234,14 @@ class Draw {
     repositionItemBoxes() {
         if (this.itemBoxes.length === 0) return;
 
-        let givenX = this.svg.clientWidth/2;
-        let gap = 4 * this.svg.clientHeight / 100;
-        let lastYPosition = 50;
+        let givenX = this.svg.clientWidth / 2;
+        let gap = (this.svg.clientHeight / this.itemBoxes.length) - 70;
+        gap = Math.max(0, gap);
+        let lastYPosition = 20;
         this.itemBoxes.forEach(({ rect, textElem }) => {
             let newY = lastYPosition + parseInt(rect.getAttribute('height')) + gap;
             let fontSize = textElem.getAttribute('font-size');
-            let textOffsetY = parseInt(fontSize) / 2 + parseInt(rect.getAttribute('height')) / 2;
+            let textOffsetY = parseInt(fontSize) * 0.7;
             let textOffsetX = parseInt(rect.getAttribute('width')) / 2;
 
             rect.setAttribute('x', givenX);

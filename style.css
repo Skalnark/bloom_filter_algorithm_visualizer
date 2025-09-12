@@ -181,7 +181,7 @@ input[type="checkbox"]:checked {
 .svg {
     display: block;
     width: 100%;
-    height: flex;
+    max-height: 100%;
     min-height: 1000px;
 }
 
@@ -200,10 +200,9 @@ input[type="checkbox"]:checked {
     margin-bottom: 1rem;
     min-width: 90%;
     max-width: 90%;
-    }
+}
 
-#app
-{
+#app {
     min-width: 90%;
     max-width: 1200px;
 }
@@ -278,7 +277,7 @@ body {
     box-shadow: 0 4px 16px rgba(42, 122, 226, 0.13);
 }
 
-.info-label{
+.info-label {
     text-align: left;
     align-self: flex-start;
     display: block;
@@ -351,12 +350,11 @@ body {
         font-size: 1.3rem;
     }
 
-    .scroll-button
-    {
+    .scroll-button {
         bottom: 1.5em;
         right: 1.5em;
     }
-    
+
     .param-holder {
         padding-top: 0.3rem;
         padding-bottom: 0.3rem;
