@@ -15,15 +15,22 @@
         <div id="bf-param-holder" class="param-holder">
             <div id="item-input-holder" class="item-info-holder">
                 <div class="item-input-holder input-separator">
-                    <label for="bf-bit-size-input" class="info-label">Number of bits in the filter (max 500):</label>
-                    <input type="number" id="bf-bit-size-input" class="item-input-holder input-field" min="1" value="30"
-                        max="500" />
+                    <label for="bf-bit-size-input" class="info-label">Number of bits (m):</label>
+                    <div id="bit-size-info" style="display: none;" class="info-description">Max 500 bits</div>
+                    <input type="number" id="bf-bit-size-input" class="item-input-holder input-field" min="1" value="30" max="500" />
                 </div>
                 <div class="item-input-holder input-separator">
-                    <label for="bf-dummy-count-input" class="info-label">Dummy
-                        words (max 10):</label>
+
+                    <label for="bf-hash-count-input" class="info-label">Number of hash functions (k):</label>
+                    <div id="hash-count-info" style="display: none;" class="info-description">At least 1, max 10</div>
+                    <input type="number" id="bf-hash-count-input" class="item-input-holder input-field" min="1" value="3" max="10" />
+                </div>
+                <div class="item-input-holder input-separator">
+                    
+                    <label for="bf-dummy-count-input" class="info-label">Number of elements (n):</label>
+                    <div id="dummy-words-info" style="display: none;" class="info-description">We might not show every item you add</div>
                     <input type="number" id="bf-dummy-count-input" class="item-input-holder input-field" min="0"
-                        value="2" max="10" />
+                        value="2" />
                 </div>
 
                 <button id="bf-bit-size-submit" class="item-input-holder submit-button">
@@ -32,19 +39,19 @@
             </div>
 
             <div id="bf-item-info-holder" class="item-info-holder">
-                <div class="info-label info-size">
+                <div class="bf-info-label">
                     <strong>Filter size:</strong>
                     <span id="bf-info-size">-</span>
                 </div>
-                <div class="info-label info-hash-count">
+                <div class="bf-info-label">
                     <strong>Hash functions:</strong>
                     <span id="bf-info-hash-count">-</span>
                 </div>
-                <div class="info-label info-elements">
+                <div class="bf-info-label">
                     <strong>Elements:</strong>
                     <span id="bf-info-elements">-</span>
                 </div>
-                <div class="info-label info-fpr">
+                <div class="bf-info-label">
                     <strong>False positive rate:</strong>
                     <span id="bf-info-fpr">-</span>
                 </div>
@@ -66,7 +73,7 @@
                     <div class="checkbox-holder">
                         <label for="fast-forward-checkbox" class="checkbox-label">Enable step-by-step
                             execution:</label>
-                        <input type="checkbox" id="fast-forward-checkbox" class="checkbox" value="true"/>
+                        <input type="checkbox" id="fast-forward-checkbox" class="checkbox" checked>
                     </div>
                 </div>
             </div>

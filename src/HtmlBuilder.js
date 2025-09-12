@@ -2,12 +2,14 @@ import { Util } from './Util.js';
 import { managerInstance } from './Manager.js';
 import { prompt } from './Prompt.js';
 import draw from './Draw.js';
+import { addItemRoutine, checkItemRoutine, greetingsRoutine } from './JourneyFunctions.js';
 
 class HtmlBuilder {
     constructor() {
         this.prompt = prompt;
         this.jm = managerInstance;
         this.initListeners();
+        greetingsRoutine();
     }
 
     getBitSizeInputValue() {
@@ -42,7 +44,16 @@ class HtmlBuilder {
         if (button) {
             button.addEventListener('click', () => {
                 const bitSize = this.getBitSizeInputValue();
-                this.jm.bf.initialize(bitSize);
+                const hashCount = document.getElementById('bf-hash-count-input').value;
+
+                if (bitSize < 1 || bitSize > 500)
+                    document.getElementById('bf-bit-size-input').value = 1;
+
+
+                if (hashCount < 1 || hashCount > 10)
+                    document.getElementById('bf-hash-count-input').value = 1;
+
+                this.jm.bf.initialize(bitSize, hashCount);
 
                 const dummyCount = this.getDummyInputValue();
                 const dummyWords = Util.getLoremWords(dummyCount);
@@ -75,7 +86,7 @@ class HtmlBuilder {
             const itemInput = document.getElementById('add-item-input');
             const item = itemInput.value;
             if (item) {
-                await this.jm.addItemJourney(item);
+                await addItemRoutine(item);
             }
         });
 
@@ -84,7 +95,8 @@ class HtmlBuilder {
             const itemInput = document.getElementById('check-item-input');
             const item = itemInput.value;
             if (item) {
-                await this.jm.checkItemJourney(item);
+                draw.clearCheckLines();
+                await checkItemRoutine(item);
             }
         });
 
@@ -92,6 +104,39 @@ class HtmlBuilder {
         scrollButton.addEventListener('click', () => {
             Util.scrollToPromptTextarea();
         });
+
+
+        const bitSizeInput = document.getElementById("bf-bit-size-input");
+        const bitSizeInfo = document.getElementById("bit-size-info");
+
+        bitSizeInput.addEventListener("focus", () => {
+            bitSizeInfo.style.display = "block";
+        });
+
+        bitSizeInput.addEventListener("blur", () => {
+            bitSizeInfo.style.display = "none";
+        });
+
+        const hashCountInput = document.getElementById("bf-hash-count-input");
+        const hashCountInfo = document.getElementById("hash-count-info");
+        hashCountInput.addEventListener("focus", () => {
+            hashCountInfo.style.display = "block";
+        });
+
+        hashCountInput.addEventListener("blur", () => {
+            hashCountInfo.style.display = "none";
+        });
+
+        const dummyCountInput = document.getElementById("bf-dummy-count-input");
+        const dummyCountInfo = document.getElementById("dummy-words-info");
+        dummyCountInput.addEventListener("focus", () => {
+            dummyCountInfo.style.display = "block";
+        });
+
+        dummyCountInput.addEventListener("blur", () => {
+            dummyCountInfo.style.display = "none";
+        });
+
     }
 
     initJourneyListeners() {
@@ -123,6 +168,8 @@ class HtmlBuilder {
     disableInputs() {
         const bitSizeInput = document.getElementById('bf-bit-size-input');
         const bitSizeSubmit = document.getElementById('bf-bit-size-submit');
+        const hashCountInput = document.getElementById('bf-hash-count-input');
+        const hashCountSubmit = document.getElementById('bf-hash-count-submit');
         const dummyCountInput = document.getElementById('bf-dummy-count-input');
         const dummyCountSubmit = document.getElementById('bf-dummy-count-submit');
         const addItemInput = document.getElementById('add-item-input');
@@ -133,6 +180,8 @@ class HtmlBuilder {
 
         if (bitSizeInput) bitSizeInput.disabled = true;
         if (bitSizeSubmit) bitSizeSubmit.disabled = true;
+        if (hashCountInput) hashCountInput.disabled = true;
+        if (hashCountSubmit) hashCountSubmit.disabled = true;
         if (dummyCountInput) dummyCountInput.disabled = true;
         if (dummyCountSubmit) dummyCountSubmit.disabled = true;
         if (addItemInput) addItemInput.disabled = true;
@@ -145,6 +194,8 @@ class HtmlBuilder {
     enableInputs() {
         const bitSizeInput = document.getElementById('bf-bit-size-input');
         const bitSizeSubmit = document.getElementById('bf-bit-size-submit');
+        const hashCountInput = document.getElementById('bf-hash-count-input');
+        const hashCountSubmit = document.getElementById('bf-hash-count-submit');
         const dummyCountInput = document.getElementById('bf-dummy-count-input');
         const dummyCountSubmit = document.getElementById('bf-dummy-count-submit');
         const addItemInput = document.getElementById('add-item-input');
@@ -155,6 +206,8 @@ class HtmlBuilder {
 
         if (bitSizeInput) bitSizeInput.disabled = false;
         if (bitSizeSubmit) bitSizeSubmit.disabled = false;
+        if (hashCountInput) hashCountInput.disabled = false;
+        if (hashCountSubmit) hashCountSubmit.disabled = false;
         if (dummyCountInput) dummyCountInput.disabled = false;
         if (dummyCountSubmit) dummyCountSubmit.disabled = false;
         if (addItemInput) addItemInput.disabled = false;

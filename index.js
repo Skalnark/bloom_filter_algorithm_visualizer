@@ -1,7 +1,7 @@
-import draw from './src/Draw.js';
 import HtmlBuilder from './src/HtmlBuilder.js';
 import Manager from './src/Manager.js';
 import { initializeLocales } from './src/InitializeLocales.js';
+import { greetingsRoutine } from './src/JourneyFunctions.js';
 
 window.DEBUG = false;
 
@@ -9,15 +9,15 @@ let htmlBuilder;
 let manager;
 
 async function awake() {
-    await initializeLocales();
-    htmlBuilder = new HtmlBuilder();
+    //await initializeLocales();
     manager = new Manager();
+    htmlBuilder = new HtmlBuilder();
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
     await awake();
 
-    await initializeLocales();
+    //await initializeLocales();
 });
 
 window.addEventListener('refreshUI', () => {
@@ -30,8 +30,6 @@ let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-        // Call your function here
         manager.redrawGraphics();
-        // Example: yourFunction();
-    }, 200); // Adjust the delay as needed
+    }, 200);
 });

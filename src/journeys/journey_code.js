@@ -126,7 +126,6 @@ branch allTrue (all) false {
 `;
 
 const greetings_code = `
-print "cat README.md";
 print "# Welcome to the Bloom Filter Algorithm Visualizer";
 print "You can learn about the Bloom Filter data structure and how it works by following the execution step-by-step";
 print "Use the Add and Check buttons to see how items are added and checked in the Bloom Filter";

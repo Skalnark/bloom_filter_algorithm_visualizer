@@ -6,7 +6,7 @@ import Parser from "./Parser.js";
 import i18next from "i18next";
 import BloomFilter from "./BloomFilter.js";
 
-class Manager {
+export default class Manager {
     constructor() {
 
         if (Manager._instance) {
@@ -23,7 +23,7 @@ class Manager {
         this.fastForward = true;
         this.messages = i18next.t(`messages`, { returnObjects: true });
         this.initListeners();
-        this.greetingsJourney();
+        //this.greetingsJourney();
     }
 
     async waitForUser() {
@@ -56,20 +56,10 @@ class Manager {
         this.#copyDummyWord(words);
 
         for (let word of words) {
-            let hash1 = this.bf.hash1(word);
-            let hash2 = this.bf.hash2(word);
-            let hash3 = this.bf.hash3(word);
-
-            this.bf.bitArray[hash1] = true;
-            this.bf.bitArray[hash2] = true;
-            this.bf.bitArray[hash3] = true;
-
-            this.bf.elements.push(word);
-
-            draw.renderBitList(this.bf.bitArray);
-            draw.drawTextBox(word, hash1);
-            draw.drawTextBox(word, hash2);
-            draw.drawTextBox(word, hash3);
+            for(let i = 0; i < this.bf.hashCount; i++) {
+                let position = this.hash(word, i)
+                this.setBitFast(position, word);
+            }
         }
     }
 
@@ -129,18 +119,15 @@ class Manager {
     }
 
     async checkItemJourney(item) {
-        window.dispatchEvent(new Event('journey-started'));
+        return await checkItemRoutine(item);
+    }
 
-        draw.clearCheckLines();
-        const parser = new Parser(this.messages);
-
-        let steps = await parser.parseJourney('check_item');
-        let journey = new Journey();
-        journey.buildFromSteps(steps);
-
-        await journey.run({ item: item });
-
-        window.dispatchEvent(new Event('journey-finished'));
+    checkBitFast(position, item) {
+        draw.redrawLines();
+        let bit = this.bf.bitArray[position];
+        draw.drawCheckBox(item, position);
+        draw.drawCheckLine(position, bit, item);
+        Util.scrollToNextElement(draw.getBitBoxId(position), this.fastForward);
     }
 
     async checkBit(context) {
@@ -148,6 +135,13 @@ class Manager {
         draw.drawCheckBox(context.item, context.position);
         draw.drawCheckLine(context.position, context.bit, context.item);
         Util.scrollToNextElement(draw.getBitBoxId(context.position), this.fastForward);
+    }
+
+    setBitFast(position, item) {
+        this.bf.bitArray[position] = true;
+        this.bf.elements.includes(item) || this.bf.elements.push(item);
+        draw.renderBitList(this.bf.bitArray);
+        draw.drawTextBox(item, position);
     }
 
     async setBit(context) {
@@ -200,10 +194,18 @@ class Manager {
         },
         'return': async (context) => {
             return true;
+        },
+        'delay': async (context) => {
+            let delay = this.fastForward ? 0 : (context.delay || 1000);
+            return new Promise(resolve => setTimeout(resolve, delay));
         }
+    }
+
+    hash(item, index)
+    {
+        return this.bf.hash(item, index);
     }
 };
 
 const managerInstance = new Manager();
-export default Manager;
-export { Manager as JourneyManager, managerInstance };
+export { managerInstance };

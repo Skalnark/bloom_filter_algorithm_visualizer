@@ -11,9 +11,9 @@ class BloomFilter {
         BloomFilter._instance = this;
     }
 
-    initialize(size) {
+    initialize(size, hashCount = 3) {
         this.size = size;
-        this.hashCount = 3;
+        this.hashCount = hashCount;
         this.bitArray = Array.from({ length: size }, () => []);
         this.bitArray.fill(false);
         this.elements = [];
@@ -29,6 +29,16 @@ class BloomFilter {
         draw.clearItemBoxes();
         draw.clearItemLines();
         draw.clearCheckLines();
+    }
+
+    // hashes the item, uses the index to generate a salt
+    hash(item, index) {
+        let salt = index * 31;
+        let hash = 0;
+        for (let i = 0; i < item.length; i++) {
+            hash = (hash * 31 + item.charCodeAt(i) + salt) % this.size;
+        }
+        return hash;
     }
 
     async journeyHash1(context) {

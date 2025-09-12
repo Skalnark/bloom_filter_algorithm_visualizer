@@ -94,9 +94,10 @@ input[type="checkbox"]:checked {
 .prompt-simulator {
     overflow-y: auto;
     overflow-x: hidden;
-    height: 400px;
+    height: 300px;
     background: #000000;
-    min-width: 95%;
+    width: 95%;
+    max-width: 95%;
 }
 
 .prompt-window {
@@ -181,6 +182,7 @@ input[type="checkbox"]:checked {
     display: block;
     width: 100%;
     height: flex;
+    min-height: 1000px;
 }
 
 .param-holder {
@@ -196,10 +198,15 @@ input[type="checkbox"]:checked {
     border-radius: 4px;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    min-width: 800px;
-    max-width: 1200px;
-    width: 90%;
+    min-width: 90%;
+    max-width: 90%;
     }
+
+#app
+{
+    min-width: 90%;
+    max-width: 1200px;
+}
 
 body {
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
@@ -271,10 +278,29 @@ body {
     box-shadow: 0 4px 16px rgba(42, 122, 226, 0.13);
 }
 
-.info-label {
+.info-label{
     text-align: left;
     align-self: flex-start;
     display: block;
+    font-size: 1rem;
+}
+
+.info-description {
+    text-align: left;
+    align-self: flex-start;
+    display: block;
+    font-size: 0.9rem;
+    color: #888e94;
+    margin-top: 0.2em;
+    margin-bottom: 0.5em;
+}
+
+.bf-info-label {
+    text-align: left;
+    align-self: flex-start;
+    display: block;
+    font-size: 1.28rem;
+    margin-bottom: 0.2em;
 }
 
 @media (max-width: 1000px) {
