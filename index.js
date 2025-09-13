@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     await awake();
 
     manager.bf.initialize(100, 3);
-    manager.addDummyWords(['Varian Wrynn', 'Alleria', 'Medivh', 'Thrall', 'Jaina', 'Uther', 'Sylvanas', 'Guldan', 'Tyrande']);
+    manager.addDummyWords(['Ragnaros', 'Illidan', 'Arthas']);
     manager.redrawGraphics();
     htmlBuilder.setInfoLabels();
     //await initializeLocales();

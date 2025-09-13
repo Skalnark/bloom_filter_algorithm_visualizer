@@ -176,6 +176,7 @@ class HtmlBuilder {
         const checkItemInput = document.getElementById('check-item-input');
         const checkItemSubmit = document.getElementById('check-item-submit');
         const inputFastForwardCheckbox = document.getElementById('fast-forward-checkbox');
+        const finishButton = document.getElementById('finish-journey-button');
 
         if (bitSizeInput) bitSizeInput.disabled = true;
         if (bitSizeSubmit) bitSizeSubmit.disabled = true;
@@ -186,6 +187,7 @@ class HtmlBuilder {
         if (checkItemInput) checkItemInput.disabled = true;
         if (checkItemSubmit) checkItemSubmit.disabled = true;
         if (inputFastForwardCheckbox) inputFastForwardCheckbox.disabled = true;
+        if (finishButton) finishButton.disabled = true;
     }
 
     enableInputs() {
@@ -201,6 +203,7 @@ class HtmlBuilder {
 
         if (bitSizeInput) bitSizeInput.disabled = false;
         if (bitSizeSubmit) bitSizeSubmit.disabled = false;
+        if (hashCountInput) hashCountInput.disabled = false;
         if (dummyCountInput) dummyCountInput.disabled = false;
         if (addItemInput) addItemInput.disabled = false;
         if (addItemSubmit) addItemSubmit.disabled = false;

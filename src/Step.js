@@ -3,18 +3,11 @@ import { prompt } from "./Prompt.js";
 import { Util } from "./Util.js";
 
 class Step {
-    constructor(journey, action = null, context = {}, predicate = () => { return null; }, possibleNextSteps = []) {
-        this.journey = journey;
-        this.action = action;
-        this.possibleNextSteps = possibleNextSteps;
-        this.context = context;
-        this.predicate = predicate;
-        this.name = null;
-        this.line = '';
-    }
-
-    updateContext(newContext = {}) {
-        Util.updateContext(this.context, newContext);
+    constructor(name, id) {
+        this.action = null;
+        this.context = {};
+        this.name = name;
+        this.id = id;
     }
 
     async executeStep(baseContext = {}) {
@@ -78,7 +71,7 @@ class Step {
         let step = new Step();
         step.context = context;
         step.action = manager.functionRegistry(functionName);
-        if(!step.action)
+        if (!step.action)
             throw new Error(`Function '${functionName}' is not registered.`);
         return step;
     }

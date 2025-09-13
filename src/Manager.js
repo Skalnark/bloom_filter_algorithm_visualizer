@@ -1,7 +1,7 @@
 import { prompt } from "./Prompt.js";
 import { draw } from "./Draw.js";
 import { Util } from "./Util.js";
-import Journey from "./Journey.js";
+//import Journey from "./Journey.js";
 import Parser from "./Parser.js";
 import i18next from "i18next";
 import BloomFilter from "./BloomFilter.js";
@@ -21,23 +21,44 @@ export default class Manager {
         this.fastForwardCheckbox = document.getElementById('fast-forward-checkbox');
         this.nextStep = false;
         this.fastForward = true;
+        this.direction = 'next';
         this.messages = i18next.t(`messages`, { returnObjects: true });
         this.initListeners();
         //this.greetingsJourney();
     }
 
     async waitForUser() {
-        if (this.fastForward) {
-            return new Promise(resolve => resolve());
-        }
 
-        Util.scrollToElementById('prompt-simulator');
-        this.nextStep = false;
-        this.nextStepButton.style.backgroundColor = '#a71212ff';
-        while (!this.nextStep) {
+        this.finishButton.disabled = false;
+
+        if(this.fastForward) return this.direction;
+
+        let nextButton = document.getElementById('next-step-button');
+        let prevButton = document.getElementById('prev-step-button');
+
+        nextButton.style.backgroundColor = '#4aff50ff';
+        nextButton.style.color = 'black';
+        nextButton.style.fontWeight = 'bold';
+
+        prevButton.style.backgroundColor = '#fb4a3dff';
+        prevButton.style.color = 'black';
+        prevButton.style.fontWeight = 'bold';
+
+        while(!this.nextStep) {
             await new Promise(resolve => setTimeout(resolve, 100));
         }
-        this.nextStepButton.style.backgroundColor = '#181f1aff';
+
+
+        nextButton.style.backgroundColor = '';
+        nextButton.style.color = '';
+        nextButton.style.fontWeight = '';
+
+        prevButton.style.color = '';
+        prevButton.style.fontWeight = '';
+        prevButton.style.backgroundColor = '';
+
+        this.nextStep = false;
+        return this.direction;
     }
 
     #copyDummyWord(words) {
@@ -70,6 +91,7 @@ export default class Manager {
         this.finishButton.addEventListener('click', () => {
             this.fastForward = true;
             this.nextStep = true;
+            this.direction = 'next';
         });
 
         window.addEventListener('journey-finished', () => {
@@ -88,19 +110,33 @@ export default class Manager {
                 this.prompt.print("Step by step execution is enabled.");
             }
         });
+
+        const nextButton = document.getElementById('next-step-button');
+        const prevButton = document.getElementById('prev-step-button');
+
+        nextButton.addEventListener('click', () => {
+            this.direction = 'next';
+            this.nextStep = true;
+        });
+        
+        prevButton.addEventListener('click', () => {
+            this.direction = 'back';
+            this.nextStep = true;
+        });
     }
 
     async greetingsJourney() {
-
+/*
         const parser = new Parser(this.messages);
 
         let steps = await parser.parseJourney('greetings');
         let journey = new Journey();
         journey.buildFromSteps(steps);
-        await journey.run();
+        await journey.run();*/
     }
 
     async addItemJourney(item) {
+        /*
         window.dispatchEvent(new Event('journey-started'));
         const parser = new Parser(this.messages);
 
@@ -109,7 +145,7 @@ export default class Manager {
         journey.buildFromSteps(steps);
         await journey.run({ item: item });
 
-        window.dispatchEvent(new Event('journey-finished'));
+        window.dispatchEvent(new Event('journey-finished'));*/
     }
 
     redrawGraphics() {
@@ -126,8 +162,9 @@ export default class Manager {
         draw.redrawLines();
         let bit = this.bf.bitArray[position];
         draw.drawCheckBox(item, position);
-        draw.drawCheckLine(position, bit, item);
+        let lineId = draw.drawCheckLine(position, bit, item);
         Util.scrollToNextElement(draw.getBitBoxId(position), this.fastForward);
+        return lineId;
     }
 
     async checkBit(context) {
@@ -141,7 +178,7 @@ export default class Manager {
         this.bf.bitArray[position] = true;
         this.bf.elements.includes(item) || this.bf.elements.push(item);
         draw.renderBitList(this.bf.bitArray);
-        draw.drawTextBox(item, position);
+        return draw.drawTextBox(item, position);
     }
 
     async setBit(context) {
@@ -151,6 +188,15 @@ export default class Manager {
         draw.drawTextBox(context.item, context.position);
         Util.scrollToNextElement(draw.getBitBoxId(context.position), this.fastForward);
         return context
+    }
+
+    uncheck(lineId, position, item) {
+        // we need the lineId, the bitBoxId, and the position
+        draw.removeCheckLine(lineId);
+        let boxId = 'item-box-' + item;
+        let itemBox = draw.itemBoxes.filter(b => b.id === boxId);
+        
+
     }
 
     functionRegistry(functionName) {

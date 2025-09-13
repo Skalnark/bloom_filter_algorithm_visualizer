@@ -96,6 +96,20 @@ class Draw {
         this.itemBoxes = [];
     }
 
+    unCheck(lineId, boxId, position) {
+        this.uncheckBit(position, boxId);
+        this.removeCheckLine(lineId);
+    }
+
+    uncheckBit(position, boxId) {
+        let bitBox = this.bitBoxes.find(b => b.square.getAttribute('id') === `bit-${position}`);
+        if (bitBox) {
+            bitBox.square.setAttribute('stroke', '#168344ff');
+            bitBox.square.setAttribute('stroke-width', '1');
+            bitBox.text.textContent = bitBox.square.getAttribute('fill') === '#b6fcd5' ? '1' : '0';
+        }
+    }
+
     drawCheckBox(item) {
 
         if (this.checkBox) {
@@ -147,6 +161,20 @@ class Draw {
         }
     }
 
+    removeCheckLine(hash, item)
+    {
+        let lineId = `check-line-${item}-bit-${hash}`;
+        let lineElem = document.getElementById(lineId);
+        if (lineElem) {
+            this.svg.removeChild(lineElem);
+        }
+        let checkLineIndex = this.checkLines.findIndex(cl => cl.line === lineId);
+        if (checkLineIndex !== -1) {
+            this.checkLines.splice(checkLineIndex, 1);
+        }
+        this.uncheckBit(hash, item);
+    }
+
     drawCheckLine(hash, value, item) {
         let color = value ? '#11ff00ff' : '#ff0000ff';
         let line = this.#drawLine({ div1: `check-box`, div2: `bit-${hash}`, color: color }, true);
@@ -160,6 +188,7 @@ class Draw {
             bitBox.square.setAttribute('stroke-width', '4');
             bitBox.text.textContent = value ? '1' : '0';
         }
+        return line.id;
     }
 
     redrawLines() {
@@ -228,7 +257,7 @@ class Draw {
             let itemBox = { rect, textElem, bits: [] };
             itemBox.bits.push(bit);
 
-            this.itemBoxes.push(itemBox);
+            this.itemBoxes.unshift(itemBox);
         }
         else {
             let itemBox = this.itemBoxes.find(b => b.textElem.textContent === item);
@@ -236,14 +265,15 @@ class Draw {
         }
 
         this.repositionItemBoxes();
+        return 'item-box-' + item;
     }
 
     repositionItemBoxes() {
         if (this.itemBoxes.length === 0) return;
 
         let givenX = this.svg.clientWidth / 2;
-        let gap = (this.svg.clientHeight / this.itemBoxes.length) - 70;
-        gap = Math.max(0, gap);
+        let gap = (this.svg.clientHeight * 0.1) / this.itemBoxes.length;
+        gap = Math.max(gap, 0);
         let lastYPosition = 20;
         this.itemBoxes.forEach(({ rect, textElem }) => {
             let newY = lastYPosition + parseInt(rect.getAttribute('height')) + gap;
@@ -255,7 +285,7 @@ class Draw {
             rect.setAttribute('y', newY);
             textElem.setAttribute('x', givenX + textOffsetX);
             textElem.setAttribute('y', newY + textOffsetY);
-            lastYPosition = newY;
+            lastYPosition = newY + gap;
         });
 
         this.drawItemLines();

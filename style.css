@@ -69,6 +69,19 @@ input[type="checkbox"]:checked {
     opacity: 0.7;
 }
 
+#prev-next-holder 
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    max-width: 350px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    gap: 2rem;
+}
+
 .next-step-button {
     display: block;
     margin-top: 0.4em;
@@ -82,6 +95,8 @@ input[type="checkbox"]:checked {
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
     cursor: pointer;
     transition: background 0.18s, color 0.18s;
+    width: 90%;
+    max-width: 430px;
 }
 
 #next-step-button:hover,
