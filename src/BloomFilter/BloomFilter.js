@@ -1,5 +1,5 @@
-import draw from "./Draw.js";
-import { Util } from "./Util.js";
+import draw from "../Draw.js";
+import { Util } from "../Util.js";
 
 class BloomFilter {
     constructor(size = 30) {

@@ -8,7 +8,7 @@ import draw from "./Draw.js";
 const prompt = new Prompt();
 const manager = new Manager();
 
-async function print(message = '\n', delayMs = 2000) {
+async function print(message, delayMs = 2000) {
     prompt.print(message);
     return await delay(delayMs);
 }

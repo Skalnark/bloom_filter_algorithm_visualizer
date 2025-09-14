@@ -10,27 +10,6 @@ class Step {
         this.id = id;
     }
 
-    async executeStep(baseContext = {}) {
-        let actionResult;
-        if (this.action) {
-            actionResult = await this.action(baseContext);
-            if (this.context.output !== undefined && this.context.output !== null) {
-                baseContext[this.context.output] = actionResult;
-            }
-            else {
-                Util.updateContext(baseContext, actionResult);
-            }
-        }
-        if (this.context.output !== undefined
-            && this.context.expectedResult !== undefined
-            && this.context.output !== null
-            && this.context.expectedResult !== null
-        ) {
-            return actionResult === this.context.expectedResult;
-        }
-        return null;
-    }
-
     chainSteps(steps) {
         let chainName = '';
         let last = steps[steps.length - 1];
@@ -101,6 +80,11 @@ class Step {
         };
 
         return step;
+    }
+
+    undo(context)
+    {
+        return context;
     }
 
 }

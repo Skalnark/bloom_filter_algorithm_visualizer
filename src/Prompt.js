@@ -1,3 +1,5 @@
+import { Util } from "./Util";
+
 class Prompt {
     constructor() {
         if (Prompt._instance) {
@@ -20,13 +22,12 @@ class Prompt {
         this.promptSimulatorDiv.scrollTop = this.promptSimulatorDiv.scrollHeight;
     }
 
-    print(text, isComand = false) {
-
+    async print(text = '', delay = 0) {
         if (this.quietMode) return;
+        if(text === '') return this.newLine();
 
-        const prefix = isComand ? "$ " : "> ";
-
-        this.addSpanToPromptSimulator(text, prefix);
+        this.addSpanToPromptSimulator(text, '> ');
+        await Util.delay(delay);
     }
 
     addSpanToPromptSimulator(text, prefix = ">") {

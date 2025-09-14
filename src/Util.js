@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import managerInstance from './Manager.js';
 
 export class Util {
     static getLoremWords(n) {
@@ -65,5 +66,15 @@ export class Util {
             }
         }
         return original;
+    }
+    static async delay(ms) {
+        if (managerInstance.fastForward)
+            ms = 0;
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    static async scroll(elementId) {
+        if (managerInstance.fastForward) return;
+        this.scrollToElementById(elementId);
     }
 }

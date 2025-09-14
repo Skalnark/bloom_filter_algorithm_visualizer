@@ -2,14 +2,12 @@ import { Util } from './Util.js';
 import { managerInstance } from './Manager.js';
 import { prompt } from './Prompt.js';
 import draw from './Draw.js';
-import { addItemRoutine, checkItemRoutine, greetingsRoutine } from './JourneyFunctions.js';
 
 class HtmlBuilder {
     constructor() {
         this.prompt = prompt;
         this.jm = managerInstance;
         this.initListeners();
-        greetingsRoutine();
     }
 
     getBitSizeInputValue() {
@@ -86,7 +84,7 @@ class HtmlBuilder {
             const itemInput = document.getElementById('add-item-input');
             const item = itemInput.value;
             if (item) {
-                await addItemRoutine(item);
+                await managerInstance.addItem(item);
             }
         });
 
@@ -96,7 +94,7 @@ class HtmlBuilder {
             const item = itemInput.value;
             if (item) {
                 draw.clearCheckLines();
-                await checkItemRoutine(item);
+                await managerInstance.checkItem(item);
             }
         });
 
