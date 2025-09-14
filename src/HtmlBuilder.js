@@ -73,7 +73,7 @@ class HtmlBuilder {
         const elementsSpan = document.getElementById('bf-info-elements');
         const fprSpan = document.getElementById('bf-info-fpr');
 
-        sizeSpan.textContent = this.jm.bf.size;
+        sizeSpan.textContent = this.jm.bf.bitArray.length;
         hashCountSpan.textContent = this.jm.bf.hashCount;
         elementsSpan.textContent = this.jm.bf.elements.length;
         fprSpan.textContent = (this.jm.bf.calculateFPR() * 100).toFixed(6) + '%';

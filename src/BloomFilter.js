@@ -12,7 +12,6 @@ class BloomFilter {
     }
 
     initialize(size, hashCount = 3) {
-        this.size = size;
         this.hashCount = hashCount;
         this.bitArray = Array.from({ length: size }, () => []);
         this.bitArray.fill(false);
@@ -36,13 +35,13 @@ class BloomFilter {
         let salt = index * 31;
         let hash = 0;
         for (let i = 0; i < item.length; i++) {
-            hash = (hash * 31 + item.charCodeAt(i) + salt) % this.size;
+            hash = (hash * 31 + item.charCodeAt(i) + salt) % this.bitArray.length;
         }
         return hash;
     }
     
     calculateFPR() {
-        const m = this.size;
+        const m = this.bitArray.length;
         const k = this.hashCount;
         const n = this.elements.length;
         return (1 - Math.exp((-k * n) / m)) ** k;
