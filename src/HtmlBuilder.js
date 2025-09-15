@@ -5,9 +5,50 @@ import draw from './Draw.js';
 
 class HtmlBuilder {
     constructor() {
+        this.loadSimulatorTab();
         this.prompt = prompt;
         this.jm = managerInstance;
         this.initListeners();
+    }
+
+    loadSimulatorTab() {
+        const simulatorTabButton = document.getElementById('simulator-tab');
+        const theoryTabButton = document.getElementById('theory-tab');
+        const aboutTabButton = document.getElementById('about-tab');
+        const simulatorContent = document.getElementById('app');
+        const theoryContent = document.getElementById('theory');
+        const aboutContent = document.getElementById('about');
+
+        simulatorTabButton.addEventListener('click', () => {
+            simulatorTabButton.classList.add('active');
+            theoryTabButton.classList.remove('active');
+            aboutTabButton.classList.remove('active');
+            simulatorContent.style.display = 'flex';
+            theoryContent.style.display = 'none';
+            aboutContent.style.display = 'none';
+        });
+
+        theoryTabButton.addEventListener('click', () => {
+            simulatorTabButton.classList.remove('active');
+            theoryTabButton.classList.add('active');
+            aboutTabButton.classList.remove('active');
+            simulatorContent.style.display = 'none';
+            theoryContent.style.display = 'flex';
+            aboutContent.style.display = 'none';
+        });
+
+        aboutTabButton.addEventListener('click', () => {
+            simulatorTabButton.classList.remove('active');
+            theoryTabButton.classList.remove('active');
+            aboutTabButton.classList.add('active');
+            simulatorContent.style.display = 'none';
+            theoryContent.style.display = 'none';
+            aboutContent.style.display = 'flex';
+        });
+
+        //aboutTabButton.click();
+        //theoryTabButton.click();
+        simulatorTabButton.click();
     }
 
     getBitSizeInputValue() {

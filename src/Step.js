@@ -3,11 +3,11 @@ import { prompt } from "./Prompt.js";
 import { Util } from "./Util.js";
 
 class Step {
-    constructor(name, id) {
+    constructor(name, index) {
         this.action = null;
         this.context = {};
         this.name = name;
-        this.id = id;
+        this.index = index;
         this.skip = false;
     }
 

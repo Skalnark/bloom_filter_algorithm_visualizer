@@ -102,11 +102,9 @@ class Prompt {
         this.simulatePseudoCode();
     }
 
-    async nextLine(line = 0) {
-        if(line === 0)
-            this.currentPseudoCodeLine++;
-        else
-            this.currentPseudoCodeLine = line - 1;
+    async nextLine(line) {
+        if(line === undefined) throw new Error("Line number is required");
+        this.currentPseudoCodeLine = line - 1;
 
         this.simulatePseudoCode();
         await Util.delay(1000);

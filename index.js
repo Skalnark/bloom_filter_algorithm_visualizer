@@ -29,7 +29,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     let pseudoCode = `// select a routine\nreturn`;
     prompt.initPseudoCode(pseudoCode);
     await prompt.simulatePseudoCode();
-    await prompt.nextLine();
 });
 
 function greetings() {

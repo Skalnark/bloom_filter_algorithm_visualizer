@@ -1,4 +1,6 @@
 import Step from "../Step.js";
+import { managerInstance } from "../Manager.js";
+import draw from "../Draw.js";
 
 export default class SetBitStep extends Step {
     constructor() {
@@ -7,19 +9,15 @@ export default class SetBitStep extends Step {
     }
 
     undo(context) {
-        let hashName = `h${this.id}`;
-        if (this.id === 1) {
-            managerInstance.bf.elements.splice(managerInstance.bf.elements.indexOf(context.item), 1);
+        let hashName = `h${this.index}`;
+        managerInstance.bf.bitArray[context[hashName]] = false;
 
-            managerInstance.bf.bitArray[context[hashName]] = false;
-
-            draw.renderBitList(managerInstance.bf.bitArray);
-            let itemBoxId = 'item-box-' + context.item;
-            let itemBox = draw.itemBoxes.filter(b => b.rect.getAttribute('id') === itemBoxId);
-            if (itemBox.length > 0) {
-                itemBox[0].bits.pop();
-            }
-            draw.repositionItemBoxes();
+        draw.renderBitList(managerInstance.bf.bitArray);
+        let itemBoxId = 'item-box-' + context.item;
+        let itemBox = draw.itemBoxes.filter(b => b.rect.getAttribute('id') === itemBoxId);
+        if (itemBox.length > 0) {
+            itemBox[0].bits.pop();
         }
+        draw.repositionItemBoxes();
     }
 }

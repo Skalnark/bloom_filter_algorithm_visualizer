@@ -21,8 +21,7 @@ export class Journey {
         this.firstStep = steps[0];
     }
 
-    async _print(text, delay=0)
-    {
+    async _print(text, delay = 0) {
         await prompt.print(text, delay);
     }
 
@@ -39,12 +38,14 @@ export class Journey {
             context = await step.action(context);
             if (this.journeyRunning === false) break;
 
-            if(!step.skip)
+            if (!step.skip) {
                 decision = await managerInstance.waitForUser();
+            }
 
             if (decision === 'back') {
                 prompt.clear();
                 if (i === 0) {
+                    decision = 'next';
                     continue;
                 }
                 this.steps[i].undo(context);

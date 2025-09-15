@@ -1,5 +1,6 @@
-// Extends Step
-import { Step } from "../../Step.js";
+import Step from "../Step.js";
+import { managerInstance } from "../Manager.js";
+import draw from "../Draw.js";
 
 export default class CheckBitStep extends Step {
     constructor() {
@@ -9,7 +10,7 @@ export default class CheckBitStep extends Step {
     }
 
     undo(context) {
-        let hashName = `h${this.id}`;
+        let hashName = `h${this.index}`;
         let bitPosition = context[hashName];
         let item = context.item;
         draw.removeCheckLine(bitPosition, item);
