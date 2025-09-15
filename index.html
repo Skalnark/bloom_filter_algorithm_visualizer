@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Algorithm Visualizer</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css">
 </head>
 
 <body>
@@ -86,18 +87,21 @@
                 <div id="prompt-simulator" class="prompt-simulator">
                     <span class="prompt-line"></span>
                 </div>
-                <div id="prev-next-holder" class="prev-next-holder">
-                    <button id="prev-step-button" class="next-step-button">
-                        Back
-                    </button>
-                    <button id="next-step-button" class="next-step-button">
-                        Next
-                    </button>
-                </div>
-                <button id="finish-journey-button" class="next-step-button">
-                    Finish Execution
+                <pre id="pseudo-code-simulator" class="code prompt-simulator">
+                    <code class="prompt-line" ></code>
+                </pre>
+            </div>
+            <div id="prev-next-holder" class="prev-next-holder">
+                <button id="prev-step-button" class="next-step-button">
+                    Back
+                </button>
+                <button id="next-step-button" class="next-step-button">
+                    Next
                 </button>
             </div>
+            <button id="finish-journey-button" class="next-step-button">
+                Finish
+            </button>
         </div>
         <div id="bf-container" class="param-holder">
             <svg id="bloom-filter-svg" class="svg"></svg>

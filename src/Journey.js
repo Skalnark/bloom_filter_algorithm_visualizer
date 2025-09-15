@@ -21,7 +21,7 @@ export class Journey {
         this.firstStep = steps[0];
     }
 
-    async _print(text, delay=2500)
+    async _print(text, delay=0)
     {
         await prompt.print(text, delay);
     }
@@ -30,8 +30,8 @@ export class Journey {
 
         let context = structuredClone(this.context);
         let i = 0;
+        let decision = 'next';
         while (i < this.steps.length) {
-            //console.log(`step ${i + 1}/${this.steps.length}`);
             if (this.journeyRunning === false) break;
             let step = this.steps[i];
 
@@ -39,7 +39,8 @@ export class Journey {
             context = await step.action(context);
             if (this.journeyRunning === false) break;
 
-            let decision = await managerInstance.waitForUser();
+            if(!step.skip)
+                decision = await managerInstance.waitForUser();
 
             if (decision === 'back') {
                 prompt.clear();

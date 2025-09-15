@@ -1,15 +1,32 @@
 .prompt-line {
     display: block;
-    word-break: break-word;
-    white-space: pre;
-    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    word-break: normal;
+    font-family: 'Fira Code', monospace;
+    font-feature-settings: "liga" 1, "calt" 1;
     color: #b6fcd5;
-    font-size: 20px;
-    padding-top : 0.3em;
+    font-size: 16px;
+    padding-top: 0.3em;
     padding-left: 0.5em;
     padding-right: 0.5em;
-    white-space: pre-wrap;
     max-width: 95%;
+    box-sizing: border-box;
+}
+pre.code {
+  white-space: pre-wrap;
+}
+pre.code::before {
+  counter-reset: listing;
+}
+pre.code code {
+  counter-increment: listing;
+}
+pre.code code::before {
+  content: counter(listing) ". ";
+  display: inline-block;
+  width: 3em;
 }
 
 .prompt-line-prefix {
@@ -48,7 +65,7 @@
 }
 
 input[type="checkbox"]:checked {
-    accent-color: #181c1f;
+    accent-color: #000000;
 }
 
 .info-label {
@@ -69,17 +86,15 @@ input[type="checkbox"]:checked {
     opacity: 0.7;
 }
 
-#prev-next-holder 
-{
+#prev-next-holder {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 50%;
-    max-width: 350px;
     margin-top: 1em;
     margin-bottom: 1em;
     gap: 2rem;
+    min-width: 40%;
 }
 
 .next-step-button {
@@ -106,25 +121,33 @@ input[type="checkbox"]:checked {
     outline: none;
 }
 
+#pseudo-code-simulator {
+    border-left: #06be00 4px solid;
+}
+
 .prompt-simulator {
     overflow-y: auto;
     overflow-x: hidden;
-    height: 300px;
+    min-height: 300px;
+    max-height: 300px;
+    height: 100%;
     background: #000000;
-    width: 95%;
-    max-width: 95%;
+    width: 100%;
+    max-width: 50%;
+    padding-left: 0.5rem;
+    padding-top: 1rem;
 }
 
 .prompt-window {
-    width: 100%;
     color: #00c853;
     margin: 5px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     border-radius: 2px;
     padding-top: 0.5rem;
     padding-bottom: 1rem;
+    min-width: 100%;
 }
 
 .item-input-holder {
@@ -208,32 +231,33 @@ input[type="checkbox"]:checked {
     justify-content: flex-start;
     align-items: center;
     background: #181c1f;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
     border-radius: 4px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
     min-width: 90%;
     max-width: 90%;
 }
 
 #app {
-    min-width: 90%;
     max-width: 1200px;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: none;
 }
 
 body {
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
     background: #000000;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    font-size: 1.08rem;
-    letter-spacing: 0.01em;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: none;
 }
 
 #main-title-icon {
@@ -251,6 +275,7 @@ body {
     border-radius: 1px;
     padding-left: 10px;
     padding-right: 10px;
+    max-width: fit-content;
 }
 
 .sub-title {
@@ -266,6 +291,7 @@ body {
     padding-left: 10px;
     padding-right: 10px;
     border-top: 2px solid #00c853;
+    max-width: fit-content;
 }
 
 #scroll-button,
@@ -317,34 +343,53 @@ body {
     margin-bottom: 0.2em;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1280) {
     .main-title {
         font-size: 2rem;
         margin-top: 0;
     }
 
     .prompt-line {
-        font-size: 1rem;
-        padding: 0.1rem 0.2rem;
+        margin: 0.1rem 0.2rem;
     }
 
     .prompt-simulator {
-        height: 300px;
+        min-height: fit-content;
+        max-height: 300px;
+        max-width: 100%;
+        padding-bottom: 1rem;
+    }
+
+    .prompt-window {
+        flex-direction: column;
+    }
+
+    #pseudo-code-simulator {
+        border-left: none;
+        border-top: #06be00 4px solid;
+        max-height: fit-content;
     }
 
     .input-field,
     .submit-button,
     .next-step-button {
         font-size: 1.3rem;
-        margin-top: 2em;
-        min-width: 100%;
-        min-height: 50px;
+        margin-top: 0.1em;
+        max-width: 100%;
+        min-height: 40px;
     }
 
     .item-info-holder,
     .item-input-holder {
-        min-width: 100%;
-        min-height: 50px;
+        min-height: 40px;
+        margin-top: 1rem;
+    }
+
+    #prev-next-holder {
+        gap: 1rem;
+        margin-top: 0;
+        margin-bottom: 0;
+        min-width: 90%;
     }
 
     .bf-text-box {
@@ -371,13 +416,18 @@ body {
     }
 
     .param-holder {
-        padding-top: 0.3rem;
-        padding-bottom: 0.3rem;
+        padding-top: 0.1rem;
+        padding-bottom: 0.1rem;
         padding-left: 0.5rem;
         padding-right: 0.5rem;
         width: 95% !important;
         min-width: 95% !important;
         max-width: 95% !important;
+    }
+
+    #app {
+        min-width: 95% !important;
+        max-width: 100% !important;
     }
 
     body {

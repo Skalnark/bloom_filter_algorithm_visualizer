@@ -1,16 +1,21 @@
 import HtmlBuilder from './src/HtmlBuilder.js';
 import Manager from './src/Manager.js';
-import { prompt } from './src/Prompt.js';
+import { Util } from './src/Util.js';
+import Prompt from './src/Prompt.js';
 
 window.DEBUG = false;
 
 let htmlBuilder;
 let manager;
+let util;
+let prompt;
 
 async function awake() {
     //await initializeLocales();
+    util = new Util();
     manager = new Manager();
     htmlBuilder = new HtmlBuilder();
+    prompt = new Prompt();
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -19,17 +24,19 @@ window.addEventListener('DOMContentLoaded', async () => {
     manager.bf.initialize(100, 3);
     manager.redrawGraphics();
     htmlBuilder.setInfoLabels();
-    
+
     greetings();
+    let pseudoCode = `// select a routine\nreturn`;
+    prompt.initPseudoCode(pseudoCode);
+    await prompt.simulatePseudoCode();
+    await prompt.nextLine();
 });
 
-function greetings()
-{
-    prompt.print("# Welcome to the Bloom Filter Algorithm Visualizer");
-    prompt.print("You can learn about the Bloom Filter data structure and how it works by following the execution step-by-step");
-    prompt.print("Use the Add and Check buttons to see how items are added and checked in the Bloom Filter");
-    prompt.print("Set the number of bits and hash functions to see how they affect the performance");
-    prompt.print("Enjoy learning about Bloom Filters!");
+function greetings() {
+    prompt.print("Add an item or check if an item is in the Bloom Filter using the buttons above.");
+    prompt.print("You can use the 'Next' and 'Back' buttons to step through the process.");
+    prompt.print("Use the 'Fast Forward' checkbox or the 'Finish' button to skip to the end of a process.");
+    prompt.print("Enjoy!");
     prompt.print();
 }
 

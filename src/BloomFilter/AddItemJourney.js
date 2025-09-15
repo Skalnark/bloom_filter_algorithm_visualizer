@@ -4,6 +4,7 @@ import SetBitStep from "./SetBitStep.js";
 import { managerInstance } from "../Manager.js";
 import { Util } from "../Util.js";
 import draw from "../Draw.js";
+import { prompt } from "../Prompt.js";
 
 export default class AddItemJourney extends Journey {
     constructor() {
@@ -14,18 +15,36 @@ export default class AddItemJourney extends Journey {
 
         this.context = { item: item };
 
+        let pseudoCode =
+`k = ${managerInstance.bf.hashCount}
+stop if '${item}' in elements
+do
+    for i from 0 to k-1 do
+        p = hash('${item}', i)
+        bitArray[p] = 1
+    end
+    add '${item}' to elements
+end`;
+
+        prompt.initPseudoCode(pseudoCode);
+
         let first = new Step();
+        first.skip = true;
 
         first.action = async (context) => {
             first.context = context;
-            this._print(`# Adding item '${item}' to the Bloom Filter`);
+            await Util.delay(1000);
+            await prompt.nextLine();
+            this._print(`Checking if '${item}' is already in the Bloom Filter...`);
+            await managerInstance.waitForUser();
             if (managerInstance.bf.elements.includes(item)) {
-                await this._print(`The item '${item}' is already in the Bloom Filter. Adding it again will not change the filter.`);
+                await this._print(`'${item}' was already inserted. Adding it again will not change the filter.`);
+                prompt.nextLine(9);
+                await managerInstance.waitForUser();
                 window.dispatchEvent(new Event('journey-finished'));
                 return context;
             }
-            this._print(`To add ${item} to the Bloom Filter, we will compute ${managerInstance.bf.hashCount} hash values.`);
-            this._print();
+            await prompt.nextLine();
             return context;
         }
         this.steps.push(first);
@@ -36,20 +55,27 @@ export default class AddItemJourney extends Journey {
             hash = new Step();
             let hashName = `h${i + 1}`;
             hash.action = ((i) => async (context) => {
+                if (i === 0) {
+                    await prompt.nextLine();
+                }
+                prompt.print(`${i}/${managerInstance.bf.hashCount} hashes calculated.`, 100);
                 hash.context = context;
-                await this._print(`Calculating hash ${i + 1} for item '${item}'...`);
+                await managerInstance.waitForUser();
+                prompt.nextLine();
                 context[hashName] = managerInstance.bf.hash(context.item, i);
-                await this._print(`The hash ${hashName} for item '${context.item}' is ${context[hashName]}`);
-                this._print();
+                await this._print(`The hash_${i + 1} for '${context.item}' is ${context[hashName]}`);
                 return context;
             })(i);
             this.steps.push(hash);
 
             let setBit = new SetBitStep(i + 1);
+            setBit.skip = true;
             setBit.action = ((i) => async (context) => {
                 setBit.context = context;
                 let hashName = `h${i + 1}`;
+                prompt.nextLine();
                 await this._print(`Set the bit at position ${context[hashName]} in the bit array to 1`);
+                await managerInstance.waitForUser();
 
                 managerInstance.bf.bitArray[context[hashName]] = true;
                 managerInstance.bf.elements.includes(item) || managerInstance.bf.elements.push(item);
@@ -61,7 +87,7 @@ export default class AddItemJourney extends Journey {
                 await Util.delay(3000);
 
                 Util.scroll('prompt-simulator');
-                this._print();
+                await prompt.nextLine(4);
                 return context;
             })(i);
 
@@ -71,9 +97,11 @@ export default class AddItemJourney extends Journey {
         let finalStep = new Step();
         finalStep.action = async (context) => {
             finalStep.context = context;
-            await this._print(`All ${managerInstance.bf.hashCount} hash values have been calculated and the corresponding bits have been set to 1.`);
-            await this._print(`The item '${item}' has been added to the Bloom Filter.`);
-            this._print();
+            prompt.print(`${managerInstance.bf.hashCount}/${managerInstance.bf.hashCount} hashes calculated.`, 2500);
+            await prompt.nextLine(7);
+            await prompt.nextLine();
+            await this._print(`'${item}' has been added to the Bloom Filter.`, 1500);
+            await prompt.nextLine();
             window.dispatchEvent(new Event('journey-finished'));
             return context;
         }

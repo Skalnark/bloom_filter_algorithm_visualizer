@@ -8,6 +8,7 @@ class Step {
         this.context = {};
         this.name = name;
         this.id = id;
+        this.skip = false;
     }
 
     chainSteps(steps) {
