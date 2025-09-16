@@ -88,12 +88,11 @@ export default class Manager {
             for (let i = 0; i < this.bf.hashCount; i++) {
                 let position = this.bf.hash(word, i);
                 this.bf.bitArray[position] = true;
-                // checks to avoid duplicates
-                if (!this.bf.elements.includes(word)) {
-                    this.bf.elements.push(word);
-                }
                 draw.renderBitList(this.bf.bitArray);
                 draw.drawTextBox(word, position);
+            }
+            if (!this.bf.elements.includes(word)) {
+                this.bf.elements.push(word);
             }
         }
     }
@@ -203,7 +202,7 @@ export default class Manager {
     async initializeSpellChecker() {
         this.bf.clear();
 
-        const response =  await fetch('https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words_alpha.txt');
+        const response = await fetch('https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words_alpha.txt');
         let text = await response.text();
         let words = text.split('\n');
         text = null;
@@ -215,7 +214,7 @@ export default class Manager {
         this.bf.bitArray = Array.from({ length: m }, () => []);
         this.bf.elements = [];
 
-        for(let i = 0; i < this.bf.bitArray.length; i++) {
+        for (let i = 0; i < this.bf.bitArray.length; i++) {
             this.bf.bitArray[i] = false;
         }
 
@@ -243,7 +242,7 @@ export default class Manager {
     }
 
     async checkSpell(word) {
-        for(let i = 0; i < this.bf.hashCount; i++) {
+        for (let i = 0; i < this.bf.hashCount; i++) {
             let position = this.bf.hash(word, i);
             if (!this.bf.bitArray[position]) {
                 return false;
