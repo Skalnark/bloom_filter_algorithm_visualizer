@@ -172,7 +172,7 @@ export default class Manager {
         let words = text.split('\n');
         text = null;
         let n = words.length;
-        let p = 0.000001;
+        let p = 0.0001;
         let m = this.bf.estimateCapacity(p, n);
         let k = this.bf.estimateHashCount(m, n);
         this.bf.hashCount = k;
@@ -196,7 +196,7 @@ export default class Manager {
         const elementsSpan = document.getElementById('sc-info-elements');
         sizeSpan.innerText = m;
         hashCountSpan.innerText = this.bf.hashCount;
-        fprSpan.innerText = (((1 - Math.exp((-k * n) / m)) ** k) * 100).toFixed(4) + '%';
+        fprSpan.innerText = (((1 - Math.exp((-k * n) / m)) ** k) * 100).toFixed(2) + '%';
         elementsSpan.innerText = n;
         words = null;
 
