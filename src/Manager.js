@@ -88,7 +88,10 @@ export default class Manager {
             for (let i = 0; i < this.bf.hashCount; i++) {
                 let position = this.bf.hash(word, i);
                 this.bf.bitArray[position] = true;
-                this.bf.elements.push(word) || this.bf.elements.push(word);
+                // checks to avoid duplicates
+                if (!this.bf.elements.includes(word)) {
+                    this.bf.elements.push(word);
+                }
                 draw.renderBitList(this.bf.bitArray);
                 draw.drawTextBox(word, position);
             }
