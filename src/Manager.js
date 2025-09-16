@@ -170,14 +170,18 @@ export default class Manager {
         const response =  await fetch('https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words_alpha.txt');
         let text = await response.text();
         let words = text.split('\n');
+        text = null;
         let n = words.length;
         let p = 0.000001;
         let m = this.bf.estimateCapacity(p, n);
         let k = this.bf.estimateHashCount(m, n);
         this.bf.hashCount = k;
         this.bf.bitArray = Array.from({ length: m }, () => []);
-        this.bf.bitArray.fill(false);
         this.bf.elements = [];
+
+        for(let i = 0; i < this.bf.bitArray.length; i++) {
+            this.bf.bitArray[i] = false;
+        }
 
         for (let i = 0; i < words.length - 1; i++) { // the last word is empty
             for (let j = 0; j < this.bf.hashCount; j++) {
@@ -194,6 +198,7 @@ export default class Manager {
         hashCountSpan.innerText = this.bf.hashCount;
         fprSpan.innerText = (((1 - Math.exp((-k * n) / m)) ** k) * 100).toFixed(4) + '%';
         elementsSpan.innerText = n;
+        words = null;
 
         const input = document.getElementById('spell-checker-input');
         input.disabled = false;
