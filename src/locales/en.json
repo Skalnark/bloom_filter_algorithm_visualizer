@@ -5,6 +5,20 @@
 		"fastForwardDisabled": "Step by step execution is enabled.",
 		"possiblyCorrect": "\"{{word}}\" is possibly correct.",
 		"definitelyIncorrect": "\"{{word}}\" is definitely incorrect."
+		,"checkingIf": "Checking if '{{item}}' is in the Bloom Filter...",
+		"alreadyInserted": "'{{item}}' was already inserted. Adding it again will not change the filter.",
+		"hashesCalculated": "{{count}}/{{total}} hashes calculated.",
+		"hashFor": "The hash_{{index}} for '{{item}}' is {{value}}",
+		"setBit": "Set the bit at position {{position}} in the bit array",
+		"itemAdded": "'{{item}}' has been added to the Bloom Filter.",
+		"positionsVerified": "{{count}}/{{total}} positions verified.",
+		"bitIsOne": "The bit at position {{position}} is 1",
+		"bitIsZero": "The bit at position {{position}} is 0",
+		"itemMightBe": "This means the item might be in the Bloom Filter...",
+		"itemDefinitelyNot": "This means that '{{item}}' is definitely NOT in the Bloom Filter.",
+		"allBitsAreOne": "All the bits at the calculated positions are 1.",
+		"wasAddedEarlier": "In fact, it was added earlier!",
+		"falsePositive": "However, it was never added. This is a false positive!"
 	},
 	"ui": {
 		"simulator": "Simulator",
@@ -18,6 +32,7 @@
 		"finish": "Finish",
 		"numberOfBitsLabel": "Number of bits (m):",
 		"bitSizeInfo": "Max 500 bits",
+		"dummyWordsInfo": "We might not show every item you add",
 		"numberOfHashFunctionsLabel": "Number of hash functions (k):",
 		"hashCountInfo": "At least 1, max 10",
 		"numberOfElementsLabel": "Number of elements (n):",
@@ -37,6 +52,7 @@
 		"dictionaryLoaded": "Dictionary Loaded",
 		"loading": "Loading..."
 		,"greetAddItem": "Add an item or check if an item is in the Bloom Filter using the buttons above.",
+		"errorBitSize": "Error: Bit size cannot exceed 500.",
 		"greetNavigation": "You can use the 'Next' and 'Back' buttons to step through the process.",
 		"greetFastForward": "Use the 'Fast Forward' checkbox or the 'Finish' button to skip to the end of a process.",
 		"greetEnjoy": "Enjoy!"

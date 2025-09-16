@@ -112,7 +112,11 @@ export default class Manager {
                 const msg = i18next.t('messages.finishedExecution');
                 this.prompt.print(msg);
             } catch (e) {
-                this.prompt.print('Finished execution.');
+                try {
+                    this.prompt.print(window.i18next ? window.i18next.t('messages.finishedExecution') : 'Finished execution.');
+                } catch (e2) {
+                    this.prompt.print('Finished execution.');
+                }
             }
             this.prompt.newLine();
         });
@@ -125,13 +129,21 @@ export default class Manager {
                 try {
                     this.prompt.print(i18next.t('messages.fastForwardEnabled'));
                 } catch (e) {
-                    this.prompt.print('Step by step execution will be fast forwarded.');
+                    try {
+                        this.prompt.print(window.i18next ? window.i18next.t('messages.fastForwardEnabled') : 'Step by step execution will be fast forwarded.');
+                    } catch (e2) {
+                        this.prompt.print('Step by step execution will be fast forwarded.');
+                    }
                 }
             } else {
                 try {
                     this.prompt.print(i18next.t('messages.fastForwardDisabled'));
                 } catch (e) {
-                    this.prompt.print('Step by step execution is enabled.');
+                    try {
+                        this.prompt.print(window.i18next ? window.i18next.t('messages.fastForwardDisabled') : 'Step by step execution is enabled.');
+                    } catch (e2) {
+                        this.prompt.print('Step by step execution is enabled.');
+                    }
                 }
             }
         });

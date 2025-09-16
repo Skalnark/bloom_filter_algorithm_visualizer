@@ -1,5 +1,38 @@
 #bf-param-holder {
-    border-top: #00c853 4px solid;
+    border-top: var(--accent-color) 4px solid;
+}
+
+/* Theme variables: dark is default; add .theme-light to switch */
+:root {
+    --bg: #000000;
+    --panel-bg: #181c1f;
+    --muted-panel-bg: #0e1113;
+    --text: #b6fcd5;
+    --text-muted: #b6fcd593;
+    --accent-color: #00c853;
+    --accent-bright: #00e676;
+    --control-bg: #0e1113;
+    --control-border: #00c853;
+    --footer-bg: rgba(0,0,0,0.6);
+    --footer-icon: #ffffff;
+    --prompt-bg: #000000;
+    --prompt-highlight: rgba(0,200,83,0.12);
+}
+
+.theme-light {
+    --bg: #f6f7f9;
+    --panel-bg: #ffffff;
+    --muted-panel-bg: #f0f2f4;
+    --text: #04121a;
+    --text-muted: #46585f;
+    --accent-color: #0077cc;
+    --accent-bright: #0099ff;
+    --control-bg: #ffffff;
+    --control-border: #0077cc;
+    --footer-bg: rgba(255,255,255,0.9);
+    --footer-icon: #0b1720;
+    --prompt-bg: #f4f6f8;
+    --prompt-highlight: rgba(0, 119, 204, 0.37);
 }
 
 .about-content {
@@ -7,12 +40,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #181c1f;
+    background: var(--panel-bg);
     padding: 1rem;
     border-radius: 4px;
     margin-top: 0.3rem;
     margin-bottom: 0.3rem;
-    color: #b6fcd5;
+    color: var(--text);
     width: 100vw;
     min-width: 100%;
     max-width: 1200px;
@@ -25,7 +58,7 @@
 }
 
 .about-content a {
-    color: #00e676;
+    color: var(--accent-bright);
     text-decoration: none;
 }
 
@@ -56,9 +89,9 @@
     padding: 0.3rem;
     padding-bottom: 0.5rem;
     margin-bottom: 0.5rem;
-    background: #0e1113;
-    color: #b6fcd5;
-    border: 1px solid #00c853;
+    background: var(--control-bg);
+    color: var(--text);
+    border: 1px solid var(--control-border);
     border-radius: 6px;
     font-family: 'Fira Mono', monospace;
     font-size: 1.2rem;
@@ -78,7 +111,7 @@
     font-size: 1.05rem;
     padding: 0.5em 1.1em;
     background: transparent;
-    color: #b6fcd5;
+    color: var(--text);
     border: 1px solid transparent;
     border-bottom: none;
     border-top-left-radius: 8px;
@@ -91,15 +124,36 @@
 
 .tab-button:hover,
 .tab-button:focus {
-    background: rgba(32, 41, 33, 0.7);
-    color: #e8ffef;
+    background: rgba(32, 41, 33, 0.12);
+    color: var(--text);
     outline: none;
 }
 
 .tab-button.active {
-    background: #0e1113;
-    color: #00e676;
-    border: 1px solid #00c853;
+    background: var(--muted-panel-bg);
+    color: var(--text);
+    border: 1px solid var(--accent-color);
+    margin-bottom: -2px;
+}
+
+/* Light theme tab improvements */
+.theme-light .tab-button {
+    background: transparent;
+    color: var(--text);
+    border-color: transparent;
+}
+
+.theme-light .tab-button:hover,
+.theme-light .tab-button:focus {
+    background: rgba(11,23,32,0.04);
+    color: var(--text);
+}
+
+.theme-light .tab-button.active {
+    background: var(--muted-panel-bg);
+    color: var(--text);
+    border: 1px solid var(--control-border);
+    box-shadow: 0 1px 0 rgba(11,23,32,0.03) inset;
     margin-bottom: -2px;
 }
 
@@ -111,7 +165,7 @@
     word-break: normal;
     font-family: 'Fira Code', monospace;
     font-feature-settings: "liga" 1, "calt" 1;
-    color: #b6fcd5;
+    color: var(--text);
     font-size: 16px;
     padding-top: 0.3em;
     padding-left: 0.5em;
@@ -139,8 +193,13 @@ pre.code code::before {
 }
 
 .prompt-line-prefix {
-    color: #06be00;
+    color: var(--accent-bright);
     font-weight: 600;
+}
+
+/* active pseudo-code line highlight */
+.pseudo-active {
+    background: var(--prompt-highlight) !important;
 }
 
 .checkbox-holder {
@@ -212,9 +271,9 @@ input[type="checkbox"]:checked {
     margin-bottom: 0.6em;
     font-size: 1.1rem;
     padding: 0.6em 2.2em;
-    background: #202921;
-    color: #b6fcd5;
-    border: 1.5px solid #00c853;
+    background: var(--panel-bg);
+    color: var(--text);
+    border: 1.5px solid var(--accent-color);
     border-radius: 6px;
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
     cursor: pointer;
@@ -225,9 +284,33 @@ input[type="checkbox"]:checked {
 
 #next-step-button:hover,
 #next-step-button:focus {
-    background: #22292f;
-    color: #00e676;
+    background: var(--muted-panel-bg);
+    color: var(--accent-bright);
     outline: none;
+}
+
+/* Ensure good contrast in light theme */
+.theme-light .next-step-button {
+    background: var(--panel-bg);
+    color: var(--text);
+    border-color: var(--control-border);
+}
+
+.theme-light #next-step-button:hover,
+.theme-light #next-step-button:focus {
+    background: var(--muted-panel-bg);
+    color: var(--accent-bright);
+    outline: none;
+}
+
+/* Disabled appearance uses muted colors */
+.next-step-button:disabled,
+.next-step-button[disabled] {
+    background: var(--muted-panel-bg);
+    color: var(--text-muted);
+    border-color: rgba(0,0,0,0.08);
+    cursor: not-allowed;
+    opacity: 0.85;
 }
 
 #pseudo-code-simulator {
@@ -239,11 +322,36 @@ input[type="checkbox"]:checked {
     overflow-y: auto;
     overflow-x: hidden;
     height: 200px;
-    background: #000000;
+    background: var(--prompt-bg);
     width: 100%;
     max-width: 80%;
     padding-left: 0.5rem;
     padding-top: 1rem;
+}
+
+/* Prompt borders and accents — theme-aware */
+.prompt-simulator {
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04) inset;
+    border-left: 4px solid var(--accent-color);
+}
+
+.prompt-window {
+    color: var(--accent-color);
+    border: 1px solid rgba(0,0,0,0.06);
+    background: transparent;
+}
+
+/* Bright theme adjustments for prompt borders to ensure contrast */
+.theme-light .prompt-simulator {
+    border: 1px solid rgba(11,23,32,0.06);
+    box-shadow: 0 1px 0 rgba(11,23,32,0.02) inset;
+    border-left-color: var(--accent-color);
+}
+
+.theme-light .prompt-window {
+    color: var(--text);
+    border-color: rgba(11,23,32,0.06);
 }
 
 .prompt-window {
@@ -279,9 +387,9 @@ input[type="checkbox"]:checked {
 
 .input-field {
     font-size: 1.09rem;
-    color: #b6fcd5;
-    background: #0e1113;
-    border: 1.5px solid #00c853;
+    color: var(--text);
+    background: var(--control-bg);
+    border: 1.5px solid var(--control-border);
     border-radius: 6px;
     padding: 0.38em 0.9em;
     outline: none;
@@ -289,7 +397,7 @@ input[type="checkbox"]:checked {
 }
 
 .input-field:focus {
-    background-color: #181c1f;
+    background-color: var(--panel-bg);
 }
 
 .submit-button {
@@ -298,9 +406,9 @@ input[type="checkbox"]:checked {
     margin: 1.2em auto;
     font-size: 1.1rem;
     padding: 0.6em 2.2em;
-    background: #202921;
-    color: #b6fcd5;
-    border: 1.5px solid #00c853;
+    background: var(--panel-bg);
+    color: var(--text);
+    border: 1.5px solid var(--accent-color);
     border-radius: 6px;
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
     cursor: pointer;
@@ -317,10 +425,10 @@ input[type="checkbox"]:checked {
 #bf-container {
     padding-top: 2rem;
     padding-bottom: 2rem;
-    background: #181c1f;
+    background: var(--panel-bg);
     border-radius: 1px;
-    border-top: 2px solid #00c853;
-    border-bottom: 2px solid #00c853;
+    border-top: 2px solid var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
 }
 
 .svg {
@@ -332,12 +440,12 @@ input[type="checkbox"]:checked {
 
 .param-holder {
     display: flex;
-    color: #b6fcd5;
+    color: var(--text);
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     align-items: center;
-    background: #181c1f;
+    background: var(--panel-bg);
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
     border-radius: 4px;
@@ -364,7 +472,7 @@ input[type="checkbox"]:checked {
 
 body {
     font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
-    background: #000000;
+    background: var(--bg);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -404,8 +512,17 @@ body {
     padding-right: 10px;
     border-top: 2px solid #00c853;
     max-width: fit-content;
+    color: var(--text-muted);
 }
 
+/* Light theme explicit title colors */
+.theme-light .main-title {
+    color: var(--text);
+}
+
+.theme-light .sub-title {
+    color: var(--text-muted);
+}
 .header-controls {
     display: flex;
 }
@@ -439,7 +556,7 @@ body {
     right: 0;
     bottom: 0;
     width: 100%;
-    background: rgba(0,0,0,0.6);
+    background: var(--footer-bg);
     display: flex !important;
     justify-content: center;
     padding: 0.6rem 0.6rem;
@@ -472,8 +589,35 @@ body {
 .footer-controls .github-icon {
     width: 18px;
     height: 18px;
-    fill: #ffffff !important;
+    fill: var(--footer-icon) !important;
 }
+
+#theme-toggle {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-family: 'Fira Mono', monospace;
+    cursor: pointer;
+}
+
+#theme-toggle[aria-pressed="true"] {
+    background: var(--control-bg);
+    border-color: var(--control-border);
+}
+
+.theme-icon {
+    width: 18px;
+    height: 18px;
+    fill: var(--footer-icon);
+    display: inline-block;
+}
+
+/* Show moon in dark (default), show sun in light */
+.icon-sun { display: none; }
+.theme-light .icon-sun { display: inline-block; }
+.theme-light .icon-moon { display: none; }
 
 /* avoid footer overlap */
 body {
@@ -484,12 +628,25 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: #b6fcd5;
+    color: var(--accent-bright);
     text-decoration: none;
 }
 
 .about-content a.github-link:hover {
-    color: #00e676;
+    color: var(--accent-color);
+}
+
+/* Ensure about links adapt to light theme */
+.theme-light .about-content a {
+    color: var(--accent-bright);
+}
+
+.theme-light .about-content a.github-link {
+    color: var(--accent-color);
+}
+
+.theme-light .about-content a.github-link:hover {
+    color: var(--accent-bright);
 }
 
 .github-icon {
@@ -498,13 +655,17 @@ body {
     height: 18px;
 }
 
+#theory {
+    display: none;
+}
+
 .theory-content {
     display: flex;
     width: 100vw;
     min-width: 100%;
     max-width: 1200px;
     margin: 0.6rem auto;
-    color: #d7fbe0;
+    color: var(--text);
 }
 
 .theory-hero {
@@ -517,7 +678,7 @@ body {
 
 .theory-hero h1 {
     margin: 0 0 0.25rem 0;
-    color: #b6fcd5;
+    color: var(--text);
     font-size: 1.8rem;
 }
 
@@ -529,10 +690,10 @@ body {
 }
 
 .theory-main {
-    background: #0f1413;
+    background: var(--panel-bg);
     padding: 1rem;
     border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0,0,0,0.06);
     min-width: 70%;
     max-width: 100%;
     display: flex;
@@ -542,36 +703,36 @@ body {
 }
 
 .theory-aside {
-    background: #0b0f0e;
+    background: var(--panel-bg);
     padding: 0.8rem;
     border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(0,0,0,0.04);
     max-width: 30%;
 }
 
 .callout {
     background: linear-gradient(180deg, rgba(0, 230, 118, 0.06), rgba(0, 230, 118, 0.02));
-    border-left: 4px solid #00e676;
+    border-left: 4px solid var(--accent-bright);
     padding: 0.6rem 0.9rem;
     margin: 0.6rem 0;
     border-radius: 4px;
-    color: #dfffe8;
+    color: var(--text);
 }
 
 .theory-main h2 {
-    color: #b6fcd5;
+    color: var(--text);
     margin-top: 0.8rem;
 }
 
 .theory-main p {
     line-height: 1.6;
-    color: #cfeedd;
+    color: var(--text-muted);
 }
 
 .theory-main pre,
 .theory-main code {
-    background: #08100f;
-    color: #b6fcd5;
+    background: rgba(0,0,0,0.06);
+    color: var(--text);
     padding: 0.6rem;
     border-radius: 4px;
     overflow-x: auto;
@@ -579,11 +740,11 @@ body {
 
 .toc {
     font-size: 0.95rem;
-    color: #cfeedd;
+    color: var(--text-muted);
 }
 
 .toc a {
-    color: #9ef0b8;
+    color: var(--accent-bright);
     text-decoration: none;
 }
 
@@ -596,9 +757,9 @@ body {
     z-index: 1000;
     border-radius: 50%;
     padding: 1em 1.2em;
-    background: #181c1f;
-    color: #00e676;
-    border: 2px solid #00c853;
+    background: var(--panel-bg);
+    color: var(--accent-bright);
+    border: 2px solid var(--accent-color);
     font-size: 1.3rem;
     cursor: pointer;
     transition: background 0.18s, color 0.18s, box-shadow 0.18s;
@@ -607,8 +768,8 @@ body {
 
 #scroll-button:hover,
 .scroll-button:hover {
-    background: #22292f;
-    color: #00e676;
+    background: var(--muted-panel-bg);
+    color: var(--accent-bright);
     box-shadow: 0 4px 16px rgba(42, 122, 226, 0.13);
 }
 
@@ -626,7 +787,7 @@ body {
     width: 90%;
     margin: 0.6rem auto;
     padding: 0.8rem;
-    background: #181c1f;
+    background: var(--panel-bg);
     border: 1px solid rgba(0, 200, 83, 0.06);
     height: 400px;
 }
@@ -639,13 +800,13 @@ body {
 }
 
 .spell-checker-result {
-    color: #cfeedd;
+    color: var(--text);
     font-size: 0.98rem;
     min-width: 220px;
 }
 
 .spell-checker-content a {
-    color: #00e676;
+    color: var(--accent-bright);
     text-decoration: none;
 }
 
@@ -654,16 +815,19 @@ body {
 }
 
 .spell-checker-content a:visited {
-    color: #66ffa6;
+    color: var(--accent-color);
 }
 
+.spell-checker-content p {
+    font-size: 1.3rem;
+}
 
 .info-description {
     text-align: left;
     align-self: flex-start;
     display: block;
     font-size: 0.8rem;
-    color: #888e94;
+    color: var(--text-muted);
     margin-top: 0.5em;
     margin-bottom: 0.2em;
 }

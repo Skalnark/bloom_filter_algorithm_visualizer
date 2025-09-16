@@ -35,10 +35,18 @@ end`;
             first.context = context;
             await Util.delay(1000);
             await prompt.nextLine(2);
-            this._print(`Checking if '${item}' is already in the Bloom Filter...`);
+            try {
+                this._print(window.i18next ? window.i18next.t('messages.checkingIf', { item }) : `Checking if '${item}' is already in the Bloom Filter...`);
+            } catch (e) {
+                this._print(`Checking if '${item}' is already in the Bloom Filter...`);
+            }
             await managerInstance.waitForUser();
             if (managerInstance.bf.elements.includes(item)) {
-                await this._print(`'${item}' was already inserted. Adding it again will not change the filter.`);
+                try {
+                    await this._print(window.i18next ? window.i18next.t('messages.alreadyInserted', { item }) : `'${item}' was already inserted. Adding it again will not change the filter.`);
+                } catch (e) {
+                    await this._print(`'${item}' was already inserted. Adding it again will not change the filter.`);
+                }
                 prompt.nextLine(9);
                 await managerInstance.waitForUser();
                 window.dispatchEvent(new Event('journey-finished'));
@@ -57,11 +65,19 @@ end`;
             hash.action = ((i) => async (context) => {
                 hash.index = i + 1;
                 await prompt.nextLine(4);
-                await prompt.print(`${i + 1}/${managerInstance.bf.hashCount} hashes calculated.`, 1000);
+                try {
+                    await prompt.print(window.i18next ? window.i18next.t('messages.hashesCalculated', { count: i + 1, total: managerInstance.bf.hashCount }) : `${i + 1}/${managerInstance.bf.hashCount} hashes calculated.`, 1000);
+                } catch (e) {
+                    await prompt.print(`${i + 1}/${managerInstance.bf.hashCount} hashes calculated.`, 1000);
+                }
                 hash.context = context;
                 prompt.nextLine(5);
                 context[hashName] = managerInstance.bf.hash(context.item, i);
-                await this._print(`The hash_${i + 1} for '${context.item}' is ${context[hashName]}`);
+                try {
+                    await this._print(window.i18next ? window.i18next.t('messages.hashFor', { index: i + 1, item: context.item, value: context[hashName] }) : `The hash_${i + 1} for '${context.item}' is ${context[hashName]}`);
+                } catch (e) {
+                    await this._print(`The hash_${i + 1} for '${context.item}' is ${context[hashName]}`);
+                }
                 return context;
             })(i);
             this.steps.push(hash);
@@ -72,7 +88,11 @@ end`;
                 setBit.context = context;
                 let hashName = `h${i + 1}`;
                 prompt.nextLine(6);
-                await this._print(`Set the bit at position ${context[hashName]} in the bit array to 1`);
+                try {
+                    await this._print(window.i18next ? window.i18next.t('messages.setBit', { position: context[hashName] }) : `Set the bit at position ${context[hashName]} in the bit array to 1`);
+                } catch (e) {
+                    await this._print(`Set the bit at position ${context[hashName]} in the bit array to 1`);
+                }
 
                 managerInstance.bf.bitArray[context[hashName]] = true;
 
@@ -93,11 +113,19 @@ end`;
         finalStep.action = async (context) => {
             await prompt.nextLine(4);
             finalStep.context = context;
-            prompt.print(`${managerInstance.bf.hashCount}/${managerInstance.bf.hashCount} hashes calculated.`, 2500);
+            try {
+                prompt.print(window.i18next ? window.i18next.t('messages.hashesCalculated', { count: managerInstance.bf.hashCount, total: managerInstance.bf.hashCount }) : `${managerInstance.bf.hashCount}/${managerInstance.bf.hashCount} hashes calculated.`, 2500);
+            } catch (e) {
+                prompt.print(`${managerInstance.bf.hashCount}/${managerInstance.bf.hashCount} hashes calculated.`, 2500);
+            }
             await prompt.nextLine(7);
             await prompt.nextLine(8);
             managerInstance.bf.elements.includes(item) || managerInstance.bf.elements.push(item);
-            await this._print(`'${item}' has been added to the Bloom Filter.`, 1500);
+            try {
+                await this._print(window.i18next ? window.i18next.t('messages.itemAdded', { item }) : `'${item}' has been added to the Bloom Filter.`, 1500);
+            } catch (e) {
+                await this._print(`'${item}' has been added to the Bloom Filter.`, 1500);
+            }
             await prompt.nextLine(9);
             window.dispatchEvent(new Event('journey-finished'));
             return context;

@@ -24,8 +24,41 @@ async function awake() {
     prompt = new Prompt();
 }
 
+// Theme initialization: default is dark; if user previously chose light, apply it
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const isLight = savedTheme === 'light';
+    if (isLight) document.documentElement.classList.add('theme-light');
+    const toggle = document.getElementById('theme-toggle');
+    if (toggle) {
+        toggle.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+        toggle.addEventListener('click', () => {
+            const nowLight = document.documentElement.classList.toggle('theme-light');
+            localStorage.setItem('theme', nowLight ? 'light' : 'dark');
+            toggle.setAttribute('aria-pressed', nowLight ? 'true' : 'false');
+            try {
+                if (typeof manager !== 'undefined' && manager && typeof manager.redrawGraphics === 'function') {
+                    manager.redrawGraphics();
+                }
+            } catch (e) {
+                console.warn('Failed to redraw graphics after theme toggle', e);
+            }
+        });
+    }
+    // redraw on initial theme application so drawings match theme
+    try {
+        if (isLight && typeof manager !== 'undefined' && manager && typeof manager.redrawGraphics === 'function') {
+            manager.redrawGraphics();
+        }
+    } catch (e) {
+        console.warn('Failed to redraw graphics after initial theme apply', e);
+    }
+}
+
 window.addEventListener('DOMContentLoaded', async () => {
     await awake();
+
+    initTheme();
 
     // Ensure footer is a direct child of <body> so it's not hidden when tab containers are toggled
     (function ensureFooterPlacement() {
