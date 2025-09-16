@@ -1,3 +1,9 @@
+
+
+#bf-param-holder {
+    border-top: #00c853 4px solid;
+}
+
 .about-content {
     display: none;
     flex-direction: column;
@@ -14,7 +20,7 @@
 .about-content p {
     font-size: 1.1rem;
     line-height: 1.4;
-    max-width: 800px;
+    max-width: 1200px;
     text-align: center;
 }
 
@@ -25,14 +31,14 @@
 
 .tabs {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.3rem;
     justify-content: left;
     align-items: flex-end;
     margin-top: 1.5rem;
-    border-bottom: 2px solid #00c853;
-    min-width: 80%;
+    margin-bottom: -7px;
     max-width: 80%;
-    margin-bottom: -5px;
+    align-content: start;
+    padding-left: 5%;
 }
 
 .tab-button {
@@ -202,7 +208,7 @@ input[type="checkbox"]:checked {
     height: 200px;
     background: #000000;
     width: 100%;
-    max-width: 50%;
+    max-width: 80%;
     padding-left: 0.5rem;
     padding-top: 1rem;
 }
@@ -211,7 +217,7 @@ input[type="checkbox"]:checked {
     color: #00c853;
     margin: 5px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     border-radius: 2px;
     padding-bottom: 1rem;
@@ -309,6 +315,7 @@ input[type="checkbox"]:checked {
 }
 
 .app-container {
+    max-width: 1200px;
     min-width: 90%;
     display: flex;
     flex-direction: column;
@@ -382,19 +389,19 @@ body {
 }
 
 .theory-content {
-    display: block;
-    width: 100%;
-    max-width: 1100px;
+    display: flex;
+    min-width: 70%;
+    max-width: 1200px;
     margin: 0.6rem auto;
     color: #d7fbe0;
 }
 
 .theory-hero {
-    background: linear-gradient(90deg, rgba(6,190,0,0.08), rgba(6,190,0,0.02));
-    border: 1px solid rgba(6,190,0,0.08);
-    padding: 1.2rem 1.4rem;
+    padding: 0.5rem;
     border-radius: 6px;
     margin-bottom: 1rem;
+    width: 90%;
+    min-width: fit-content;
 }
 
 .theory-hero h1 {
@@ -404,8 +411,8 @@ body {
 }
 
 .theory-grid {
-    display: grid;
-    grid-template-columns: 1fr 360px;
+    display: flex;
+    flex-direction: row;
     gap: 1.2rem;
     align-items: start;
 }
@@ -415,6 +422,12 @@ body {
     padding: 1rem;
     border-radius: 6px;
     border: 1px solid rgba(255,255,255,0.03);
+    min-width: 70%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-self: flex-start;
 }
 
 .theory-aside {
@@ -422,6 +435,7 @@ body {
     padding: 0.8rem;
     border-radius: 6px;
     border: 1px solid rgba(255,255,255,0.02);
+    max-width: 30%;
 }
 
 .callout {
@@ -491,6 +505,42 @@ body {
     display: block;
     font-size: 1rem;
 }
+
+.spell-checker-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: 90%;
+    margin: 0.6rem auto;
+    padding: 0.8rem;
+    background: #181c1f;
+    border: 1px solid rgba(0,200,83,0.06);
+}
+.spell-checker-interface {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.spell-checker-result {
+    color: #cfeedd;
+    font-size: 0.98rem;
+    min-width: 220px;
+}
+
+.spell-checker-content a {
+    color: #00e676;
+    text-decoration: none;
+}
+.spell-checker-content a:hover {
+    text-decoration: underline;
+}
+
+.spell-checker-content a:visited {
+    color: #66ffa6;
+}
+
 
 .info-description {
     text-align: left;
@@ -579,6 +629,29 @@ body {
     .scroll-button {
         bottom: 1.5em;
         right: 1.5em;
+    }
+
+    .tabs {
+        max-width: 100%;
+        overflow-x: auto;
+        padding-bottom: 0.3rem;
+        padding-left: 1.7%;
+        margin-bottom: -10px;
+    }
+
+    .theory-grid {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .theory-aside {
+        min-width: 90%;
+        margin-top: 1rem;
+    }
+
+    .toc {
+        font-size: 1.3rem;
     }
 
     .param-holder {

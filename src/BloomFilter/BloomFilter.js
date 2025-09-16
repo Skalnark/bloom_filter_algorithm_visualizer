@@ -30,7 +30,6 @@ class BloomFilter {
         draw.clearCheckLines();
     }
 
-    // hashes the item, uses the index to generate a salt
     hash(item, index) {
         let salt = index * 31;
         let hash = 0;
@@ -45,6 +44,16 @@ class BloomFilter {
         const k = this.hashCount;
         const n = this.elements.length;
         return (1 - Math.exp((-k * n) / m)) ** k;
+    }
+
+    estimateCapacity(p, n)
+    {
+        return Math.ceil((n * Math.log(p)) / Math.log(1 / Math.pow(2, Math.log(2))));
+    }
+    
+    estimateHashCount(m, n)
+    {
+        return Math.round((m / n) * Math.log(2));
     }
 }
 

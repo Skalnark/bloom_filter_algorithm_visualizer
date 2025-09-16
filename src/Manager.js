@@ -4,6 +4,7 @@ import i18next from "i18next";
 import BloomFilter from "./BloomFilter/BloomFilter.js";
 import AddItemJourney from "./BloomFilter/AddItemJourney.js";
 import CheckItemJourney from "./BloomFilter/CheckItemJourney.js";
+import { th } from "@faker-js/faker";
 
 export default class Manager {
     constructor() {
@@ -78,13 +79,13 @@ export default class Manager {
     }
 
 
-    addDummyWords(words) {
+    async addDummyWords(words) {
         if (words.length == 0) return;
 
         this.#copyDummyWord(words);
 
         for (let word of words) {
-            for(let i = 0; i < this.bf.hashCount; i++) {
+            for (let i = 0; i < this.bf.hashCount; i++) {
                 let position = this.bf.hash(word, i);
                 this.bf.bitArray[position] = true;
                 this.bf.elements.push(word) || this.bf.elements.push(word);
@@ -134,6 +135,28 @@ export default class Manager {
             this.direction = 'back';
             this.nextStep = true;
         });
+
+        {
+            const inputEl = document.getElementById('spell-checker-input');
+            const resultSpan = document.getElementById('spell-checker-result');
+            let debounceTimer = null;
+            inputEl.addEventListener('input', () => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(async () => {
+                    const word = inputEl.value.trim();
+                    if (!word) {
+                        resultSpan.innerText = '';
+                        return;
+                    }
+                    const isCorrect = await this.checkSpell(word);
+                    if (isCorrect) {
+                        resultSpan.innerText = `"${word}" is possibly correct.`;
+                    } else {
+                        resultSpan.innerText = `"${word}" is definitely incorrect.`;
+                    }
+                }, 250);
+            });
+        }
     }
 
     redrawGraphics() {
@@ -141,6 +164,52 @@ export default class Manager {
         draw.redrawLines();
     }
 
+    async initializeSpellChecker() {
+        this.bf.clear();
+
+        const response =  await fetch('https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words_alpha.txt');
+        let text = await response.text();
+        let words = text.split('\n');
+        let n = words.length;
+        let p = 0.000001;
+        let m = this.bf.estimateCapacity(p, n);
+        let k = this.bf.estimateHashCount(m, n);
+        this.bf.hashCount = k;
+        this.bf.bitArray = Array.from({ length: m }, () => []);
+        this.bf.bitArray.fill(false);
+        this.bf.elements = [];
+
+        for (let i = 0; i < words.length - 1; i++) { // the last word is empty
+            for (let j = 0; j < this.bf.hashCount; j++) {
+                let position = this.bf.hash(words[i].trim().toLocaleLowerCase(), j);
+                this.bf.bitArray[position] = true;
+            }
+        }
+
+        const sizeSpan = document.getElementById('sc-info-size');
+        const hashCountSpan = document.getElementById('sc-info-hash-count');
+        const fprSpan = document.getElementById('sc-info-fpr');
+        const elementsSpan = document.getElementById('sc-info-elements');
+        sizeSpan.innerText = m;
+        hashCountSpan.innerText = this.bf.hashCount;
+        fprSpan.innerText = (((1 - Math.exp((-k * n) / m)) ** k) * 100).toFixed(4) + '%';
+        elementsSpan.innerText = n;
+
+        const input = document.getElementById('spell-checker-input');
+        input.disabled = false;
+        input.value = '';
+        input.focus();
+    }
+
+    async checkSpell(word) {
+        for(let i = 0; i < this.bf.hashCount; i++) {
+            let position = this.bf.hash(word, i);
+            if (!this.bf.bitArray[position]) {
+                return false;
+            }
+        }
+        return true;
+    }
 };
 
 const managerInstance = new Manager();

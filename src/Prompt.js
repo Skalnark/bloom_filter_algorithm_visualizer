@@ -122,7 +122,6 @@ class Prompt {
         for (let i = 0; i < this.pseudoCode.length; i++) {
             if (i === this.currentPseudoCodeLine) {
                 this.pseudoCode[i].style.backgroundColor = '#333';
-                // scrolls to the line
                 this.pseudoCodeSimulatorDiv.scrollTop = this.pseudoCode[i].offsetTop - this.pseudoCodeSimulatorDiv.offsetTop;
             } else {
                 this.pseudoCode[i].style.backgroundColor = 'transparent';

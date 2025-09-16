@@ -202,7 +202,7 @@ class Parser {
 
     extractBlock(lines) {
 
-        let depth = 1; // we start after the first {
+        let depth = 1;
         let block = '';
         let i = 0;
         let closingIndex = -1;

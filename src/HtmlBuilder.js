@@ -18,36 +18,53 @@ class HtmlBuilder {
         const simulatorContent = document.getElementById('app');
         const theoryContent = document.getElementById('theory');
         const aboutContent = document.getElementById('about');
+        const spellCheckerTabButton = document.getElementById('spell-checker-tab');
+        const spellCheckerContent = document.getElementById('spell-checker');
 
         simulatorTabButton.addEventListener('click', () => {
             simulatorTabButton.classList.add('active');
             theoryTabButton.classList.remove('active');
             aboutTabButton.classList.remove('active');
+            spellCheckerTabButton.classList.remove('active');
             simulatorContent.style.display = 'flex';
             theoryContent.style.display = 'none';
             aboutContent.style.display = 'none';
+            spellCheckerContent.style.display = 'none';
         });
 
         theoryTabButton.addEventListener('click', () => {
             simulatorTabButton.classList.remove('active');
             theoryTabButton.classList.add('active');
             aboutTabButton.classList.remove('active');
+            spellCheckerTabButton.classList.remove('active');
             simulatorContent.style.display = 'none';
             theoryContent.style.display = 'flex';
             aboutContent.style.display = 'none';
+            spellCheckerContent.style.display = 'none';
         });
 
         aboutTabButton.addEventListener('click', () => {
             simulatorTabButton.classList.remove('active');
             theoryTabButton.classList.remove('active');
             aboutTabButton.classList.add('active');
+            spellCheckerTabButton.classList.remove('active');
             simulatorContent.style.display = 'none';
             theoryContent.style.display = 'none';
             aboutContent.style.display = 'flex';
+            spellCheckerContent.style.display = 'none';
         });
 
-        //aboutTabButton.click();
-        //theoryTabButton.click();
+        spellCheckerTabButton.addEventListener('click', () => {
+            simulatorTabButton.classList.remove('active');
+            theoryTabButton.classList.remove('active');
+            aboutTabButton.classList.remove('active');
+            spellCheckerTabButton.classList.add('active');
+            simulatorContent.style.display = 'none';
+            theoryContent.style.display = 'none';
+            aboutContent.style.display = 'none';
+            spellCheckerContent.style.display = 'flex';
+        });
+
         simulatorTabButton.click();
     }
 
@@ -202,6 +219,15 @@ class HtmlBuilder {
         const scrollButton = document.getElementById('scroll-button');
         window.addEventListener('element-out-of-view', () => {
             scrollButton.style.display = 'block';
+        });
+
+        const loadDictionaryButton = document.getElementById('load-dictionary-button');
+        loadDictionaryButton.addEventListener('click', async () => {
+            loadDictionaryButton.disabled = true;
+            loadDictionaryButton.textContent = 'Loading...';
+            await managerInstance.initializeSpellChecker();
+            loadDictionaryButton.textContent = 'Dictionary Loaded';
+            loadDictionaryButton.style.display = 'none';
         });
     }
 
