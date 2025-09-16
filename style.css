@@ -3,7 +3,7 @@
 }
 
 .about-content {
-    display: none;
+    display: none; /* kept hidden by default until 'About' tab is activated */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -406,6 +406,80 @@ body {
     max-width: fit-content;
 }
 
+.header-controls {
+    display: flex;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+}
+
+#lang-select {
+    background: #0e1113;
+    color: #b6fcd5;
+    border: 1px solid #00c853;
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+    font-family: 'Fira Mono', monospace;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+#lang-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0,200,83,0.12);
+}
+
+.site-footer {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex !important;
+    justify-content: center;
+    padding: 0.6rem 0.6rem;
+    z-index: 1100;
+}
+
+.footer-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #000000;
+    color: #b6fcd5;
+    padding: 0.35rem 0.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0,200,83,0.08);
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.footer-controls .github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: 0.4rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer-controls .github-icon {
+    width: 18px;
+    height: 18px;
+    fill: #ffffff !important;
+}
+
+/* avoid footer overlap */
+body {
+    padding-bottom: 4.2rem; /* enough space for footer */
+}
+
 .about-content a.github-link {
     display: inline-flex;
     align-items: center;
@@ -513,6 +587,7 @@ body {
     text-decoration: none;
 }
 
+/* scroll button hidden by default; shown via JS when needed */
 #scroll-button,
 .scroll-button {
     position: fixed;
@@ -553,6 +628,7 @@ body {
     padding: 0.8rem;
     background: #181c1f;
     border: 1px solid rgba(0, 200, 83, 0.06);
+    height: 400px;
 }
 
 .spell-checker-interface {

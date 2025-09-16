@@ -224,9 +224,17 @@ class HtmlBuilder {
         const loadDictionaryButton = document.getElementById('load-dictionary-button');
         loadDictionaryButton.addEventListener('click', async () => {
             loadDictionaryButton.disabled = true;
-            loadDictionaryButton.textContent = 'Loading...';
+            try {
+                loadDictionaryButton.textContent = (window.i18next && window.i18next.t) ? window.i18next.t('ui.loading') : 'Loading...';
+            } catch (e) {
+                loadDictionaryButton.textContent = 'Loading...';
+            }
             await managerInstance.initializeSpellChecker();
-            loadDictionaryButton.textContent = 'Dictionary Loaded';
+            try {
+                loadDictionaryButton.textContent = (window.i18next && window.i18next.t) ? window.i18next.t('ui.dictionaryLoaded') : 'Dictionary Loaded';
+            } catch (e) {
+                loadDictionaryButton.textContent = 'Dictionary Loaded';
+            }
             loadDictionaryButton.style.display = 'none';
         });
     }

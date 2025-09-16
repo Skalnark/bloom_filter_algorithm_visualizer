@@ -108,7 +108,12 @@ export default class Manager {
 
         window.addEventListener('journey-finished', () => {
             this.fastForward = !this.fastForwardCheckbox.checked;
-            this.prompt.print("Finished execution.");
+            try {
+                const msg = i18next.t('messages.finishedExecution');
+                this.prompt.print(msg);
+            } catch (e) {
+                this.prompt.print('Finished execution.');
+            }
             this.prompt.newLine();
         });
 
@@ -117,9 +122,17 @@ export default class Manager {
         this.fastForwardCheckbox.addEventListener('change', () => {
             this.fastForward = !this.fastForwardCheckbox.checked;
             if (this.fastForward) {
-                this.prompt.print("Step by step execution will be fast forwarded.");
+                try {
+                    this.prompt.print(i18next.t('messages.fastForwardEnabled'));
+                } catch (e) {
+                    this.prompt.print('Step by step execution will be fast forwarded.');
+                }
             } else {
-                this.prompt.print("Step by step execution is enabled.");
+                try {
+                    this.prompt.print(i18next.t('messages.fastForwardDisabled'));
+                } catch (e) {
+                    this.prompt.print('Step by step execution is enabled.');
+                }
             }
         });
 
@@ -150,9 +163,17 @@ export default class Manager {
                     }
                     const isCorrect = await this.checkSpell(word);
                     if (isCorrect) {
-                        resultSpan.innerText = `"${word}" is possibly correct.`;
+                        try {
+                            resultSpan.innerText = i18next.t('messages.possiblyCorrect', { word });
+                        } catch (e) {
+                            resultSpan.innerText = `"${word}" is possibly correct.`;
+                        }
                     } else {
-                        resultSpan.innerText = `"${word}" is definitely incorrect.`;
+                        try {
+                            resultSpan.innerText = i18next.t('messages.definitelyIncorrect', { word });
+                        } catch (e) {
+                            resultSpan.innerText = `"${word}" is definitely incorrect.`;
+                        }
                     }
                 }, 250);
             });
