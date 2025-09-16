@@ -29,6 +29,30 @@ window.addEventListener('DOMContentLoaded', async () => {
     let pseudoCode = `// select a routine\nreturn`;
     prompt.initPseudoCode(pseudoCode);
     await prompt.simulatePseudoCode();
+    // wire responsive tab select
+    const tabSelect = document.getElementById('tab-select');
+    if (tabSelect) {
+        tabSelect.addEventListener('change', (e) => {
+            const val = e.target.value;
+            const id = val === 'simulator' ? 'simulator-tab' : (val === 'spell-checker' ? 'spell-checker-tab' : val + '-tab');
+            const btn = document.getElementById(id);
+            if (btn) btn.click();
+        });
+
+        // keep select in sync when tabs are clicked
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mapping = {
+                    'simulator-tab': 'simulator',
+                    'theory-tab': 'theory',
+                    'spell-checker-tab': 'spell-checker',
+                    'about-tab': 'about'
+                };
+                const v = mapping[btn.id];
+                if (v) tabSelect.value = v;
+            });
+        });
+    }
 });
 
 function greetings() {

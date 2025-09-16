@@ -1,5 +1,3 @@
-
-
 #bf-param-holder {
     border-top: #00c853 4px solid;
 }
@@ -41,6 +39,39 @@
     max-width: 80%;
     align-content: start;
     padding-left: 5%;
+}
+
+.tabs-select-wrapper {
+    display: none;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0.3rem;
+    padding-left: 5%;
+}
+
+#tab-select {
+    display: block;
+    width: 94%;
+    max-width: 600px;
+    padding: 0.3rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    background: #0e1113;
+    color: #b6fcd5;
+    border: 1px solid #00c853;
+    border-radius: 6px;
+    font-family: 'Fira Mono', monospace;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 1200px) {
+    .tabs {
+        display: none;
+    }
+
+    .tabs-select-wrapper {
+        display: block;
+    }
 }
 
 .tab-button {
@@ -324,6 +355,7 @@ input[type="checkbox"]:checked {
     display: flex;
     flex-direction: column;
     align-items: center;
+    align-self: center;
     justify-content: center;
     padding: none;
     margin: none;
@@ -426,7 +458,7 @@ body {
     background: #0f1413;
     padding: 1rem;
     border-radius: 6px;
-    border: 1px solid rgba(255,255,255,0.03);
+    border: 1px solid rgba(255, 255, 255, 0.03);
     min-width: 70%;
     max-width: 100%;
     display: flex;
@@ -439,12 +471,12 @@ body {
     background: #0b0f0e;
     padding: 0.8rem;
     border-radius: 6px;
-    border: 1px solid rgba(255,255,255,0.02);
+    border: 1px solid rgba(255, 255, 255, 0.02);
     max-width: 30%;
 }
 
 .callout {
-    background: linear-gradient(180deg, rgba(0,230,118,0.06), rgba(0,230,118,0.02));
+    background: linear-gradient(180deg, rgba(0, 230, 118, 0.06), rgba(0, 230, 118, 0.02));
     border-left: 4px solid #00e676;
     padding: 0.6rem 0.9rem;
     margin: 0.6rem 0;
@@ -462,7 +494,8 @@ body {
     color: #cfeedd;
 }
 
-.theory-main pre, .theory-main code {
+.theory-main pre,
+.theory-main code {
     background: #08100f;
     color: #b6fcd5;
     padding: 0.6rem;
@@ -519,8 +552,9 @@ body {
     margin: 0.6rem auto;
     padding: 0.8rem;
     background: #181c1f;
-    border: 1px solid rgba(0,200,83,0.06);
+    border: 1px solid rgba(0, 200, 83, 0.06);
 }
+
 .spell-checker-interface {
     display: flex;
     gap: 0.6rem;
@@ -538,6 +572,7 @@ body {
     color: #00e676;
     text-decoration: none;
 }
+
 .spell-checker-content a:hover {
     text-decoration: underline;
 }
@@ -551,10 +586,10 @@ body {
     text-align: left;
     align-self: flex-start;
     display: block;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #888e94;
-    margin-top: 0.2em;
-    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.2em;
 }
 
 .bf-info-label {
@@ -567,12 +602,18 @@ body {
 
 @media (max-width: 1280) {
     .main-title {
-        font-size: 2rem;
+        font-size: 1.5rem;
         margin-top: 0;
+    }
+
+    .sub-title {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
     }
 
     .prompt-line {
         margin: 0.1rem 0.2rem;
+        font-size: 12px;
     }
 
     .prompt-simulator {
@@ -594,7 +635,7 @@ body {
     .input-field,
     .submit-button,
     .next-step-button {
-        font-size: 1.3rem;
+        font-size: 1rem;
         margin-top: 0.1em;
         max-width: 100%;
         min-height: 40px;
@@ -602,6 +643,7 @@ body {
 
     .item-info-holder,
     .item-input-holder {
+        font-size: 1rem;
         min-height: 40px;
         margin-top: 1rem;
     }
@@ -618,7 +660,7 @@ body {
     }
 
     .checkbox-label {
-        font-size: 1.3rem;
+        font-size: 1rem;
     }
 
     .checkbox {
@@ -628,7 +670,7 @@ body {
     }
 
     .info-label {
-        font-size: 1.3rem;
+        font-size: 1rem;
     }
 
     .scroll-button {
@@ -672,9 +714,5 @@ body {
     .app-container {
         min-width: 90%;
         max-width: 100%;
-    }
-
-    body {
-        font-size: 1.3rem;
     }
 }
