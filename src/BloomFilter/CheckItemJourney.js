@@ -18,7 +18,7 @@ export default class CheckItemJourney extends Journey {
         let pseudoCode =
 `k = ${managerInstance.bf.hashCount}
 not_found = false
-for i from 0 to k-1 do
+for i from 1 to k do
     p = hash('${item}', i)
     bit = bitArray[p]
     if bit == 0 then
