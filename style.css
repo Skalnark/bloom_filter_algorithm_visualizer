@@ -15,13 +15,15 @@
     margin-top: 0.3rem;
     margin-bottom: 0.3rem;
     color: #b6fcd5;
+    width: 100vw;
+    min-width: 100%;
+    max-width: 1200px;
 }
 
 .about-content p {
     font-size: 1.1rem;
     line-height: 1.4;
-    max-width: 1200px;
-    text-align: center;
+    text-align: justify;
 }
 
 .about-content a {
@@ -312,11 +314,13 @@ input[type="checkbox"]:checked {
     margin-bottom: 0.3rem;
     min-width: 90%;
     max-width: 90%;
+    box-sizing: border-box;
 }
 
 .app-container {
+    width: 100vw;
+    min-width: 100%;
     max-width: 1200px;
-    min-width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -390,7 +394,8 @@ body {
 
 .theory-content {
     display: flex;
-    min-width: 70%;
+    width: 100vw;
+    min-width: 100%;
     max-width: 1200px;
     margin: 0.6rem auto;
     color: #d7fbe0;
