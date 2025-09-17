@@ -136,7 +136,7 @@ class HtmlBuilder {
         sizeSpan.textContent = this.jm.bf.bitArray.length;
         hashCountSpan.textContent = this.jm.bf.hashCount;
         elementsSpan.textContent = this.jm.bf.elements.length;
-        fprSpan.textContent = (this.jm.bf.calculateFPR() * 100).toFixed(6) + '%';
+        fprSpan.textContent = (this.jm.bf.calculateFPR() * 100).toFixed(4) + '%';
     }
 
     async initAddAndCheckEventListeners() {
@@ -223,23 +223,6 @@ class HtmlBuilder {
         const scrollButton = document.getElementById('scroll-button');
         window.addEventListener('element-out-of-view', () => {
             scrollButton.style.display = 'block';
-        });
-
-        const loadDictionaryButton = document.getElementById('load-dictionary-button');
-        loadDictionaryButton.addEventListener('click', async () => {
-            loadDictionaryButton.disabled = true;
-            try {
-                loadDictionaryButton.textContent = (window.i18next && window.i18next.t) ? window.i18next.t('ui.loading') : 'Loading...';
-            } catch (e) {
-                loadDictionaryButton.textContent = 'Loading...';
-            }
-            await managerInstance.initializeSpellChecker();
-            try {
-                loadDictionaryButton.textContent = (window.i18next && window.i18next.t) ? window.i18next.t('ui.dictionaryLoaded') : 'Dictionary Loaded';
-            } catch (e) {
-                loadDictionaryButton.textContent = 'Dictionary Loaded';
-            }
-            loadDictionaryButton.style.display = 'none';
         });
     }
 

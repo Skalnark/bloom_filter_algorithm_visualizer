@@ -202,25 +202,25 @@ export default class Manager {
     async initializeSpellChecker() {
         this.bf.clear();
 
-        const response = await fetch('https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words_alpha.txt');
-        let text = await response.text();
-        let words = text.split('\n');
+        let text = window.i18next.t(`jabberwocky.text`);
+        let words = text.split(' ');
+        let wordSet = [...new Set(words.map(w => w.trim().toLocaleLowerCase()))];
         text = null;
-        let n = words.length;
-        let p = 0.0001;
+        let n = wordSet.length;
+        let p = 0.000001;
         let m = this.bf.estimateCapacity(p, n);
         let k = this.bf.estimateHashCount(m, n);
         this.bf.hashCount = k;
         this.bf.bitArray = Array.from({ length: m }, () => []);
         this.bf.elements = [];
 
-        for (let i = 0; i < this.bf.bitArray.length; i++) {
+        for (let i = 0; i < m; i++) {
             this.bf.bitArray[i] = false;
         }
 
-        for (let i = 0; i < words.length - 1; i++) { // the last word is empty
+        for (let i = 0; i < wordSet.length - 1; i++) { // the last word is empty
             for (let j = 0; j < this.bf.hashCount; j++) {
-                let position = this.bf.hash(words[i].trim().toLocaleLowerCase(), j);
+                let position = this.bf.hash(wordSet[i], j);
                 this.bf.bitArray[position] = true;
             }
         }
@@ -231,9 +231,9 @@ export default class Manager {
         const elementsSpan = document.getElementById('sc-info-elements');
         sizeSpan.innerText = m;
         hashCountSpan.innerText = this.bf.hashCount;
-        fprSpan.innerText = (((1 - Math.exp((-k * n) / m)) ** k) * 100).toFixed(2) + '%';
+        fprSpan.innerText = (((1 - Math.exp((-k * n) / m)) ** k) * 100).toFixed(8) + '%';
         elementsSpan.innerText = n;
-        words = null;
+        wordSet = null;
 
         const input = document.getElementById('spell-checker-input');
         input.disabled = false;

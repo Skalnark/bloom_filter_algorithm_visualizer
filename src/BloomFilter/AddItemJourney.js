@@ -66,9 +66,9 @@ end`;
                 hash.index = i + 1;
                 await prompt.nextLine(4);
                 try {
-                    await prompt.print(window.i18next ? window.i18next.t('messages.hashesCalculated', { count: i + 1, total: managerInstance.bf.hashCount }) : `${i + 1}/${managerInstance.bf.hashCount} hashes calculated.`, 1000);
+                    await prompt.print(window.i18next ? window.i18next.t('messages.hashesCalculated', { count: i, total: managerInstance.bf.hashCount }) : `${i + 1}/${managerInstance.bf.hashCount} hashes calculated.`, 1000);
                 } catch (e) {
-                    await prompt.print(`${i + 1}/${managerInstance.bf.hashCount} hashes calculated.`, 1000);
+                    await prompt.print(`${i}/${managerInstance.bf.hashCount} hashes calculated.`, 1000);
                 }
                 hash.context = context;
                 prompt.nextLine(5);

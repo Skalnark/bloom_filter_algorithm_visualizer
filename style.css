@@ -13,10 +13,10 @@
     --accent-bright: #00e676;
     --control-bg: #0e1113;
     --control-border: #00c853;
-    --footer-bg: rgba(0,0,0,0.6);
+    --footer-bg: rgba(0, 0, 0, 0.6);
     --footer-icon: #ffffff;
     --prompt-bg: #000000;
-    --prompt-highlight: rgba(0,200,83,0.12);
+    --prompt-highlight: rgba(0, 200, 83, 0.12);
 }
 
 .theme-light {
@@ -29,20 +29,20 @@
     --accent-bright: #0099ff;
     --control-bg: #ffffff;
     --control-border: #0077cc;
-    --footer-bg: rgba(255,255,255,0.9);
+    --footer-bg: rgba(255, 255, 255, 0.9);
     --footer-icon: #0b1720;
     --prompt-bg: #f4f6f8;
     --prompt-highlight: rgba(0, 119, 204, 0.37);
 }
 
 .about-content {
-    display: none; /* kept hidden by default until 'About' tab is activated */
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: var(--panel-bg);
     padding: 1rem;
-    border-radius: 4px;
+    border-top: 4px solid var(--accent-color);
     margin-top: 0.3rem;
     margin-bottom: 0.3rem;
     color: var(--text);
@@ -79,12 +79,13 @@
     width: 100%;
     max-width: 1200px;
     margin: 0.3rem;
-    padding-left: 5%;
+    justify-content: center;
+    padding-left: 0;
 }
 
 #tab-select {
     display: block;
-    width: 94%;
+    width: auto;
     max-width: 600px;
     padding: 0.3rem;
     padding-bottom: 0.5rem;
@@ -97,13 +98,20 @@
     font-size: 1.2rem;
 }
 
+#paragraph-link {
+    font-size: 1.3rem;
+    color: var(--text) !important;
+}
+
 @media (max-width: 1200px) {
     .tabs {
         display: none;
     }
 
     .tabs-select-wrapper {
-        display: block;
+        display: flex;
+        justify-content: center;
+        padding-left: 0;
     }
 }
 
@@ -145,7 +153,7 @@
 
 .theme-light .tab-button:hover,
 .theme-light .tab-button:focus {
-    background: rgba(11,23,32,0.04);
+    background: rgba(11, 23, 32, 0.04);
     color: var(--text);
 }
 
@@ -153,7 +161,7 @@
     background: var(--muted-panel-bg);
     color: var(--text);
     border: 1px solid var(--control-border);
-    box-shadow: 0 1px 0 rgba(11,23,32,0.03) inset;
+    box-shadow: 0 1px 0 rgba(11, 23, 32, 0.03) inset;
     margin-bottom: -2px;
 }
 
@@ -308,7 +316,7 @@ input[type="checkbox"]:checked {
 .next-step-button[disabled] {
     background: var(--muted-panel-bg);
     color: var(--text-muted);
-    border-color: rgba(0,0,0,0.08);
+    border-color: rgba(0, 0, 0, 0.08);
     cursor: not-allowed;
     opacity: 0.85;
 }
@@ -331,27 +339,27 @@ input[type="checkbox"]:checked {
 
 /* Prompt borders and accents — theme-aware */
 .prompt-simulator {
-    border: 1px solid rgba(0,0,0,0.06);
-    box-shadow: 0 1px 0 rgba(0,0,0,0.04) inset;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04) inset;
     border-left: 4px solid var(--accent-color);
 }
 
 .prompt-window {
     color: var(--accent-color);
-    border: 1px solid rgba(0,0,0,0.06);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     background: transparent;
 }
 
 /* Bright theme adjustments for prompt borders to ensure contrast */
 .theme-light .prompt-simulator {
-    border: 1px solid rgba(11,23,32,0.06);
-    box-shadow: 0 1px 0 rgba(11,23,32,0.02) inset;
+    border: 1px solid rgba(11, 23, 32, 0.06);
+    box-shadow: 0 1px 0 rgba(11, 23, 32, 0.02) inset;
     border-left-color: var(--accent-color);
 }
 
 .theme-light .prompt-window {
     color: var(--text);
-    border-color: rgba(11,23,32,0.06);
+    border-color: rgba(11, 23, 32, 0.06);
 }
 
 .prompt-window {
@@ -523,13 +531,15 @@ body {
 .theme-light .sub-title {
     color: var(--text-muted);
 }
+
 .header-controls {
     display: flex;
 }
 
 .visually-hidden {
     position: absolute !important;
-    height: 1px; width: 1px;
+    height: 1px;
+    width: 1px;
     overflow: hidden;
     clip: rect(1px, 1px, 1px, 1px);
     white-space: nowrap;
@@ -548,7 +558,7 @@ body {
 
 #lang-select:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(0,200,83,0.12);
+    box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.12);
 }
 
 .site-footer {
@@ -571,7 +581,7 @@ body {
     color: #b6fcd5;
     padding: 0.35rem 0.5rem;
     border-radius: 8px;
-    border: 1px solid rgba(0,200,83,0.08);
+    border: 1px solid rgba(0, 200, 83, 0.08);
     pointer-events: auto !important;
     opacity: 1 !important;
     transform: none !important;
@@ -594,7 +604,7 @@ body {
 
 #theme-toggle {
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     color: var(--text);
     padding: 0.25rem 0.5rem;
     border-radius: 6px;
@@ -614,14 +624,20 @@ body {
     display: inline-block;
 }
 
-/* Show moon in dark (default), show sun in light */
-.icon-sun { display: none; }
-.theme-light .icon-sun { display: inline-block; }
-.theme-light .icon-moon { display: none; }
+.icon-sun {
+    display: none;
+}
 
-/* avoid footer overlap */
+.theme-light .icon-sun {
+    display: inline-block;
+}
+
+.theme-light .icon-moon {
+    display: none;
+}
+
 body {
-    padding-bottom: 4.2rem; /* enough space for footer */
+    padding-bottom: 4.2rem;
 }
 
 .about-content a.github-link {
@@ -636,7 +652,6 @@ body {
     color: var(--accent-color);
 }
 
-/* Ensure about links adapt to light theme */
 .theme-light .about-content a {
     color: var(--accent-bright);
 }
@@ -693,7 +708,7 @@ body {
     background: var(--panel-bg);
     padding: 1rem;
     border-radius: 6px;
-    border: 1px solid rgba(0,0,0,0.06);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     min-width: 70%;
     max-width: 100%;
     display: flex;
@@ -706,7 +721,7 @@ body {
     background: var(--panel-bg);
     padding: 0.8rem;
     border-radius: 6px;
-    border: 1px solid rgba(0,0,0,0.04);
+    border: 1px solid rgba(0, 0, 0, 0.04);
     max-width: 30%;
 }
 
@@ -731,7 +746,7 @@ body {
 
 .theory-main pre,
 .theory-main code {
-    background: rgba(0,0,0,0.06);
+    background: rgba(0, 0, 0, 0.06);
     color: var(--text);
     padding: 0.6rem;
     border-radius: 4px;
@@ -780,6 +795,11 @@ body {
     font-size: 1rem;
 }
 
+#spell-checker-content {
+    border-top: 4px solid var(--accent-color);
+    padding: 0.8rem 4rem;
+}
+
 .spell-checker-content {
     display: flex;
     flex-direction: column;
@@ -789,7 +809,8 @@ body {
     padding: 0.8rem;
     background: var(--panel-bg);
     border: 1px solid rgba(0, 200, 83, 0.06);
-    height: 400px;
+    min-height: 400px;
+    max-height: fit-content;
 }
 
 .spell-checker-interface {
@@ -837,7 +858,7 @@ body {
     align-self: flex-start;
     display: block;
     font-size: 1.28rem;
-    margin-bottom: 0.2em;
+    padding-bottom: 0.3em;
 }
 
 @media (max-width: 1280) {

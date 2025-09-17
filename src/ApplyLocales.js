@@ -39,4 +39,17 @@ export function applyLocales(root = document) {
       // ignore
     }
   });
+
+  // apply hrefs for anchors or other elements that need localized URLs
+  root.querySelectorAll('[data-i18n-href]').forEach(el => {
+    const key = el.getAttribute('data-i18n-href');
+    try {
+      const url = i18next.t(key);
+      if (url && ('href' in el)) {
+        el.href = url;
+      }
+    } catch (e) {
+      // ignore
+    }
+  });
 }

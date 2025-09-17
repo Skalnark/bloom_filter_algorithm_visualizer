@@ -22,6 +22,8 @@ async function awake() {
     manager = new Manager();
     htmlBuilder = new HtmlBuilder();
     prompt = new Prompt();
+
+    manager.initializeSpellChecker();
 }
 
 // Theme initialization: default is dark; if user previously chose light, apply it
@@ -109,6 +111,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                 if (v) tabSelect.value = v;
             });
         });
+        Util.scrollToElementById('main-title');
     }
 
     // language selector wiring
@@ -126,11 +129,12 @@ window.addEventListener('DOMContentLoaded', async () => {
             }
             localStorage.setItem('locale', newLang);
             applyLocales(document);
+            manager.initializeSpellChecker();
         });
     }
 
     // monitor footer presence — if something removes or hides it, reattach and log for debugging
-    (function monitorFooter(){
+    (function monitorFooter() {
         const footer = document.querySelector('.site-footer');
         if (!footer) return;
         const footerPlaceholder = footer.cloneNode(true);

@@ -77,7 +77,7 @@ end`;
                 checkBit.context = context;
                 let hashName = `h${checkBit.index}`;
                 try {
-                    await this._print(window.i18next ? window.i18next.t('messages.setBit', { position: context[hashName] }) : `Check the bit at position ${context[hashName]} in the bit array`);
+                    await this._print(window.i18next ? window.i18next.t('messages.checkBit', { position: context[hashName] }) : `Check the bit at position ${context[hashName]} in the bit array`);
                 } catch (e) {
                     await this._print(`Check the bit at position ${context[hashName]} in the bit array`);
                 }
