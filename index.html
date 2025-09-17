@@ -1,18 +1,17 @@
-<!DOCTYPE html><html lang=en><script type=importmap>{"imports":{"21sCw":"/bloom_filter_algorithm_visualizer/pt.10b95670.js","bjkS7":"/bloom_filter_algorithm_visualizer/en.7c694571.js"}}</script><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>Algorithm Visualizer</title><link rel=stylesheet href=/bloom_filter_algorithm_visualizer/bloom_filter_algorithm_visualizer.18ad6fb8.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css><body>
-    <h1 class=main-title><span id=main-title-icon>&gt;</span> Bloom Filter</h1>
+<!DOCTYPE html><html lang=en><script type=importmap>{"imports":{"21sCw":"/bloom_filter_algorithm_visualizer/pt.d265ba85.js","bjkS7":"/bloom_filter_algorithm_visualizer/en.bd92f6a3.js"}}</script><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>Algorithm Visualizer</title><link rel=stylesheet href=/bloom_filter_algorithm_visualizer/bloom_filter_algorithm_visualizer.859ce5b5.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css><body>
+    <h1 id=main-title class=main-title><span id=main-title-icon>&gt;</span> Bloom Filter</h1>
     <h2 class=sub-title>Algorithm Visualizer</h2>
-    
+
 
     <div class=tabs>
-    <button class="active tab-button" id=simulator-tab data-i18n=ui.simulator>Simulator</button>
-    
-    <button class=tab-button id=spell-checker-tab data-i18n=ui.spellChecker>Spell Checker</button>
-    <button class=tab-button id=about-tab data-i18n=ui.about>About</button>
+        <button class="active tab-button" id=simulator-tab data-i18n=ui.simulator>Simulator</button>
+        
+        <button class=tab-button id=spell-checker-tab data-i18n=ui.spellChecker>Spell Checker</button>
+        <button class=tab-button id=about-tab data-i18n=ui.about>About</button>
     </div>
     <div class=tabs-select-wrapper>
         <select id=tab-select aria-label="Select view">
             <option value=simulator data-i18n=ui.simulator>Simulator</option>
-            <option value=theory data-i18n=ui.theory>Theory</option>
             <option value=spell-checker data-i18n=ui.spellChecker>Spell Checker</option>
             <option value=about data-i18n=ui.about>About</option>
         </select>
@@ -21,21 +20,25 @@
         <div id=bf-param-holder class=param-holder>
             <div id=item-input-holder class=item-info-holder>
                 <div class="input-separator item-input-holder">
-                    <label for=bf-bit-size-input class=info-label data-i18n=ui.numberOfBitsLabel>Number of bits (m):</label>
+                    <label for=bf-bit-size-input class=info-label data-i18n=ui.numberOfBitsLabel>Number of bits
+                        (m):</label>
                     <input type=number id=bf-bit-size-input class="input-field item-input-holder" min=1 value=100 max=500>
-                    <div id=bit-size-info style=display:none class=info-description data-i18n=ui.bitSizeInfo>Max 500 bits</div>
+                    <div id=bit-size-info style=display:none class=info-description data-i18n=ui.bitSizeInfo>
+                        Max 500 bits</div>
                 </div>
                 <div class="input-separator item-input-holder">
 
-                    <label for=bf-hash-count-input class=info-label data-i18n=ui.numberOfHashFunctionsLabel>Number of hash functions (k):</label>
+                    <label for=bf-hash-count-input class=info-label data-i18n=ui.numberOfHashFunctionsLabel>Number
+                        of hash functions (k):</label>
                     <input type=number id=bf-hash-count-input class="input-field item-input-holder" min=1 value=3 max=10>
                     <div id=hash-count-info style=display:none class=info-description data-i18n=ui.hashCountInfo>At least 1, max 10</div>
                 </div>
                 <div class="input-separator item-input-holder">
 
-                    <label for=bf-dummy-count-input class=info-label data-i18n=ui.numberOfElementsLabel>Number of elements (n):</label>
+                    <label for=bf-dummy-count-input class=info-label data-i18n=ui.numberOfElementsLabel>Number of
+                        elements (n):</label>
                     <input type=number id=bf-dummy-count-input class="input-field item-input-holder" min=0 value=3>
-                    <div id=dummy-words-info style=display:none class=info-description>We might not show every
+                    <div id=dummy-words-info style=display:none class=info-description data-i18n=ui.dummyWordsInfo>We might not show every
                         item you add</div>
                 </div>
 
@@ -46,19 +49,19 @@
 
             <div id=bf-item-info-holder class=item-info-holder>
                 <div class=bf-info-label>
-                    <strong>Filter size:</strong>
+                    <strong data-i18n=ui.filterSize>Filter size (m):</strong>
                     <span id=bf-info-size>-</span>
                 </div>
                 <div class=bf-info-label>
-                    <strong>Hash functions:</strong>
+                    <strong data-i18n=ui.hashFunctions>Hash functions (k):</strong>
                     <span id=bf-info-hash-count>-</span>
                 </div>
                 <div class=bf-info-label>
-                    <strong>Elements:</strong>
+                    <strong data-i18n=ui.elements>Elements (n):</strong>
                     <span id=bf-info-elements>-</span>
                 </div>
                 <div class=bf-info-label>
-                    <strong>False positive rate:</strong>
+                    <strong data-i18n=ui.falsePositiveRate>False positive rate (p):</strong>
                     <span id=bf-info-fpr>-</span>
                 </div>
             </div>
@@ -75,7 +78,8 @@
                         Check
                     </button>
                     <div class=checkbox-holder>
-                        <label for=fast-forward-checkbox class=checkbox-label data-i18n=ui.enableStepByStep>Enable step-by-step
+                        <label for=fast-forward-checkbox class=checkbox-label data-i18n=ui.enableStepByStep>Enable
+                            step-by-step
                             execution:</label>
                         <input type=checkbox id=fast-forward-checkbox class=checkbox checked>
                     </div>
@@ -98,9 +102,9 @@
                     Next
                 </button>
             </div>
-        <button id=finish-journey-button class=next-step-button data-i18n=ui.finish>
-            Finish
-        </button>
+            <button id=finish-journey-button class=next-step-button data-i18n=ui.finish>
+                Finish
+            </button>
         </div>
         <div id=bf-container class=param-holder>
             <svg id=bloom-filter-svg class=svg />
@@ -181,58 +185,68 @@
     <div id=about class=app-container>
         <div class="about-content param-holder" id=about-content>
             <h2 data-i18n=ui.aboutProjectTitle>About this project</h2>
-            <p data-i18n=ui.aboutProjectDesc>This is a Bloom Filter algorithm visualizer built using JavaScript, HTML, and CSS. It is
+            <p data-i18n=ui.aboutProjectDesc>This is a Bloom Filter algorithm visualizer built using JavaScript, HTML,
+                and CSS. It is
                 designed to help users understand how the Bloom Filter data structure works through interactive
                 simulations and visual representations.</p>
-            The project was created by
             <p>
-                <a class=github-link href=https://github.com/Skalnark/bloom_filter_algorithm_visualizer target=_blank rel="noopener noreferrer" aria-label="Skalnark on GitHub">
-                    <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 aria-hidden=true class=github-icon viewBox="0 0 24 24"><path fill=currentColor d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.263.82-.583 0-.288-.01-1.05-.016-2.06-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.238 1.84 1.238 1.07 1.834 2.807 1.304 3.492.997.108-.776.418-1.305.762-1.606-2.665-.305-5.466-1.332-5.466-5.93 0-1.31.468-2.381 1.235-3.221-.123-.303-.535-1.523.117-3.176 0 0 1.008-.323 3.3 1.23A11.5 11.5 0 0 1 12 5.803c1.02.005 2.045.138 3.003.404 2.29-1.553 3.296-1.23 3.296-1.23.653 1.653.242 2.873.12 3.176.77.84 1.233 1.911 1.233 3.221 0 4.61-2.805 5.624-5.476 5.921.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .323.216.701.825.582C20.565 21.796 24 17.297 24 12c0-6.63-5.37-12-12-12"/></svg>
-                    Skalnark
-                </a>
-            </p>
+            <p data-i18n=ui.developer>This project was developed by </p>
+            <a class=github-link href=https://github.com/Skalnark/bloom_filter_algorithm_visualizer target=_blank rel="noopener noreferrer" aria-label="Skalnark on GitHub">
+                <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 aria-hidden=true class=github-icon viewBox="0 0 24 24"><path fill=currentColor d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.263.82-.583 0-.288-.01-1.05-.016-2.06-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.238 1.84 1.238 1.07 1.834 2.807 1.304 3.492.997.108-.776.418-1.305.762-1.606-2.665-.305-5.466-1.332-5.466-5.93 0-1.31.468-2.381 1.235-3.221-.123-.303-.535-1.523.117-3.176 0 0 1.008-.323 3.3 1.23A11.5 11.5 0 0 1 12 5.803c1.02.005 2.045.138 3.003.404 2.29-1.553 3.296-1.23 3.296-1.23.653 1.653.242 2.873.12 3.176.77.84 1.233 1.911 1.233 3.221 0 4.61-2.805 5.624-5.476 5.921.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .323.216.701.825.582C20.565 21.796 24 17.297 24 12c0-6.63-5.37-12-12-12"/></svg>
+                Skalnark
+            </a>
+            <p></p>
         </div>
     </div>
     <div id=spell-checker class=app-container>
         <div class="param-holder spell-checker-content" id=spell-checker-content>
-                <h3 data-i18n=ui.spellChecker>Spell Checker</h3>
-            <p>This is a simple spell checker that uses a Bloom Filter to quickly check if a word is in the
-                dictionary. It allows for fast lookups with a small chance of false positives, making it suitable
-                for applications where speed is more critical than absolute accuracy.</p>
-            <p>To use the spell checker, load a dictionary file containing a list of words (one word per line).</p>
-            <p>
-                <p data-i18n=ui.mightCrashMobile> This might crash your browser on mobile devices. </p>
-                    <a class=github-link href=https://github.com/dwyl/english-words/blob/master/words.txt target=_blank rel="noopener noreferrer" aria-label="dwyl on GitHub">
-                    <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 aria-hidden=true class=github-icon viewBox="0 0 24 24"><path fill=currentColor d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.263.82-.583 0-.288-.01-1.05-.016-2.06-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.238 1.84 1.238 1.07 1.834 2.807 1.304 3.492.997.108-.776.418-1.305.762-1.606-2.665-.305-5.466-1.332-5.466-5.93 0-1.31.468-2.381 1.235-3.221-.123-.303-.535-1.523.117-3.176 0 0 1.008-.323 3.3 1.23A11.5 11.5 0 0 1 12 5.803c1.02.005 2.045.138 3.003.404 2.29-1.553 3.296-1.23 3.296-1.23.653 1.653.242 2.873.12 3.176.77.84 1.233 1.911 1.233 3.221 0 4.61-2.805 5.624-5.476 5.921.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .323.216.701.825.582C20.565 21.796 24 17.297 24 12c0-6.63-5.37-12-12-12"/></svg>
-                    
-                </a>
-            <p></p>
+            <h3 data-i18n=ui.spellChecker>Spell Checker</h3>
+            <p data-i18n=ui.jabberwockyDesc></p>
+            <div class=prompt-simulator style=height:fit-content;margin-bottom:2rem;padding-bottom:1rem>
+                <code class=prompt-line>m = ceil((n * log(p)) / log(1 / pow(2, log(2)))) &lt;-- 2588 bits</code>
+                <code class=prompt-line>k = round((m / n) * log(2)) &lt;-- 20</code>
+            </div>
+
+            <p data-i18n=ui.jabberwockyAfterInit></p>
+
+            <div class=prompt-simulator style=height:fit-content;margin-bottom:2rem;padding-bottom:1rem>
+                <code class=prompt-line>pow(1 - exp(-k / (m / n)), k) &lt;-- ~0.0000009999%</code>
+            </div>
+            <p data-i18n=ui.jabberwockyCheckIntro></p>
+            <div class=prompt-simulator style=height:fit-content;margin-bottom:2rem;padding-bottom:1rem>
+                <code class=prompt-line>n = ceil(m / (-k / log(1 - exp(log(p) / k))))</code>
+                <code class=prompt-line data-i18n=ui.codeCommentElements>// n = ceil(2588 / (-20 / log(1 - exp(log(0.000001) / 20)))) &lt;-- 91 elements</code>
+                <code class=prompt-line data-i18n=ui.codeCommentN>// this means that we can keep the p value for one more element (: </code>
+            </div>
+
+            <p data-i18n=ui.jabberwockyPoemHeader style=position:left></p>
+            <p data-i18n=jabberwocky.poem></p>
+            <a id=jabberwocky-link target=_blank rel="noopener noreferrer" data-i18n-href=ui.jabberwockyHref data-i18n=ui.jabberwockyTitle>Jabberwocky, by Lewis
+                Carroll</a>
+
         </div>
 
         <div id=spell-checker-interface class="param-holder spell-checker-content">
             <div id=spell-checker-inputs class=item-info-holder>
-                <button id=load-dictionary-button class="item-input-holder submit-button" data-i18n=ui.loadDictionary>
-                    Load Dictionary
-                </button>
 
                 <div class="input-separator item-input-holder">
 
                     <div class=param-holder>
                         <div id=bf-item-info-holder class=item-info-holder>
                             <div class=bf-info-label>
-                                <strong>Filter size:</strong>
+                                <strong data-i18n=ui.filterSize>Filter size:</strong>
                                 <span id=sc-info-size>-</span>
                             </div>
                             <div class=bf-info-label>
-                                <strong>Hash functions:</strong>
+                                <strong data-i18n=ui.hashFunctions>Hash functions:</strong>
                                 <span id=sc-info-hash-count>-</span>
                             </div>
                             <div class=bf-info-label>
-                                <strong>Elements:</strong>
+                                <strong data-i18n=ui.elements>Elements:</strong>
                                 <span id=sc-info-elements>-</span>
                             </div>
                             <div class=bf-info-label>
-                                <strong>False positive rate:</strong>
+                                <strong data-i18n=ui.falsePositiveRate>False positive rate:</strong>
                                 <span id=sc-info-fpr>-</span>
                             </div>
                         </div>
@@ -242,24 +256,28 @@
                 </div>
             </div>
         </div>
-        <script src=/bloom_filter_algorithm_visualizer/bloom_filter_algorithm_visualizer.aa3d3312.js type=module></script>
+        <script src=/bloom_filter_algorithm_visualizer/bloom_filter_algorithm_visualizer.82618618.js type=module></script>
 
-    <footer class=site-footer>
-        <div class=footer-controls>
-            
-            <button id=theme-toggle aria-pressed=false title="Toggle theme">
-                <span class=visually-hidden>Toggle theme</span>
-                
-                <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 aria-hidden=true class="icon-moon theme-icon" viewBox="0 0 24 24"><path fill=currentColor d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79"/></svg>
-                
-                <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 aria-hidden=true class="icon-sun theme-icon" viewBox="0 0 24 24"><path fill=currentColor d="m6.76 4.84-1.8-1.79-1.79 1.79 1.79 1.79ZM1 13h3v-2H1Zm10 9h2v-3h-2Zm7.24-2.84 1.79 1.79 1.79-1.79-1.79-1.79ZM20 11v2h3v-2ZM4.22 19.78l1.79-1.79-1.79-1.79-1.79 1.79ZM12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14m0-5h-2v3h2Zm8 12a8 8 0 0 1-8 8v-3a5 5 0 0 0 5-5Z"/></svg>
-            </button>
-            <a class=github-link href=https://github.com/Skalnark/bloom_filter_algorithm_visualizer target=_blank rel="noopener noreferrer" aria-label="Skalnark on GitHub">
-                <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 aria-hidden=true class=github-icon viewBox="0 0 24 24"><path fill=currentColor d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.263.82-.583 0-.288-.01-1.05-.016-2.06-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.238 1.84 1.238 1.07 1.834 2.807 1.304 3.492.997.108-.776.418-1.305.762-1.606-2.665-.305-5.466-1.332-5.466-5.93 0-1.31.468-2.381 1.235-3.221-.123-.303-.535-1.523.117-3.176 0 0 1.008-.323 3.3 1.23A11.5 11.5 0 0 1 12 5.803c1.02.005 2.045.138 3.003.404 2.29-1.553 3.296-1.23 3.296-1.23.653 1.653.242 2.873.12 3.176.77.84 1.233 1.911 1.233 3.221 0 4.61-2.805 5.624-5.476 5.921.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .323.216.701.825.582C20.565 21.796 24 17.297 24 12c0-6.63-5.37-12-12-12"/></svg>
-                
-            </a>
-        </div>
-    </footer>
+        <footer class=site-footer>
+            <div class=footer-controls>
+                <label for=lang-select class=visually-hidden>Language</label>
+                <select id=lang-select aria-label="Select language">
+                    <option value=en>English</option>
+                    <option value=pt>Português</option>
+                </select>
+                <button id=theme-toggle aria-pressed=false title="Toggle theme">
+                    <span class=visually-hidden>Toggle theme</span>
+                    
+                    <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 aria-hidden=true class="icon-moon theme-icon" viewBox="0 0 24 24"><path fill=currentColor d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79"/></svg>
+                    
+                    <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 aria-hidden=true class="icon-sun theme-icon" viewBox="0 0 24 24"><path fill=currentColor d="m6.76 4.84-1.8-1.79-1.79 1.79 1.79 1.79ZM1 13h3v-2H1Zm10 9h2v-3h-2Zm7.24-2.84 1.79 1.79 1.79-1.79-1.79-1.79ZM20 11v2h3v-2ZM4.22 19.78l1.79-1.79-1.79-1.79-1.79 1.79ZM12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14m0-5h-2v3h2Zm8 12a8 8 0 0 1-8 8v-3a5 5 0 0 0 5-5Z"/></svg>
+                </button>
+                <a class=github-link href=https://github.com/Skalnark/bloom_filter_algorithm_visualizer target=_blank rel="noopener noreferrer" aria-label="Skalnark on GitHub">
+                    <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 aria-hidden=true class=github-icon viewBox="0 0 24 24"><path fill=currentColor d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.263.82-.583 0-.288-.01-1.05-.016-2.06-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.238 1.84 1.238 1.07 1.834 2.807 1.304 3.492.997.108-.776.418-1.305.762-1.606-2.665-.305-5.466-1.332-5.466-5.93 0-1.31.468-2.381 1.235-3.221-.123-.303-.535-1.523.117-3.176 0 0 1.008-.323 3.3 1.23A11.5 11.5 0 0 1 12 5.803c1.02.005 2.045.138 3.003.404 2.29-1.553 3.296-1.23 3.296-1.23.653 1.653.242 2.873.12 3.176.77.84 1.233 1.911 1.233 3.221 0 4.61-2.805 5.624-5.476 5.921.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .323.216.701.825.582C20.565 21.796 24 17.297 24 12c0-6.63-5.37-12-12-12"/></svg>
+                    
+                </a>
+            </div>
+        </footer>
 
 
 </div>
