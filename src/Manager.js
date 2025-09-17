@@ -88,9 +88,11 @@ export default class Manager {
             for (let i = 0; i < this.bf.hashCount; i++) {
                 let position = this.bf.hash(word, i);
                 this.bf.bitArray[position] = true;
-                this.bf.elements.push(word) || this.bf.elements.push(word);
                 draw.renderBitList(this.bf.bitArray);
                 draw.drawTextBox(word, position);
+            }
+            if (!this.bf.elements.includes(word)) {
+                this.bf.elements.push(word);
             }
         }
     }
@@ -108,7 +110,16 @@ export default class Manager {
 
         window.addEventListener('journey-finished', () => {
             this.fastForward = !this.fastForwardCheckbox.checked;
-            this.prompt.print("Finished execution.");
+            try {
+                const msg = i18next.t('messages.finishedExecution');
+                this.prompt.print(msg);
+            } catch (e) {
+                try {
+                    this.prompt.print(window.i18next ? window.i18next.t('messages.finishedExecution') : 'Finished execution.');
+                } catch (e2) {
+                    this.prompt.print('Finished execution.');
+                }
+            }
             this.prompt.newLine();
         });
 
@@ -117,9 +128,25 @@ export default class Manager {
         this.fastForwardCheckbox.addEventListener('change', () => {
             this.fastForward = !this.fastForwardCheckbox.checked;
             if (this.fastForward) {
-                this.prompt.print("Step by step execution will be fast forwarded.");
+                try {
+                    this.prompt.print(i18next.t('messages.fastForwardEnabled'));
+                } catch (e) {
+                    try {
+                        this.prompt.print(window.i18next ? window.i18next.t('messages.fastForwardEnabled') : 'Step by step execution will be fast forwarded.');
+                    } catch (e2) {
+                        this.prompt.print('Step by step execution will be fast forwarded.');
+                    }
+                }
             } else {
-                this.prompt.print("Step by step execution is enabled.");
+                try {
+                    this.prompt.print(i18next.t('messages.fastForwardDisabled'));
+                } catch (e) {
+                    try {
+                        this.prompt.print(window.i18next ? window.i18next.t('messages.fastForwardDisabled') : 'Step by step execution is enabled.');
+                    } catch (e2) {
+                        this.prompt.print('Step by step execution is enabled.');
+                    }
+                }
             }
         });
 
@@ -150,9 +177,17 @@ export default class Manager {
                     }
                     const isCorrect = await this.checkSpell(word);
                     if (isCorrect) {
-                        resultSpan.innerText = `"${word}" is possibly correct.`;
+                        try {
+                            resultSpan.innerText = i18next.t('messages.possiblyCorrect', { word });
+                        } catch (e) {
+                            resultSpan.innerText = `"${word}" is possibly correct.`;
+                        }
                     } else {
-                        resultSpan.innerText = `"${word}" is definitely incorrect.`;
+                        try {
+                            resultSpan.innerText = i18next.t('messages.definitelyIncorrect', { word });
+                        } catch (e) {
+                            resultSpan.innerText = `"${word}" is definitely incorrect.`;
+                        }
                     }
                 }, 250);
             });
@@ -167,25 +202,25 @@ export default class Manager {
     async initializeSpellChecker() {
         this.bf.clear();
 
-        const response =  await fetch('https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words_alpha.txt');
-        let text = await response.text();
-        let words = text.split('\n');
+        let text = window.i18next.t(`jabberwocky.text`);
+        let words = text.split(' ');
+        let wordSet = [...new Set(words.map(w => w.trim().toLocaleLowerCase()))];
         text = null;
-        let n = words.length;
-        let p = 0.0001;
+        let n = wordSet.length;
+        let p = 0.000001;
         let m = this.bf.estimateCapacity(p, n);
         let k = this.bf.estimateHashCount(m, n);
         this.bf.hashCount = k;
         this.bf.bitArray = Array.from({ length: m }, () => []);
         this.bf.elements = [];
 
-        for(let i = 0; i < this.bf.bitArray.length; i++) {
+        for (let i = 0; i < m; i++) {
             this.bf.bitArray[i] = false;
         }
 
-        for (let i = 0; i < words.length - 1; i++) { // the last word is empty
+        for (let i = 0; i < wordSet.length - 1; i++) { // the last word is empty
             for (let j = 0; j < this.bf.hashCount; j++) {
-                let position = this.bf.hash(words[i].trim().toLocaleLowerCase(), j);
+                let position = this.bf.hash(wordSet[i], j);
                 this.bf.bitArray[position] = true;
             }
         }
@@ -196,9 +231,9 @@ export default class Manager {
         const elementsSpan = document.getElementById('sc-info-elements');
         sizeSpan.innerText = m;
         hashCountSpan.innerText = this.bf.hashCount;
-        fprSpan.innerText = (((1 - Math.exp((-k * n) / m)) ** k) * 100).toFixed(2) + '%';
+        fprSpan.innerText = (((1 - Math.exp((-k * n) / m)) ** k) * 100).toFixed(8) + '%';
         elementsSpan.innerText = n;
-        words = null;
+        wordSet = null;
 
         const input = document.getElementById('spell-checker-input');
         input.disabled = false;
@@ -207,7 +242,7 @@ export default class Manager {
     }
 
     async checkSpell(word) {
-        for(let i = 0; i < this.bf.hashCount; i++) {
+        for (let i = 0; i < this.bf.hashCount; i++) {
             let position = this.bf.hash(word, i);
             if (!this.bf.bitArray[position]) {
                 return false;

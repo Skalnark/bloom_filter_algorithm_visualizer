@@ -13,26 +13,26 @@ class HtmlBuilder {
 
     loadSimulatorTab() {
         const simulatorTabButton = document.getElementById('simulator-tab');
-        const theoryTabButton = document.getElementById('theory-tab');
+        //const theoryTabButton = document.getElementById('theory-tab');
         const aboutTabButton = document.getElementById('about-tab');
         const simulatorContent = document.getElementById('app');
-        const theoryContent = document.getElementById('theory');
+        //const theoryContent = document.getElementById('theory');
         const aboutContent = document.getElementById('about');
         const spellCheckerTabButton = document.getElementById('spell-checker-tab');
         const spellCheckerContent = document.getElementById('spell-checker');
 
         simulatorTabButton.addEventListener('click', () => {
             simulatorTabButton.classList.add('active');
-            theoryTabButton.classList.remove('active');
+            //theoryTabButton.classList.remove('active');
             aboutTabButton.classList.remove('active');
             spellCheckerTabButton.classList.remove('active');
             simulatorContent.style.display = 'flex';
-            theoryContent.style.display = 'none';
+            //theoryContent.style.display = 'none';
             aboutContent.style.display = 'none';
             spellCheckerContent.style.display = 'none';
         });
 
-        theoryTabButton.addEventListener('click', () => {
+        /*theoryTabButton.addEventListener('click', () => {
             simulatorTabButton.classList.remove('active');
             theoryTabButton.classList.add('active');
             aboutTabButton.classList.remove('active');
@@ -41,26 +41,26 @@ class HtmlBuilder {
             theoryContent.style.display = 'flex';
             aboutContent.style.display = 'none';
             spellCheckerContent.style.display = 'none';
-        });
+        });*/
 
         aboutTabButton.addEventListener('click', () => {
             simulatorTabButton.classList.remove('active');
-            theoryTabButton.classList.remove('active');
+            //theoryTabButton.classList.remove('active');
             aboutTabButton.classList.add('active');
             spellCheckerTabButton.classList.remove('active');
             simulatorContent.style.display = 'none';
-            theoryContent.style.display = 'none';
+            //theoryContent.style.display = 'none';
             aboutContent.style.display = 'flex';
             spellCheckerContent.style.display = 'none';
         });
 
         spellCheckerTabButton.addEventListener('click', () => {
             simulatorTabButton.classList.remove('active');
-            theoryTabButton.classList.remove('active');
+            //theoryTabButton.classList.remove('active');
             aboutTabButton.classList.remove('active');
             spellCheckerTabButton.classList.add('active');
             simulatorContent.style.display = 'none';
-            theoryContent.style.display = 'none';
+            //theoryContent.style.display = 'none';
             aboutContent.style.display = 'none';
             spellCheckerContent.style.display = 'flex';
         });
@@ -72,7 +72,11 @@ class HtmlBuilder {
         const input = document.getElementById('bf-bit-size-input');
         if (input) {
             if (input.value > 500) {
-                this.prompt.print("Error: Bit size cannot exceed 500.", false);
+                try {
+                    this.prompt.print((window.i18next && window.i18next.t) ? window.i18next.t('ui.errorBitSize') : 'Error: Bit size cannot exceed 500.', false);
+                } catch (e) {
+                    this.prompt.print('Error: Bit size cannot exceed 500.', false);
+                }
                 input.value = 500;
             }
             return input.value;
@@ -132,7 +136,7 @@ class HtmlBuilder {
         sizeSpan.textContent = this.jm.bf.bitArray.length;
         hashCountSpan.textContent = this.jm.bf.hashCount;
         elementsSpan.textContent = this.jm.bf.elements.length;
-        fprSpan.textContent = (this.jm.bf.calculateFPR() * 100).toFixed(6) + '%';
+        fprSpan.textContent = (this.jm.bf.calculateFPR() * 100).toFixed(4) + '%';
     }
 
     async initAddAndCheckEventListeners() {
@@ -219,15 +223,6 @@ class HtmlBuilder {
         const scrollButton = document.getElementById('scroll-button');
         window.addEventListener('element-out-of-view', () => {
             scrollButton.style.display = 'block';
-        });
-
-        const loadDictionaryButton = document.getElementById('load-dictionary-button');
-        loadDictionaryButton.addEventListener('click', async () => {
-            loadDictionaryButton.disabled = true;
-            loadDictionaryButton.textContent = 'Loading...';
-            await managerInstance.initializeSpellChecker();
-            loadDictionaryButton.textContent = 'Dictionary Loaded';
-            loadDictionaryButton.style.display = 'none';
         });
     }
 
