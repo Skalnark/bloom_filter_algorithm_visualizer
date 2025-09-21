@@ -62,9 +62,10 @@
     "dictionaryLoaded": "Dicionário carregado",
     "loading": "Carregando...",
     "errorBitSize": "Erro: o número de bits não pode exceder 500.",
+    "greetWelcome": "Bem-vindo ao Visualizador do Algoritmo Bloom Filter!",
     "greetAddItem": "Adicione um item ou verifique se um item está no Bloom Filter usando os botões acima.",
-    "greetNavigation": "Você pode usar os botões 'Próximo' e 'Voltar' para percorrer o processo.",
-    "greetFastForward": "Desabilite a checkbox 'Habilitar execução passo a passo' ou o botão 'Finalizar' para acelerar o processo.",
+    "greetNavigation": "Você pode usar os botões 'Próximo' e 'Voltar' para percorrer as etapas do algoritmo.",
+    "greetFastForward": "Desabilite a checkbox 'Habilitar execução passo a passo' ou o botão 'Finalizar' para desativar a animação e finalizar a operação.",
     "greetEnjoy": "Aproveite!"
   },
   "jabberwocky": {

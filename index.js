@@ -171,6 +171,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 function greetings() {
     try {
+        prompt.print(window.i18next.t('ui.greetWelcome'));
         prompt.print(window.i18next.t('ui.greetAddItem'));
         prompt.print(window.i18next.t('ui.greetNavigation'));
         prompt.print(window.i18next.t('ui.greetFastForward'));

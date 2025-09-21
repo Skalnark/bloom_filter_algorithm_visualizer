@@ -62,10 +62,11 @@
 		"falsePositiveRate": "False positive rate (p):",
 		"dictionaryLoaded": "Dictionary Loaded",
 		"loading": "Loading...",
-		"greetAddItem": "Add an item or check if an item is in the Bloom Filter using the buttons above.",
 		"errorBitSize": "Error: Bit size cannot exceed 500.",
+		"greetWelcome": "Welcome to the Bloom Filter Algorithm Visualizer!",
+		"greetAddItem": "Add an item or check if an item is in the Bloom Filter using the buttons above.",
 		"greetNavigation": "You can use the 'Next' and 'Back' buttons to step through the process.",
-		"greetFastForward": "Disable the 'Enable Step-by-Step execution' checkbox or the 'Finish' button to skip to the end of a process.",
+		"greetFastForward": "Disable the 'Enable Step-by-Step execution' checkbox or click the 'Finish' button to skip to the end of a process.",
 		"greetEnjoy": "Enjoy!"
 	},
 	"jabberwocky": {
