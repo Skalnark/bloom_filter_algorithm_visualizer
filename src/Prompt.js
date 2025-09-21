@@ -121,10 +121,10 @@ class Prompt {
 
         for (let i = 0; i < this.pseudoCode.length; i++) {
             if (i === this.currentPseudoCodeLine) {
-                this.pseudoCode[i].style.backgroundColor = '#333';
+                this.pseudoCode[i].classList.add('pseudo-active');
                 this.pseudoCodeSimulatorDiv.scrollTop = this.pseudoCode[i].offsetTop - this.pseudoCodeSimulatorDiv.offsetTop;
             } else {
-                this.pseudoCode[i].style.backgroundColor = 'transparent';
+                this.pseudoCode[i].classList.remove('pseudo-active');
             }
         }
     }

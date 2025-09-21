@@ -16,7 +16,15 @@ class Draw {
         this.checkBox = null;
     }
 
-    #drawSquare(x, y, size, fill = '#181c1f', stroke = '#168344ff') {
+    _getVar(name, fallback) {
+        try {
+            const v = getComputedStyle(document.documentElement).getPropertyValue(name);
+            if (v && v.trim()) return v.trim();
+        } catch (e) {}
+        return fallback;
+    }
+
+    #drawSquare(x, y, size, fill, stroke) {
         const rect = document.createElementNS(
             'http://www.w3.org/2000/svg',
             'rect',
@@ -25,14 +33,16 @@ class Draw {
         rect.setAttribute('y', y);
         rect.setAttribute('width', size);
         rect.setAttribute('height', size);
-        rect.setAttribute('fill', fill);
-        rect.setAttribute('stroke', stroke);
-        rect.setAttribute('background-color', '#181c1f');
+        const fillColor = fill || this._getVar('--panel-bg', '#181c1f');
+        const strokeColor = stroke || this._getVar('--accent-color', '#168344');
+        rect.setAttribute('fill', fillColor);
+        rect.setAttribute('stroke', strokeColor);
+        rect.setAttribute('background-color', fillColor);
         rect.setAttribute('class', 'bf-bit');
         return rect;
     }
 
-    #drawBitValue(x, y, value, size, fontColor = '#b6fcd5') {
+    #drawBitValue(x, y, value, size, fontColor) {
         const text = document.createElementNS(
             'http://www.w3.org/2000/svg',
             'text',
@@ -41,7 +51,8 @@ class Draw {
         text.setAttribute('y', y);
         text.setAttribute('font-family', 'sans-serif');
         text.setAttribute('font-size', size);
-        text.setAttribute('fill', fontColor);
+        const fc = fontColor || this._getVar('--text', '#b6fcd5');
+        text.setAttribute('fill', fc);
         text.setAttribute('text-anchor', 'middle');
         text.setAttribute('alignment-baseline', 'middle');
         text.setAttribute('class', 'bf-bit-text');
@@ -68,15 +79,15 @@ class Draw {
         for (let i = 0; i < bits.length; i++) {
             let bit = bits[i] ? '1' : '0';
 
-            let fill = bit === '1' ? '#b6fcd5' : '#181c1f';
-            let fillText = bit === '1' ? '#181c1f' : '#b6fcd5';
+            let fill = bit === '1' ? this._getVar('--text', '#b6fcd5') : this._getVar('--panel-bg', '#181c1f');
+            let fillText = bit === '1' ? this._getVar('--panel-bg', '#181c1f') : this._getVar('--text', '#b6fcd5');
             let square = this.#drawSquare(x, y, size, fill);
 
             square.setAttribute('id', `bit-${i}`);
             let text = this.#drawBitValue(x + (size / 2), y + (size / 6) * 4, bit, size / 2, fillText);
             text.setAttribute('id', `bit-text-${i}`);
 
-            let index = this.#drawBitValue(x - (size / 2), y + size * 0.7, i, size / 3, '#b6fcd5');
+            let index = this.#drawBitValue(x - (size / 2), y + size * 0.7, i, size / 3, this._getVar('--text', '#b6fcd5'));
             index.setAttribute('id', `bit-index-${i}`);
             this.svg.appendChild(index);
 
@@ -104,7 +115,7 @@ class Draw {
     uncheckBit(position, boxId) {
         let bitBox = this.bitBoxes.find(b => b.square.getAttribute('id') === `bit-${position}`);
         if (bitBox) {
-            bitBox.square.setAttribute('stroke', '#168344ff');
+            bitBox.square.setAttribute('stroke', this._getVar('--accent-color', '#168344'));
             bitBox.square.setAttribute('stroke-width', '1');
             bitBox.text.textContent = bitBox.square.getAttribute('fill') === '#b6fcd5' ? '1' : '0';
         }
@@ -132,8 +143,8 @@ class Draw {
             rect.setAttribute('y', y);
             rect.setAttribute('width', width);
             rect.setAttribute('height', height);
-            rect.setAttribute('fill', '#ffffffff');
-            rect.setAttribute('stroke', '#000000');
+            rect.setAttribute('fill', this._getVar('--control-bg', '#ffffff'));
+            rect.setAttribute('stroke', this._getVar('--text', '#000000'));
             rect.setAttribute('class', 'bf-text-box');
             rect.setAttribute('id', 'check-box');
 
@@ -145,7 +156,7 @@ class Draw {
             textElem.setAttribute('y', (y + height / 2));
             textElem.setAttribute('font-family', 'sans-serif');
             textElem.setAttribute('font-size', fontSize);
-            textElem.setAttribute('fill', '#000000');
+            textElem.setAttribute('fill', this._getVar('--text', '#000000'));
             textElem.setAttribute('text-anchor', 'middle');
             textElem.setAttribute('alignment-baseline', 'middle');
             textElem.setAttribute('class', 'bf-text-box-text');
@@ -157,7 +168,7 @@ class Draw {
 
             this.checkBox.rect = rect;
             this.checkBox.textElem = textElem;
-            this.checkBox.color = '#ffffffff';
+            this.checkBox.color = this._getVar('--control-bg', '#ffffff');
         }
     }
 
@@ -176,7 +187,7 @@ class Draw {
     }
 
     drawCheckLine(hash, value, item) {
-        let color = value ? '#11ff00ff' : '#ff0000ff';
+    let color = value ? this._getVar('--accent-bright', '#11ff00') : '#ff4d4d';
         let line = this.#drawLine({ div1: `check-box`, div2: `bit-${hash}`, color: color }, true);
         line.setAttribute('id', `check-line-${item}-bit-${hash}`);
         this.checkLines.push({ line: line.id, hash, value, item });
@@ -337,7 +348,7 @@ class Draw {
             'http://www.w3.org/2000/svg',
             'line',
         );
-        const color = v.color || '#143b83ff';
+    const color = v.color || this._getVar('--accent-color', '#143b83');
         line.setAttribute('x1', startX);
         line.setAttribute('y1', startY);
         line.setAttribute('x2', endX);
