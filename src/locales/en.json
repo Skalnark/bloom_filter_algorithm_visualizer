@@ -65,7 +65,7 @@
 		"greetAddItem": "Add an item or check if an item is in the Bloom Filter using the buttons above.",
 		"errorBitSize": "Error: Bit size cannot exceed 500.",
 		"greetNavigation": "You can use the 'Next' and 'Back' buttons to step through the process.",
-		"greetFastForward": "Use the 'Fast Forward' checkbox or the 'Finish' button to skip to the end of a process.",
+		"greetFastForward": "Disable the 'Enable Step-by-Step execution' checkbox or the 'Finish' button to skip to the end of a process.",
 		"greetEnjoy": "Enjoy!"
 	},
 	"jabberwocky": {

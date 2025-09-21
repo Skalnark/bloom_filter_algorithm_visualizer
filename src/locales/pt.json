@@ -64,7 +64,7 @@
     "errorBitSize": "Erro: o número de bits não pode exceder 500.",
     "greetAddItem": "Adicione um item ou verifique se um item está no Bloom Filter usando os botões acima.",
     "greetNavigation": "Você pode usar os botões 'Próximo' e 'Voltar' para percorrer o processo.",
-    "greetFastForward": "Use a caixa 'Fast Forward' ou o botão 'Concluir' para pular até o fim do processo.",
+    "greetFastForward": "Desabilite a checkbox 'Habilitar execução passo a passo' ou o botão 'Finalizar' para acelerar o processo.",
     "greetEnjoy": "Aproveite!"
   },
   "jabberwocky": {

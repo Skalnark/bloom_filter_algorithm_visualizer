@@ -795,6 +795,10 @@ body {
     font-size: 1rem;
 }
 
+#spell-checker-submit {
+    display: none;
+}
+
 #spell-checker-content {
     border-top: 4px solid var(--accent-color);
     padding: 0.8rem 4rem;
@@ -891,6 +895,18 @@ body {
         border-top: #06be00 4px solid;
         max-height: fit-content;
         margin-top: 10px;
+    }
+
+    .spell-checker-content p {
+        font-size: 1rem;
+    }
+    
+    #spell-checker-submit {
+        display: block;
+    }
+
+    .bf-info-label {
+        font-size: 1.1rem;
     }
 
     .input-field,

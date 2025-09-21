@@ -165,9 +165,10 @@ export default class Manager {
 
         {
             const inputEl = document.getElementById('spell-checker-input');
+            const submitButton = document.getElementById('spell-checker-submit');
             const resultSpan = document.getElementById('spell-checker-result');
             let debounceTimer = null;
-            inputEl.addEventListener('input', () => {
+            function handleInput() {
                 clearTimeout(debounceTimer);
                 debounceTimer = setTimeout(async () => {
                     const word = inputEl.value.trim();
@@ -190,7 +191,9 @@ export default class Manager {
                         }
                     }
                 }, 250);
-            });
+            }
+            inputEl.addEventListener('input', handleInput.bind(this));
+            submitButton.addEventListener('click', handleInput.bind(this));
         }
     }
 
