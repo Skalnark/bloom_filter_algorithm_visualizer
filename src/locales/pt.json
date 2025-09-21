@@ -65,7 +65,7 @@
     "greetWelcome": "Bem-vindo ao Visualizador do Algoritmo Bloom Filter!",
     "greetAddItem": "Adicione um item ou verifique se um item está no Bloom Filter usando os botões acima.",
     "greetNavigation": "Você pode usar os botões 'Próximo' e 'Voltar' para percorrer as etapas do algoritmo.",
-    "greetFastForward": "Desabilite a checkbox 'Habilitar execução passo a passo' ou o botão 'Finalizar' para desativar a animação e finalizar a operação.",
+    "greetFastForward": "Desabilite a checkbox 'Habilitar execução passo a passo' ou o botão 'Concluir' para desativar a animação e finalizar a execução.",
     "greetEnjoy": "Aproveite!"
   },
   "jabberwocky": {
