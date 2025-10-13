@@ -22,8 +22,6 @@ async function awake() {
     manager = new Manager();
     htmlBuilder = new HtmlBuilder();
     prompt = new Prompt();
-
-    manager.initializeSpellChecker();
 }
 
 // Theme initialization: default is dark; if user previously chose light, apply it
@@ -109,6 +107,10 @@ window.addEventListener('DOMContentLoaded', async () => {
                 };
                 const v = mapping[btn.id];
                 if (v) tabSelect.value = v;
+                // if the spell checker tab is selected, load the dictionary
+                if (btn.id === 'spell-checker-tab') {
+                    manager.initializeSpellChecker();
+                }
             });
         });
         Util.scrollToElementById('main-title');

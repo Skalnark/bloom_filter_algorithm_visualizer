@@ -4,7 +4,6 @@ import i18next from "i18next";
 import BloomFilter from "./BloomFilter/BloomFilter.js";
 import AddItemJourney from "./BloomFilter/AddItemJourney.js";
 import CheckItemJourney from "./BloomFilter/CheckItemJourney.js";
-import { th } from "@faker-js/faker";
 
 export default class Manager {
     constructor() {
@@ -176,7 +175,7 @@ export default class Manager {
                         resultSpan.innerText = '';
                         return;
                     }
-                    const isCorrect = await this.checkSpell(word);
+                    let isCorrect = await this.checkSpell(word);
                     if (isCorrect) {
                         try {
                             resultSpan.innerText = i18next.t('messages.possiblyCorrect', { word });
@@ -207,7 +206,7 @@ export default class Manager {
 
         let text = window.i18next.t(`jabberwocky.text`);
         let words = text.split(' ');
-        let wordSet = [...new Set(words.map(w => w.trim().toLocaleLowerCase()))];
+        let wordSet = [...new Set(words.map(w => w.trim().toLowerCase()))];
         text = null;
         let n = wordSet.length;
         let p = 0.000001;
@@ -245,6 +244,7 @@ export default class Manager {
     }
 
     async checkSpell(word) {
+        word = word.trim().toLowerCase();
         for (let i = 0; i < this.bf.hashCount; i++) {
             let position = this.bf.hash(word, i);
             if (!this.bf.bitArray[position]) {
